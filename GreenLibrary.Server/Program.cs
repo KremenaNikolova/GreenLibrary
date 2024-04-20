@@ -1,6 +1,10 @@
 
 namespace GreenLibrary.Server
 {
+    using Microsoft.EntityFrameworkCore;
+    
+    using GreenLibrary.Data;
+
     public class Program
     {
         public static void Main(string[] args)
@@ -10,7 +14,14 @@ namespace GreenLibrary.Server
             // Add services to the container.
 
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+            builder.Services.AddDbContext<GreenLibraryDbContext>(opt =>
+            {
+                opt.UseSqlServer(connectionString);
+            });
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 

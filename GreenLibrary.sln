@@ -3,9 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34714.143
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GreenLibrary.Server", "GreenLibrary.Server\GreenLibrary.Server.csproj", "{611CCABE-1B13-4653-97E2-0D840D1D00F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GreenLibrary.Server", "GreenLibrary.Server\GreenLibrary.Server.csproj", "{611CCABE-1B13-4653-97E2-0D840D1D00F2}"
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "GreenLibrary.Client", "greenlibrary.client\GreenLibrary.Client.esproj", "{5C404616-868D-4607-BCEE-D10D6BDE72DE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GreenLibrary.Common", "GreenLibrary.Common\GreenLibrary.Common.csproj", "{94F98BB5-B6ED-4CDE-A8ED-076ADEDEE596}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GreenLibrary.Data", "GreenLibrary.Data\GreenLibrary.Data.csproj", "{DBC410EE-2907-4C3D-A950-9694B669D9A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GreenLibrary.Data.Entities", "GreenLibrary.Data.Entities\GreenLibrary.Data.Entities.csproj", "{9DE5403D-5D73-4DA7-BAB6-F76DE16F32BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +29,18 @@ Global
 		{5C404616-868D-4607-BCEE-D10D6BDE72DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C404616-868D-4607-BCEE-D10D6BDE72DE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5C404616-868D-4607-BCEE-D10D6BDE72DE}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{94F98BB5-B6ED-4CDE-A8ED-076ADEDEE596}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94F98BB5-B6ED-4CDE-A8ED-076ADEDEE596}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94F98BB5-B6ED-4CDE-A8ED-076ADEDEE596}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94F98BB5-B6ED-4CDE-A8ED-076ADEDEE596}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBC410EE-2907-4C3D-A950-9694B669D9A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBC410EE-2907-4C3D-A950-9694B669D9A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBC410EE-2907-4C3D-A950-9694B669D9A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBC410EE-2907-4C3D-A950-9694B669D9A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DE5403D-5D73-4DA7-BAB6-F76DE16F32BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DE5403D-5D73-4DA7-BAB6-F76DE16F32BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DE5403D-5D73-4DA7-BAB6-F76DE16F32BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DE5403D-5D73-4DA7-BAB6-F76DE16F32BD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
