@@ -1,14 +1,13 @@
 ﻿namespace GreenLibrary.Data.Entities
 {
     using System.ComponentModel.DataAnnotations;
+    using Microsoft.AspNetCore.Identity;
     using static GreenLibrary.Common.ValidationConstants.UserConstants;
 
-    public class User
+    public class User : IdentityUser<Guid>
     {
         public User()
         {
-            Id = Guid.NewGuid();
-
             IsModerator = false;
             IsDeleted = false;
 
@@ -19,8 +18,6 @@
             Articles = new List<Article>();
             LikedArticles = new List<ArticleLike>();
         }
-
-        public Guid Id { get; set; }
 
         [MaxLength(FirstNameMaxLength)]
         public string FirstName { get; set; } = null!;

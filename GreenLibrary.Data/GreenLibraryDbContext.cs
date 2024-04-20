@@ -1,13 +1,16 @@
 ﻿namespace GreenLibrary.Data
 {
+    using System.Reflection;
+    
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Design;
     using Microsoft.Extensions.Configuration;
 
     using GreenLibrary.Data.Entities;
-    using System.Reflection;
+    using Microsoft.AspNetCore.Identity;
 
-    public class GreenLibraryDbContext : DbContext
+    public class GreenLibraryDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     {
         public GreenLibraryDbContext(DbContextOptions<GreenLibraryDbContext> options) : base(options)
         {
@@ -22,7 +25,6 @@
 
         public DbSet<Tag> Tags { get; set; } = null!;
 
-        public DbSet<User> Users { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
