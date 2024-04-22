@@ -23,7 +23,7 @@
             public const int TitleMaxLength = 60;
 
             public const int DescriptionMinLength = 500;
-            public const int DescriptionMaxLength = 5000;
+            public const int DescriptionMaxLength = 10000;
         }
 
         public static class TagConstants
