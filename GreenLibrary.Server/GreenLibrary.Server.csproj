@@ -32,6 +32,7 @@
     </ProjectReference>
     <ProjectReference Include="..\GreenLibrary.Data.Entities\GreenLibrary.Data.Entities.csproj" />
     <ProjectReference Include="..\GreenLibrary.Data\GreenLibrary.Data.csproj" />
+    <ProjectReference Include="..\GreenLibrary.Infrastructure\GreenLibrary.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
