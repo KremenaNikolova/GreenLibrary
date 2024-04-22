@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GreenLibrary.Common", "Gree
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GreenLibrary.Data", "GreenLibrary.Data\GreenLibrary.Data.csproj", "{DBC410EE-2907-4C3D-A950-9694B669D9A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GreenLibrary.Data.Entities", "GreenLibrary.Data.Entities\GreenLibrary.Data.Entities.csproj", "{9DE5403D-5D73-4DA7-BAB6-F76DE16F32BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GreenLibrary.Data.Entities", "GreenLibrary.Data.Entities\GreenLibrary.Data.Entities.csproj", "{9DE5403D-5D73-4DA7-BAB6-F76DE16F32BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
