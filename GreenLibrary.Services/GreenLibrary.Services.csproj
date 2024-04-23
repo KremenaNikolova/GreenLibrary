@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GreenLibrary.Data.Entities\GreenLibrary.Data.Entities.csproj" />
+    <ProjectReference Include="..\GreenLibrary.Data\GreenLibrary.Data.csproj" />
+  </ItemGroup>
+
+</Project>
