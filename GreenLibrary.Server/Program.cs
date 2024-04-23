@@ -4,6 +4,8 @@ namespace GreenLibrary.Server
     using Microsoft.EntityFrameworkCore;
     
     using GreenLibrary.Data;
+    using GreenLibrary.Services.Interfaces;
+    using GreenLibrary.Services;
 
     public class Program
     {
@@ -22,8 +24,21 @@ namespace GreenLibrary.Server
                 opt.UseSqlServer(connectionString);
             });
 
+            builder.Services.AddScoped<IArticleService, ArticleService>();
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddCors(opt =>
+            {
+                opt.AddPolicy("CorsPolicy", policy =>
+                {
+                    policy
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .WithOrigins("https://localhost:5173"); //this is the port where the client start
+                });
+            });
 
             var app = builder.Build();
 
@@ -36,6 +51,8 @@ namespace GreenLibrary.Server
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseCors("CorsPolicy");
 
             app.UseHttpsRedirection();
 
