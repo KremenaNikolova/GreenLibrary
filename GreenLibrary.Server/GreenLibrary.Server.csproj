@@ -30,8 +30,10 @@
     <ProjectReference Include="..\greenlibrary.client\GreenLibrary.Client.esproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
+    <ProjectReference Include="..\GreenLibrary.Common\GreenLibrary.Common.csproj" />
     <ProjectReference Include="..\GreenLibrary.Data.Entities\GreenLibrary.Data.Entities.csproj" />
     <ProjectReference Include="..\GreenLibrary.Data\GreenLibrary.Data.csproj" />
+    <ProjectReference Include="..\GreenLibrary.Extensions\GreenLibrary.Extensions.csproj" />
     <ProjectReference Include="..\GreenLibrary.Services\GreenLibrary.Services.csproj" />
   </ItemGroup>
 

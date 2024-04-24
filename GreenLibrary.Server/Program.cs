@@ -25,6 +25,8 @@ namespace GreenLibrary.Server
             });
 
             builder.Services.AddScoped<IArticleService, ArticleService>();
+            builder.Services.AddScoped<ICategoryService, CategoryService>();
+            builder.Services.AddScoped<IImageService, ImageService>();
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
