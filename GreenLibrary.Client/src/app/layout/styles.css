@@ -1,0 +1,47 @@
+body {
+    background-color: #006633 !important;
+}
+
+.ui.inverted.top.fixed.menu {
+    background-color: #00331a;
+}
+
+.ui.one.cards > .card {
+    background: #006633;
+    box-shadow: none;
+    color: white;
+}
+
+.card-image-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+    .card-image-container image {
+        overflow: hidden;
+    }
+
+.card-image {
+    width: 100%;
+    height: 20rem;
+    object-fit: cover;
+}
+
+.card-title {
+    font-size: 24px;
+    margin: 0.5rem;
+    line-height: 2rem;
+}
+
+.description, .date {
+    margin-left: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.description {
+    font-size: 12px;
+}
+
+.date {
+    color: white;
+}
