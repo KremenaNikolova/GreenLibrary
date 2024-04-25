@@ -2,16 +2,17 @@
 {
     using GreenLibrary.Data.Entities;
     using GreenLibrary.Server.Dtos.Article;
+    using GreenLibrary.Services.Dtos.Article;
 
     public interface IArticleService
     {
-        Task<IEnumerable<Article>> GetAllArticlesAsync();
+        Task<IEnumerable<AllArticlesDto>> GetAllArticlesAsync();
 
         Task<Article?> GetArticleByIdAsync(Guid id);
-        
-        Article CreateArticleFromDto(CreateArticleDto article);
 
-        Task<Article> CreateAsync(Article article);
+        Task<Article> CreateArticleFromDto(CreateArticleDto article, Guid userId);
+
+        Task SaveAsync();
 
     }
 }

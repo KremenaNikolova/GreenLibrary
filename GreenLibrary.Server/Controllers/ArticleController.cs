@@ -34,33 +34,26 @@
             return Ok(article);
         }
 
-        [HttpGet("/api/articles/create")]
-        public async Task<IActionResult> CreateArticle()
-        {
-            //var userId = User.GetId();
-            var userId = "59dc4c83-cf09-48da-a0df-6e07187b910b";
-            var article = new CreateArticleDto()
-            {
-                UserId = Guid.Parse(userId),
-                Categories = await categoryService.GetAllCategoriesAsync()
-            };
-
-            return Ok(article);
-        }
-
         [HttpPost("/api/articles/create")]
         public async Task<IActionResult> CreateArticle([FromBody]CreateArticleDto article)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
-
             }
-            var articleModel = articleService.CreateArticleFromDto(article);
 
-            await articleService.CreateAsync(articleModel);
+            //var userId = Guid.Parse(User.GetId());
+            var userId = Guid.Parse("59dc4c83-cf09-48da-a0df-6e07187b910b");
+            var newArticle = await articleService.CreateArticleFromDto(article, userId);
 
-            return CreatedAtAction(nameof(GetArticle), new { id = articleModel.Id}, articleModel);
+            if(newArticle == null)
+            {
+                return BadRequest();
+            }
+
+            await articleService.SaveAsync();
+
+            return CreatedAtAction(nameof(GetArticle), new { id = newArticle.Id}, newArticle);
         }
     }
 }

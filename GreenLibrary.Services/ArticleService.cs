@@ -8,6 +8,9 @@
     using GreenLibrary.Data.Entities;
     using GreenLibrary.Services.Interfaces;
     using GreenLibrary.Server.Dtos.Article;
+    using System.Linq;
+    using GreenLibrary.Services.Dtos.Article;
+    using Microsoft.AspNetCore.Http;
 
     public class ArticleService : IArticleService
     {
@@ -18,11 +21,24 @@
             this.dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<Article>> GetAllArticlesAsync()
+        public async Task<IEnumerable<AllArticlesDto>> GetAllArticlesAsync()
         {
+
             var allArticles = await dbContext
                 .Articles
+                .Include(a => a.Category)
+                .Include(a => a.User)
                 .OrderByDescending(a => a.CreatedOn)
+                .Select(a => new AllArticlesDto()
+                {
+                    Id = a.Id.ToString(),
+                    Title = a.Title,
+                    Description = a.Description,
+                    CreatedOn = a.CreatedOn.ToString("d"),
+                    Category = a.Category.Name,
+                    User = a.User.FirstName + ' ' + a.User.LastName,
+                    Image = a.Image
+                })
                 .ToArrayAsync();
 
             return allArticles;
@@ -38,27 +54,34 @@
             return article;
         }
 
-        public Article CreateArticleFromDto(CreateArticleDto article)
+        public async Task<Article> CreateArticleFromDto(CreateArticleDto article, Guid userId)
         {
             var newArticle = new Article()
             {
-                UserId = article.UserId,
+                UserId = userId,
                 Title = article.Title,
                 Description = article.Description,
                 Image = article.ImagePath,
                 CategoryId = article.CateogoryId
             };
 
+
+            List<Tag> tags = new List<Tag>();
+            Tag tag;
+            foreach (var tagName in article.Tags)
+            {
+                tag = new Tag { Name = tagName, ArticleId = newArticle.Id };
+                tags.Add(tag);
+            }
+            newArticle.Tags = tags;
+            await dbContext.Articles.AddAsync(newArticle);
+
             return newArticle;
         }
 
-        public async Task<Article> CreateAsync(Article article)
+        public async Task SaveAsync()
         {
-            await dbContext.Articles.AddAsync(article);
             await dbContext.SaveChangesAsync();
-            return article;
         }
-
-       
     }
 }

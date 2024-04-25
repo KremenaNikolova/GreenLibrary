@@ -2,7 +2,7 @@
 namespace GreenLibrary.Server
 {
     using Microsoft.EntityFrameworkCore;
-    
+
     using GreenLibrary.Data;
     using GreenLibrary.Services.Interfaces;
     using GreenLibrary.Services;
@@ -15,7 +15,12 @@ namespace GreenLibrary.Server
 
             // Add services to the container.
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers()
+                .AddNewtonsoftJson(opt =>
+                {
+                    opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                })
+                .AddXmlDataContractSerializerFormatters();
 
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
@@ -39,6 +44,7 @@ namespace GreenLibrary.Server
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .WithOrigins("https://localhost:5173"); //this is the port where the client start
+
                 });
             });
 

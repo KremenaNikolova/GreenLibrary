@@ -2,17 +2,14 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    using Microsoft.AspNetCore.Http;
-
     using static GreenLibrary.Common.ValidationConstants.ArticleConstants;
     using static GreenLibrary.Common.ErrorMessages.ArticleErrorMessages;
-    using GreenLibrary.Server.Dtos.Category;
 
     public class CreateArticleDto
     {
         public CreateArticleDto()
         {
-            Categories = new List<CategoryDto>();
+            Tags = new List<string>();
         }
 
         [Required]
@@ -30,9 +27,7 @@
 
         public int CateogoryId { get; set; }
 
-        public Guid UserId { get; set; }
+        public ICollection<string> Tags { get; set; }
 
-        [Display(Name = "Категории")]
-        public ICollection<CategoryDto> Categories { get; set; }
     }
 }
