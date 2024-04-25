@@ -9,16 +9,17 @@ export default function ArticlesCards({ articles }) {
                     <GridColumn key={article.id}>
                         <CardGroup itemsPerRow={1}>
                             <Card className='card-image-container'>
-                                <Image src={imagesPath + article.image} className='card-image' />
-                                <CardHeader className="card-title">{article.title}</CardHeader>
-                                <CardDescription>{article.user}</CardDescription>
-                                <CardMeta>
-                                    <span className='date'>{article.createdOn}</span>
-                                </CardMeta>
+                                <a href="">
+                                    <Image src={imagesPath + article.image} className='card-image' />
+                                    <CardHeader className="card-title">{article.title}</CardHeader>
+                                    <CardDescription>{article.user}</CardDescription>
+                                    <CardMeta>
+                                        <span className='date'>{article.createdOn}</span>
+                                    </CardMeta>
+                                </a>
                             </Card>
-                            
                         </CardGroup>
-                        
+
                     </GridColumn>
                 ))}
             </GridRow>
@@ -30,12 +31,14 @@ export default function ArticlesCards({ articles }) {
                     <GridColumn key={article.id}>
                         <CardGroup itemsPerRow={1}>
                             <Card className='card-image-container'>
-                                <Image src={imagesPath + article.image} className='card-image' />
-                                <CardHeader className="card-title">{article.title}</CardHeader>
-                                <CardDescription>{article.user}</CardDescription>
-                                <CardMeta>
-                                    <span className='date'>{article.createdOn}</span>
-                                </CardMeta>
+                                <a href="">
+                                    <Image src={imagesPath + article.image} className='card-image' />
+                                    <CardHeader className="card-title">{article.title}</CardHeader>
+                                    <CardDescription>{article.user}</CardDescription>
+                                    <CardMeta>
+                                        <span className='date'>{article.createdOn}</span>
+                                    </CardMeta>
+                                </a>
                             </Card>
                         </CardGroup>
                     </GridColumn>
@@ -43,7 +46,7 @@ export default function ArticlesCards({ articles }) {
             </GridRow>
 
         </Grid>
-        
+
 
     )
 }

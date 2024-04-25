@@ -8,12 +8,12 @@ export default function NavBar() {
         <Menu inverted fixed='top'>
             <Container>
                 <Menu.Item header>
-                    <img src="/assets/plant.png" alt="logo" style={{ marginRight: '10px'}} />
-                    { title }
+                    <img src="/assets/plant.png" alt="logo" style={{ marginRight: '10px' }} />
+                    {title}
                 </Menu.Item>
-                <Menu.Item name='Категории'/>
+                <Menu.Item name='Категории' />
                 <Menu.Item>
-                    <Button positive content={ create } /> 
+                    <Button positive content={create} />
                 </Menu.Item>
             </Container>
         </Menu>

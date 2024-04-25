@@ -62,7 +62,7 @@
                 Title = article.Title,
                 Description = article.Description,
                 Image = article.ImagePath,
-                CategoryId = article.CateogoryId
+                CategoryId = article.CategoryId
             };
 
 

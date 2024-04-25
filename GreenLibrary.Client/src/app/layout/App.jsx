@@ -1,28 +1,19 @@
-import { Fragment, useEffect, useState } from "react";
-import axios from "../../../node_modules/axios/index";
-import { Container } from "semantic-ui-react";
+import { Fragment } from "react";
 import NavBar from "./NavBar";
-import ArticlesCards from "../../components/ArticlesCards";
+import Home from "../../pages/Home";
+import ArticleForm from "../../components/ArticleForm";
+//import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+//import ArticleForm from "../../components/ArticleForm";
 
 function App() {
-  const [articles, setArticles] = useState([]);
-
-  let sortedArticles = articles.sort((a, b) => a.createdOn > b.createdOn ? 1 : -1);
-
-  useEffect(() => {
-    axios.get("https://localhost:7195/api/articles").then((response) => {
-      setArticles(response.data);
-    });
-  }, []);
-
-  return (
-    <Fragment>
-      <NavBar />
-      <Container style={{ marginTop: "7em" }}>
-              <ArticlesCards articles={ sortedArticles } />
-      </Container>
-    </Fragment>
-  );
+    
+    return (
+        <Fragment>
+            <NavBar />
+            <Home />
+            <ArticleForm />
+        </Fragment>
+    );
 }
 
 export default App;

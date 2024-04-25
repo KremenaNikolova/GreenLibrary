@@ -25,7 +25,7 @@
         [Display(Name = "Снимка")]
         public string ImagePath { get; set; } = null!;
 
-        public int CateogoryId { get; set; }
+        public int CategoryId { get; set; }
 
         public ICollection<string> Tags { get; set; }
 

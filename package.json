@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "@types/axios": "^0.14.0"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "react-router-dom": "^6.23.0"
+  }
+}
