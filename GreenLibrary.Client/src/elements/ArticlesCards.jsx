@@ -1,4 +1,5 @@
 import { Card, CardHeader, CardGroup, CardMeta, CardDescription, Image, Grid, GridColumn, GridRow, Divider } from 'semantic-ui-react';
+import './articlecards.css'
 
 const imagesPath = '/assets/';
 export default function ArticlesCards({ articles }) {

@@ -1,0 +1,11 @@
+.ui.inverted.top.fixed.menu {
+    background-color: #00331a;
+    position: initial;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+}
+
+.logo {
+    margin-right: 10px;
+}

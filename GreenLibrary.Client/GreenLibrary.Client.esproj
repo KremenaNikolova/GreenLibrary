@@ -18,7 +18,4 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="src\app\layout\" />
-  </ItemGroup>
 </Project>

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Container } from "semantic-ui-react";
 import ArticlesCards from "../elements/ArticlesCards"
+import './home.css'
 function Home() {
     const [articles, setArticles] = useState([]);
 
@@ -13,7 +14,7 @@ function Home() {
         });
     }, []);
   return (
-      <Container style={{ marginTop: "7em" }}>
+      <Container className='home container'>
           <ArticlesCards articles={sortedArticles} />
       </Container>
   );
