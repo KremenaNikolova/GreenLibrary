@@ -1,4 +1,5 @@
 import { Menu, Container, Button } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
 
 export default function NavBar() {
@@ -13,7 +14,9 @@ export default function NavBar() {
                 </Menu.Item>
                 <Menu.Item name='Категории' />
                 <Menu.Item>
-                    <Button positive content={create} />
+                    <Link to="/create">
+                        <Button positive content={create} />
+                    </Link>
                 </Menu.Item>
             </Container>
         </Menu>

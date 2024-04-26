@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Container } from "semantic-ui-react";
-import ArticlesCards from "../components/ArticlesCards"
+import ArticlesCards from "../elements/ArticlesCards"
 function Home() {
     const [articles, setArticles] = useState([]);
 
