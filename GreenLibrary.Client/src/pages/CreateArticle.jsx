@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Button, Form, Input, Select, TextArea, List, Segment } from 'semantic-ui-react';
+import './createarticle.css'
 
 function ArticleForm() {
     const [title, setTitle] = useState('');
     const [categoryId, setCategoryId] = useState('');
     const [description, setDescription] = useState('');
-    const [imagePath, setImage] = useState('');
     const [tags, setTags] = useState([]);
     const [categories, setCategories] = useState([]);
     const [tagInput, setTagInput] = useState('');
+    const [imageFile, setImageFile] = useState(null);
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -31,28 +32,29 @@ function ArticleForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const articleData = {
-            title,
-            categoryId,
-            description,
-            imagePath,
-            tags
-        };
+        const formData = new FormData();
+        formData.append('title', title);
+        formData.append('categoryId', categoryId);
+        formData.append('description', description);
+        tags.forEach(tag => formData.append('tags', tag));
+        if (imageFile) {
+            formData.append('imageFile', imageFile);
+        }
 
         try {
-            console.log('Sending:', articleData);
-            const response = await axios.post('https://localhost:7195/api/articles/create', articleData, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+            const response = await axios({
+                method: 'post',
+                url: 'https://localhost:7195/api/articles/create',
+                data: formData,
+                headers: { 'Content-Type': 'multipart/form-data' },
             });
             console.log('Article created:', response.data);
 
             setTitle('');
             setCategoryId('');
             setDescription('');
-            setImage('');
             setTags([]);
+            setImageFile(null);
         } catch (error) {
             console.error('Failed to create article:', error);
         }
@@ -67,39 +69,38 @@ function ArticleForm() {
     };
 
     return (
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit} className='createform'>
             <Form.Field
                 control={Input}
-                label='Title'
-                placeholder='Title'
+                label='Заглавие'
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 required
             />
             <Form.Field
                 control={Select}
-                label='Category'
+                label='Категория'
                 options={categories}
-                placeholder='Select Category'
+                placeholder='Изберете категория'
                 value={categoryId}
                 onChange={(e, { value }) => setCategoryId(value)}
                 required
             />
             <Form.Field
                 control={TextArea}
-                label='Description'
-                placeholder='Description'
+                label='Описание'
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 required
             />
-            <Form.Field
-                control={Input}
-                label='Image URL'
-                placeholder='Image URL'
-                value={imagePath}
-                onChange={(e) => setImage(e.target.value)}
-            />
+            <Form.Field>
+                <label>Снимка</label>
+                <Input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setImageFile(e.target.files[0])}
+                />
+            </Form.Field>
             <Form.Field
                 control={Input}
                 action={{
@@ -109,7 +110,7 @@ function ArticleForm() {
                 }}
                 value={tagInput}
                 onChange={(e) => setTagInput(e.target.value)}
-                placeholder='Add a tag'
+                placeholder='Добавете тагове за търсене'
             />
             <Segment>
                 <List>

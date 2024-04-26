@@ -4,6 +4,7 @@
 
     using static GreenLibrary.Common.ValidationConstants.ArticleConstants;
     using static GreenLibrary.Common.ErrorMessages.ArticleErrorMessages;
+    using Microsoft.AspNetCore.Http;
 
     public class CreateArticleDto
     {
@@ -23,7 +24,9 @@
         public string Description { get; set; } = null!;
 
         [Display(Name = "Снимка")]
-        public string ImagePath { get; set; } = null!;
+        public string? ImageName { get; set; }
+
+        public IFormFile? ImageFile { get; set; }
 
         public int CategoryId { get; set; }
 

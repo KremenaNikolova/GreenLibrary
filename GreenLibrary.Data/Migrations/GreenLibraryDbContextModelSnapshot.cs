@@ -57,7 +57,7 @@ namespace GreenLibrary.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Articles");
+                    b.ToTable("Articles", (string)null);
 
                     b.HasData(
                         new
@@ -94,7 +94,7 @@ namespace GreenLibrary.Data.Migrations
 
                     b.HasIndex("ArticleId");
 
-                    b.ToTable("ArticlesLikes");
+                    b.ToTable("ArticlesLikes", (string)null);
                 });
 
             modelBuilder.Entity("GreenLibrary.Data.Entities.Category", b =>
@@ -115,7 +115,7 @@ namespace GreenLibrary.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
 
                     b.HasData(
                         new
@@ -158,7 +158,7 @@ namespace GreenLibrary.Data.Migrations
 
                     b.HasIndex("ArticleId");
 
-                    b.ToTable("Tags");
+                    b.ToTable("Tags", (string)null);
                 });
 
             modelBuilder.Entity("GreenLibrary.Data.Entities.User", b =>
@@ -494,7 +494,7 @@ namespace GreenLibrary.Data.Migrations
 
                     b.HasIndex("FollowingId");
 
-                    b.ToTable("UserUser");
+                    b.ToTable("UserUser", (string)null);
                 });
 
             modelBuilder.Entity("GreenLibrary.Data.Entities.Article", b =>

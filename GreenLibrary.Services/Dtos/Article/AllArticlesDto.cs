@@ -1,5 +1,6 @@
 ﻿namespace GreenLibrary.Services.Dtos.Article
 {
+
     public class AllArticlesDto
     {
         public string Id { get; set; } = null!;

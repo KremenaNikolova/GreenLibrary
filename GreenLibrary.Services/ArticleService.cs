@@ -61,7 +61,7 @@
                 UserId = userId,
                 Title = article.Title,
                 Description = article.Description,
-                Image = article.ImagePath,
+                Image = !string.IsNullOrEmpty(article.ImageName) ? article.ImageName : "default.jpg",
                 CategoryId = article.CategoryId
             };
 

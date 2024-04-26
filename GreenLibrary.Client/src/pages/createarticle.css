@@ -1,0 +1,18 @@
+textarea {
+    min-height: 20rem;
+}
+
+.createform {
+    margin-top: 5%;
+    margin-left: 30%;
+    margin-right: 30%;
+    max-width: 30%;
+}
+
+.ui.form .field > label {
+    color: white !important;
+}
+
+/*.ui.segment {
+    display: none;
+}*/
