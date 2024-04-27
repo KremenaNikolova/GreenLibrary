@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Button, Form, Input, Select, TextArea, List, Segment } from 'semantic-ui-react';
-import './createarticle.css'
+import './createArticle.css'
 
 function ArticleForm() {
     const [title, setTitle] = useState('');
@@ -104,7 +104,7 @@ function ArticleForm() {
             <Form.Field
                 control={Input}
                 action={{
-                    content: 'Add Tag',
+                    content: 'Добави таг',
                     type: 'button',
                     onClick: handleAddTag
                 }}
@@ -122,7 +122,10 @@ function ArticleForm() {
                     ))}
                 </List>
             </Segment>
-            <Form.Field control={Button} primary type='submit'>Submit</Form.Field>
+            <div className="sumbit button container">
+                <Button className='submitbutton' type='submit'>Създай</Button>
+            </div>
+            
         </Form>
     );
 }

@@ -13,6 +13,23 @@ textarea {
     color: white !important;
 }
 
+.ui.button.submitbutton {
+    background-color: #cc6600;
+    color: white;
+    margin-bottom: 1rem;
+}
+
+    .ui.button.submitbutton:hover {
+        background-color: #FF9900;
+        color: black;
+    }
+
+.sumbit.button.container {
+    display: flex;
+    justify-content:flex-end;
+}
+
+
 /*.ui.segment {
     display: none;
 }*/

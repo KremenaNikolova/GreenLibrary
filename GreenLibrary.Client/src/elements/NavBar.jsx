@@ -1,6 +1,6 @@
 import { Menu, Container, Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import './navbar.css'
+import './navBar.css'
 
 
 export default function NavBar() {
@@ -10,7 +10,7 @@ export default function NavBar() {
         <Menu inverted fixed='top'>
             <Container>
                 <Menu.Item header>
-                    <img src="/assets/plant.png" alt="logo"/>
+                    <img src="/plant.png" alt="logo"/>
                     {title}
                 </Menu.Item>
                 <Menu.Item name='Категории' />

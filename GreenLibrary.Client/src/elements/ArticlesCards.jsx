@@ -1,7 +1,7 @@
 import { Card, CardHeader, CardGroup, CardMeta, CardDescription, Image, Grid, GridColumn, GridRow, Divider } from 'semantic-ui-react';
-import './articlecards.css'
+import './articleCards.css'
 
-const imagesPath = '/assets/';
+const imageUrl = 'https://localhost:7195/Images/';
 export default function ArticlesCards({ articles }) {
     return (
         <Grid devided='vertically'>
@@ -11,7 +11,7 @@ export default function ArticlesCards({ articles }) {
                         <CardGroup itemsPerRow={1}>
                             <Card className='card-image-container'>
                                 <a href="">
-                                    <Image src={imagesPath + article.image} className='card-image' />
+                                    <Image src={imageUrl + article.image} className='card-image' />
                                     <CardHeader className="card-title">{article.title}</CardHeader>
                                     <CardDescription>{article.user}</CardDescription>
                                     <CardMeta>
@@ -33,7 +33,7 @@ export default function ArticlesCards({ articles }) {
                         <CardGroup itemsPerRow={1}>
                             <Card className='card-image-container'>
                                 <a href="">
-                                    <Image src={imagesPath + article.image} className='card-image' />
+                                    <Image src={imageUrl + article.image} className='card-image' />
                                     <CardHeader className="card-title">{article.title}</CardHeader>
                                     <CardDescription>{article.user}</CardDescription>
                                     <CardMeta>
