@@ -32,5 +32,8 @@
         public const string UserLastName = "Петров";
         public const string UserPassword = "User12345.";
 
+        public const int MaxPageSize = 5;
+        public const int DefaultPage = 1;
+
     }
 }

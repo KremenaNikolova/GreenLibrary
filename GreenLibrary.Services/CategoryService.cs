@@ -9,6 +9,9 @@
     using GreenLibrary.Services.Interfaces;
     using GreenLibrary.Server.Dtos.Category;
     using GreenLibrary.Services.Dtos.Article;
+    using GreenLibrary.Services.Helpers;
+
+    using static GreenLibrary.Common.ApplicationConstants;
 
     public class CategoryService : ICategoryService
     {
@@ -33,9 +36,9 @@
             return categories;
         }
 
-        public async Task<IEnumerable<ArticlesDto>> GetAllArticlesByCategoryNameAsync(string categoryName)
+        public async Task<(IEnumerable<ArticlesDto>, ArticlePaginationMetadata)> GetAllArticlesByCategoryNameAsync(string categoryName, int currentPage, int pageSize)
         {
-            var articles = await dbContext
+            var articles = dbContext
                 .Articles
                 .Where(a => a.Category.Name == categoryName)
                 .OrderByDescending(a => a.CreatedOn)
@@ -49,10 +52,20 @@
                     Image = a.Image,
                     User = a.User.FirstName + ' ' + a.User.LastName,
                 })
+                .AsQueryable();
+
+            var totalArticlesCount = articles.Count();
+            
+            var articlesPagination = await articles
+                .Skip(pageSize * (currentPage - 1))
+                .Take(pageSize)
                 .ToListAsync();
 
-            return articles;
+            var paginationMetadata = new ArticlePaginationMetadata(totalArticlesCount, pageSize, currentPage);
+
+            return (articlesPagination, paginationMetadata);
 
         }
+
     }
 }

@@ -1,8 +1,14 @@
 ﻿namespace GreenLibrary.Server.Controllers
 {
-    using GreenLibrary.Services.Interfaces;
+    using System.Text.Json;
+    
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    
+    using GreenLibrary.Services.Interfaces;
+    using GreenLibrary.Services.Dtos.Article;
+    using GreenLibrary.Services.Helpers;
+    using static GreenLibrary.Common.ApplicationConstants;
 
     [Route("api/categories")]
     [ApiController]
@@ -25,11 +31,19 @@
 
 
         [HttpGet("{category}")]
-        public async Task<IActionResult> GetArticlesByCategory(string category)
+        public async Task<ActionResult<IEnumerable<ArticlesDto>>> GetArticlesByCategory(string category, int page = DefaultPage, int pageSize = MaxPageSize)
         {
-            var articles = await categoryService.GetAllArticlesByCategoryNameAsync(category);
+            var (articles, paginationMetadata) = await categoryService.GetAllArticlesByCategoryNameAsync(category, page, pageSize);
+
+            if (articles == null)
+            {
+                return NotFound();
+            }
+
+            Response.Headers.Append("Pagination", JsonSerializer.Serialize(paginationMetadata));
 
             return Ok(articles);
         }
+
     }
 }

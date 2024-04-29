@@ -2,7 +2,7 @@
     padding: 0;
     background-color: #006633 !important;
     max-width: 60%;
-    margin: 5% 20% 5% 20% !important;
+    margin: 5% 20% 1% 20% !important;
     color: white !important;
     font-size: 1.5rem !important;
     border: 1px solid #BF6000 !important;
@@ -35,4 +35,14 @@
 
 .ui.list .list > .item .description, .ui.list > .item .description {
     color: white !important;
+}
+
+
+.ui.pagination.menu {
+    background-color: #cc6000;
+}
+
+a.item {
+    color: white !important;
+    font-weight: 400 !important;
 }

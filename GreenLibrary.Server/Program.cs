@@ -43,7 +43,8 @@ namespace GreenLibrary.Server
                     policy
                     .AllowAnyHeader()
                     .AllowAnyMethod()
-                    .WithOrigins("https://localhost:5173"); //this is the port where the client start
+                    .WithOrigins("https://localhost:5173")
+                    .WithExposedHeaders("pagination"); //this is the port where the client start
 
                 });
             });
