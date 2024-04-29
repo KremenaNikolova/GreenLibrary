@@ -54,7 +54,7 @@
                     Id=a.Id.ToString(),
                     Title = a.Title,
                     Description = a.Description,
-                    CreatedOn = a.CreatedOn.ToString(),
+                    CreatedOn = a.CreatedOn.ToString("d"),
                     Category = a.Category.Name,
                     Image = a.Image,
                     User = a.User.FirstName + ' ' + a.User.LastName,

@@ -6,7 +6,7 @@ import './styles/home.css'
 function Home() {
     const [articles, setArticles] = useState([]);
 
-    let sortedArticles = articles.sort((a, b) => a.createdOn < b.createdOn ? 1 : -1);
+    let sortedArticles = articles.sort((a, b) => a.createdOn > b.createdOn ? 1 : -1);
 
     useEffect(() => {
         axios.get("https://localhost:7195/api/articles").then((response) => {

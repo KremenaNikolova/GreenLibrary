@@ -8,6 +8,7 @@
     using GreenLibrary.Data;
     using GreenLibrary.Services.Interfaces;
     using GreenLibrary.Server.Dtos.Category;
+    using GreenLibrary.Services.Dtos.Article;
 
     public class CategoryService : ICategoryService
     {
@@ -30,6 +31,28 @@
                 .ToListAsync();
 
             return categories;
+        }
+
+        public async Task<IEnumerable<ArticlesDto>> GetAllArticlesByCategoryNameAsync(string categoryName)
+        {
+            var articles = await dbContext
+                .Articles
+                .Where(a => a.Category.Name == categoryName)
+                .OrderBy(a => a.CreatedOn)
+                .Select(a => new ArticlesDto
+                {
+                    Id = a.Id.ToString(),
+                    Title = a.Title,
+                    Description = a.Description,
+                    CreatedOn = a.CreatedOn.ToString("d"),
+                    Category = a.Category.Name,
+                    Image = a.Image,
+                    User = a.User.FirstName + ' ' + a.User.LastName,
+                })
+                .ToListAsync();
+
+            return articles;
+
         }
     }
 }

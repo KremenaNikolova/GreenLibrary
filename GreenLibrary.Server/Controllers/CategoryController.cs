@@ -22,5 +22,14 @@
 
             return Ok(categories);
         }
+
+
+        [HttpGet("{category}")]
+        public async Task<IActionResult> GetArticlesByCategory(string category)
+        {
+            var articles = await categoryService.GetAllArticlesByCategoryNameAsync(category);
+
+            return Ok(articles);
+        }
     }
 }

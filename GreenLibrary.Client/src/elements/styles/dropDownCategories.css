@@ -1,0 +1,12 @@
+.ui.menu .dropdown.item .menu {
+    background: #bf6000 !important;
+    color: white !important;
+}
+
+.ui.dropdown .menu {
+    border: none;
+}
+
+#dropdownmenu {
+    color: white !important;
+}

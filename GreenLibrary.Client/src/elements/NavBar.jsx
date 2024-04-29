@@ -1,15 +1,13 @@
 import { Menu, Container, Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import './navBar.css'
+import './styles/navBar.css'
+import DropDownCategories from './DropDownCategories';
 
 
 export default function NavBar() {
     const title = "Зелена библиотека";
     const create = "Нова статия";
 
-    const handleHomeNavigation = async () => {
-        <Link to='/'></Link>
-    }
     return (
         <Menu inverted fixed='top'>
             <Container>
@@ -21,7 +19,7 @@ export default function NavBar() {
                     <p>{title}</p>
                     </Link>
                 </Menu.Item>
-                <Menu.Item name='Категории'/>
+                    <DropDownCategories />
                 <Menu.Item>
                     <Link to="/create">
                         <Button positive content={create} />

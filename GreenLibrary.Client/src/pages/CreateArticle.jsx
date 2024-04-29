@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Button, Form, Input, Select, TextArea, List, Segment } from 'semantic-ui-react';
 import './styles/createArticle.css'
