@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Button, Form, Input, Select, TextArea, List, Segment } from 'semantic-ui-react';
 import './styles/createArticle.css'
 
 function ArticleForm() {
+    const navigate = useNavigate();
     const [title, setTitle] = useState('');
     const [categoryId, setCategoryId] = useState('');
     const [description, setDescription] = useState('');
@@ -55,6 +57,8 @@ function ArticleForm() {
             setDescription('');
             setTags([]);
             setImageFile(null);
+
+            navigate('/');
         } catch (error) {
             console.error('Failed to create article:', error);
         }
