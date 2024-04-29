@@ -19,10 +19,10 @@
 
         public static class ArticleConstants
         {
-            public const int TitleMinLenth = 10;
+            public const int TitleMinLenth = 3;
             public const int TitleMaxLength = 100;
 
-            public const int DescriptionMinLength = 500;
+            public const int DescriptionMinLength = 200;
             public const int DescriptionMaxLength = 10000;
         }
 

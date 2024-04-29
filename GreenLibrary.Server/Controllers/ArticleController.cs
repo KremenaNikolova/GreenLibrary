@@ -36,7 +36,7 @@
             return Ok(article);
         }
 
-        [HttpPost("/api/articles/create")]
+        [HttpPost("create")]
         public async Task<IActionResult> CreateArticle([FromForm]CreateArticleDto article)
         {
             if (!ModelState.IsValid)

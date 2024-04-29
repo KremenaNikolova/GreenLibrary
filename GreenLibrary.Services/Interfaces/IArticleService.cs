@@ -6,9 +6,9 @@
 
     public interface IArticleService
     {
-        Task<IEnumerable<AllArticlesDto>> GetAllArticlesAsync();
+        Task<IEnumerable<ArticlesDto>> GetAllArticlesAsync();
 
-        Task<Article?> GetArticleByIdAsync(Guid id);
+        Task<ArticlesDto?> GetArticleByIdAsync(Guid id);
 
         Task<Article> CreateArticleFromDto(CreateArticleDto article, Guid userId);
 

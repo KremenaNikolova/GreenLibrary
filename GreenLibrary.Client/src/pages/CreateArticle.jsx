@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Button, Form, Input, Select, TextArea, List, Segment } from 'semantic-ui-react';
-import './createArticle.css'
+import './styles/createArticle.css'
 
 function ArticleForm() {
     const [title, setTitle] = useState('');
