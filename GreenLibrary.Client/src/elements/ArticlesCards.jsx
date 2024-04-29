@@ -1,6 +1,5 @@
 import { Card, CardHeader, CardGroup, CardMeta, CardDescription, Image, Grid, GridColumn, GridRow, Divider } from 'semantic-ui-react';
 import './articleCards.css'
-import ArticleDetails from '../pages/ArticleDetails';
 import { Link } from 'react-router-dom';
 
 const imageUrl = 'https://localhost:7195/Images/';
