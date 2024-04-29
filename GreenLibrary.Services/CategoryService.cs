@@ -38,7 +38,7 @@
             var articles = await dbContext
                 .Articles
                 .Where(a => a.Category.Name == categoryName)
-                .OrderBy(a => a.CreatedOn)
+                .OrderByDescending(a => a.CreatedOn)
                 .Select(a => new ArticlesDto
                 {
                     Id = a.Id.ToString(),
