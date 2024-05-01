@@ -9,6 +9,12 @@
 
             public const int LastNameMinLength = 2;
             public const int LastNameMaxLength = 50;
+
+            public const int UsernameMinLength = 3;
+            public const int UsernameMaxLength = 20;
+
+            public const int PasswordMinLength = 5;
+            public const int PasswordMaxLength = 50;
         }
 
         public static class CategoryConstants
@@ -31,5 +37,6 @@
             public const int NameMinLength = 3;
             public const int NameMaxLength = 20;
         }
+
     }
 }

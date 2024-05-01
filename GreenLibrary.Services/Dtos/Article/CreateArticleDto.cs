@@ -13,12 +13,12 @@
             Tags = new List<string>();
         }
 
-        [Required]
+        [Required(ErrorMessage = RequiredField)]
         [StringLength(TitleMaxLength, MinimumLength = TitleMinLenth, ErrorMessage = InvalidTitle)]
         [Display(Name = "Заглавие")]
         public string Title { get; set; } = null!;
 
-        [Required]
+        [Required(ErrorMessage = RequiredField)]
         [StringLength(DescriptionMaxLength, MinimumLength = DescriptionMinLength, ErrorMessage = InvalidDescription)]
         [Display(Name = "Съдържание")]
         public string Description { get; set; } = null!;
@@ -28,6 +28,7 @@
 
         public IFormFile? ImageFile { get; set; }
 
+        [Required(ErrorMessage = RequiredField)]
         public int CategoryId { get; set; }
 
         public ICollection<string> Tags { get; set; }

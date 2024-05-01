@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Button, Form, Input, Select, TextArea, List, Segment } from 'semantic-ui-react';
+import { Button, Form, Input, Select, TextArea, List, Segment, Message } from 'semantic-ui-react';
 import './styles/createArticle.css'
 
 function ArticleForm() {
@@ -13,6 +13,7 @@ function ArticleForm() {
     const [categories, setCategories] = useState([]);
     const [tagInput, setTagInput] = useState('');
     const [imageFile, setImageFile] = useState(null);
+    const [errors400, setErrors400] = useState({});
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -60,8 +61,15 @@ function ArticleForm() {
 
             navigate('/');
         } catch (error) {
-            console.error('Failed to create article:', error);
+            setErrors400({});
+            if (error.response && error.response.status === 400) {
+                setErrors400(error.response.data.errors);
+            } else {
+                console.error('Login failed:', error.response.data);
+                console.error('Failed to create article:', error);
+            }
         }
+
     };
 
     const handleAddTag = () => {
@@ -73,64 +81,66 @@ function ArticleForm() {
     };
 
     return (
-        <Form onSubmit={handleSubmit} className='createform'>
-            <Form.Field
-                control={Input}
-                label='Заглавие'
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                required
-            />
-            <Form.Field
-                control={Select}
-                label='Категория'
-                options={categories}
-                placeholder='Изберете категория'
-                value={categoryId}
-                onChange={(e, { value }) => setCategoryId(value)}
-                required
-            />
-            <Form.Field
-                control={TextArea}
-                label='Описание'
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                required
-            />
-            <Form.Field>
-                <label>Снимка</label>
-                <Input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => setImageFile(e.target.files[0])}
+        <>
+            {console.log(errors400)}
+            <Form onSubmit={handleSubmit} className='createform' error={errors400.Username !== undefined}>
+                <Form.Field
+                    control={Input}
+                    label='Заглавие*'
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
                 />
-            </Form.Field>
-            <Form.Field
-                control={Input}
-                action={{
-                    content: 'Добави таг',
-                    type: 'button',
-                    onClick: handleAddTag
-                }}
-                value={tagInput}
-                onChange={(e) => setTagInput(e.target.value)}
-                placeholder='Добавете тагове за търсене'
-            />
-            <Segment>
-                <List>
-                    {tags.map((tag, index) => (
-                        <List.Item key={index}>
-                            {tag}
-                            <Button size='tiny' negative onClick={() => setTags(tags.filter(t => t !== tag))}>Remove</Button>
-                        </List.Item>
-                    ))}
-                </List>
-            </Segment>
-            <div className="sumbit button container">
-                <Button className='submitbutton' type='submit'>Създай</Button>
-            </div>
-            
-        </Form>
+                {errors400.Title && <Message negative>{errors400.Title.join(' ')}</Message>}
+                <Form.Field
+                    control={Select}
+                    label='Категория*'
+                    options={categories}
+                    placeholder='Изберете категория'
+                    value={categoryId}
+                    onChange={(e, { value }) => setCategoryId(value)}
+                />
+                <Form.Field
+                    control={TextArea}
+                    label='Съдържание*'
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                />
+                {errors400.Description && <Message negative>{errors400.Description.join(' ')}</Message>}
+                <Form.Field>
+                    <label>Снимка</label>
+                    <Input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => setImageFile(e.target.files[0])}
+                    />
+                </Form.Field>
+                <Form.Field
+                    control={Input}
+                    action={{
+                        content: 'Добави таг',
+                        type: 'button',
+                        onClick: handleAddTag
+                    }}
+                    value={tagInput}
+                    onChange={(e) => setTagInput(e.target.value)}
+                    placeholder='Добавете тагове за търсене'
+                />
+                <Segment>
+                    <List>
+                        {tags.map((tag, index) => (
+                            <List.Item key={index}>
+                                {tag}
+                                <Button size='tiny' negative onClick={() => setTags(tags.filter(t => t !== tag))}>Remove</Button>
+                            </List.Item>
+                        ))}
+                    </List>
+                </Segment>
+                <div className="sumbit button container">
+                    <Button className='submitbutton' type='submit'>Създай</Button>
+                </div>
+
+            </Form>
+        </>
     );
 }
 

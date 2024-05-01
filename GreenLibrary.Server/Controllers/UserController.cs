@@ -6,6 +6,8 @@
     using GreenLibrary.Data.Entities;
     using GreenLibrary.Services.Dtos.User;
 
+    using static GreenLibrary.Common.ErrorMessages;
+
     [Route("api/user")]
     [ApiController]
     public class UserController : ControllerBase
@@ -20,13 +22,18 @@
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var result = await signInManager.PasswordSignInAsync(loginDto.Username, loginDto.Password, false, false);
             if (result.Succeeded)
             {
                 HttpContext.Session.SetString("email", loginDto.Username);
                 return Ok();
             }
-            return Unauthorized();
+            return Unauthorized(UserErrorMessages.InvalidUsernameOrPassword);
         }
     }
 
