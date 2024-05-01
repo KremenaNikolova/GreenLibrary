@@ -32,6 +32,7 @@
                 LastName = AdminLastName,
                 UserName = AdminUsername,
                 NormalizedUserName = AdminUsername.ToUpper(),
+                SecurityStamp = Guid.NewGuid().ToString()
             };
             ph = new PasswordHasher<User>();
             user.PasswordHash = ph.HashPassword(user, AdminPassword);
@@ -47,6 +48,7 @@
                 LastName = ModeratorLastName,
                 UserName = ModeratorUsername,
                 NormalizedUserName = ModeratorUsername.ToUpper(),
+                SecurityStamp = Guid.NewGuid().ToString()
             };
             ph = new PasswordHasher<User>();
             user.PasswordHash = ph.HashPassword(user, ModeratorPassword);
@@ -62,9 +64,10 @@
                 LastName = UserLastName,
                 UserName = UserUsername,
                 NormalizedUserName = UserUsername.ToUpper(),
+                SecurityStamp = Guid.NewGuid().ToString()
             };
             ph = new PasswordHasher<User>();
-            user.PasswordHash = ph.HashPassword(user, ModeratorPassword);
+            user.PasswordHash = ph.HashPassword(user, UserPassword);
             users.Add(user);
 
             return users.ToArray();
