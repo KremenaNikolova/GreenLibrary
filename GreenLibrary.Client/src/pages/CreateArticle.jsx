@@ -122,19 +122,25 @@ function ArticleForm() {
                         onClick: handleAddTag
                     }}
                     value={tagInput}
-                    onChange={(e) => setTagInput(e.target.value)}
                     placeholder='Добавете тагове за търсене'
+
+                    onChange={(e) => setTagInput(e.target.value)}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                            e.preventDefault();
+                            handleAddTag();
+                        }
+                    }}
                 />
-                <Segment>
-                    <List>
-                        {tags.map((tag, index) => (
-                            <List.Item key={index}>
-                                {tag}
+                <List>
+                    {tags.map((tag, index) => (
+                        <List.Item key={index}>
+                            <div className="tag-container">{tag}
                                 <Button size='tiny' negative onClick={() => setTags(tags.filter(t => t !== tag))}>Remove</Button>
-                            </List.Item>
-                        ))}
-                    </List>
-                </Segment>
+                            </div>
+                        </List.Item>
+                    ))}
+                </List>
                 <div className="sumbit button container">
                     <Button className='submitbutton' type='submit'>Създай</Button>
                 </div>

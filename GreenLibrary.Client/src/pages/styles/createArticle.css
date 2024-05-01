@@ -29,7 +29,10 @@ textarea {
     justify-content:flex-end;
 }
 
+.tag-container {
+    color: white !important;
+}
 
-/*.ui.segment {
-    display: none;
-}*/
+.ui.negative.button {
+    margin-left: 3rem;
+}
