@@ -1,0 +1,32 @@
+label {
+    font-size: 16px !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.ui.input {
+    margin-bottom: 0.8rem;
+}
+
+.loginForm {
+    margin-top: 10%;
+    margin-left: 40%;
+    margin-right: 40%;
+    max-width: 20%;
+}
+
+.login-btn {
+    background-color: #cc6600 !important;
+    color: white !important;
+    margin-bottom: 1rem;
+}
+
+    .login-btn:hover {
+        background-color: #FF9900 !important;
+        color: black !important;
+    }
+
+.login-btn-container {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+}
