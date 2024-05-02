@@ -5,9 +5,8 @@
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     
-    using GreenLibrary.Services.Interfaces;
     using GreenLibrary.Services.Dtos.Article;
-    using GreenLibrary.Services.Helpers;
+    using GreenLibrary.Services.Interfaces;
     using static GreenLibrary.Common.ApplicationConstants;
 
     [Route("api/categories")]

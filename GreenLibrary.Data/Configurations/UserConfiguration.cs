@@ -64,7 +64,7 @@
                 LastName = UserLastName,
                 UserName = UserUsername,
                 NormalizedUserName = UserUsername.ToUpper(),
-                SecurityStamp = Guid.NewGuid().ToString()
+                SecurityStamp = Guid.NewGuid().ToString(),
             };
             ph = new PasswordHasher<User>();
             user.PasswordHash = ph.HashPassword(user, UserPassword);

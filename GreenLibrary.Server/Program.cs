@@ -45,8 +45,8 @@ namespace GreenLibrary.Server
                 opt.Password.RequireDigit = true;
                 opt.Password.RequireLowercase = true;
                 opt.Password.RequireUppercase = true;
-                opt.Password.RequireNonAlphanumeric = false;
-                opt.Password.RequiredLength = 5;
+                opt.Password.RequireNonAlphanumeric = true;
+                opt.Password.RequiredLength = 6;
             })
             .AddEntityFrameworkStores<GreenLibraryDbContext>()
             .AddDefaultTokenProviders();
@@ -66,9 +66,9 @@ namespace GreenLibrary.Server
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .WithOrigins("https://localhost:5173") //this is the port where the client start
-                    .WithExposedHeaders("pagination");
-
-                });
+                    .WithExposedHeaders("pagination")
+                    .AllowCredentials();
+            });
             });
 
             var app = builder.Build();

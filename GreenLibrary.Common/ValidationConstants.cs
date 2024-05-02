@@ -13,8 +13,11 @@
             public const int UsernameMinLength = 3;
             public const int UsernameMaxLength = 20;
 
-            public const int PasswordMinLength = 5;
+            public const int PasswordMinLength = 6;
             public const int PasswordMaxLength = 50;
+
+            public const int EmailMaxLength = 70;
+            public const string EmailPattern = "^((?!\\.)[\\w-_.]*[^.])(@\\w+)(\\.\\w+(\\.\\w+)?[^.\\W])$";
         }
 
         public static class CategoryConstants

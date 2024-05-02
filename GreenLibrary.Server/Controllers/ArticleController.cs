@@ -2,6 +2,8 @@
 {
     using Microsoft.AspNetCore.Mvc;
 
+    using Microsoft.AspNetCore.Authorization;
+    using GreenLibrary.Extensions;
     using GreenLibrary.Server.Dtos.Article;
     using GreenLibrary.Services.Interfaces;
 
@@ -36,6 +38,7 @@
             return Ok(article);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("create")]
         public async Task<IActionResult> CreateArticle([FromForm] CreateArticleDto article)
         {
@@ -52,7 +55,9 @@
 
             article.ImageName ??= "default.jpg"; //if the imagename is null it will set it to default.jpg
 
-            var userId = Guid.Parse("59dc4c83-cf09-48da-a0df-6e07187b910b");
+            //var userId = Guid.Parse("59dc4c83-cf09-48da-a0df-6e07187b910b");
+
+            var userId = Guid.Parse(User.GetId()!);
             var newArticle = await articleService.CreateArticleFromDto(article, userId);
 
             if (newArticle == null)
