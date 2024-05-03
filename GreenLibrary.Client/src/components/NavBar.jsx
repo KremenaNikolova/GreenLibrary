@@ -23,11 +23,13 @@ export default function NavBar() {
                     </Link>
                 </Menu.Item>
                 <DropDownCategories />
+                {user && (
                 <Menu.Item>
                     <Link to="/create">
                         <Button positive content={create} />
                     </Link>
-                </Menu.Item>
+                    </Menu.Item>
+                ) }
             </Container>
             <Menu.Menu position='right'>
                 <Menu.Item>
