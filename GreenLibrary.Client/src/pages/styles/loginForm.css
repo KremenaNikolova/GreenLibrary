@@ -30,3 +30,17 @@ label {
     display: flex;
     justify-content: center;
 }
+
+.links-container {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: space-around;
+}
+
+.register-link, .forgotten-password {
+    color: white;
+}
+
+    .register-link:hover, .forgotten-password:hover {
+        color: #000f4d;
+    }

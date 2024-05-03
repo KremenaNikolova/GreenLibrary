@@ -29,12 +29,14 @@
         public string Email { get; set; } = null!;
 
         [Required(ErrorMessage = RequiredField)]
-        [StringLength(PasswordMaxLength, MinimumLength = PasswordMinLength, ErrorMessage = InvalidPassword)]
+        [StringLength(PasswordMaxLength, MinimumLength = PasswordMinLength, ErrorMessage = InvalidPasswordLength)]
+        [RegularExpression(PasswordPattern, ErrorMessage = InvalidPasswordPattern)]
         [Display(Name = "Парола")]
         public string Password { get; set; } = null!;
 
         [Required(ErrorMessage = RequiredField)]
-        [StringLength(PasswordMaxLength, MinimumLength = PasswordMinLength, ErrorMessage = InvalidPassword)]
+        [StringLength(PasswordMaxLength, MinimumLength = PasswordMinLength, ErrorMessage = InvalidPasswordLength)]
+        [RegularExpression(PasswordPattern, ErrorMessage = InvalidPasswordPattern)]
         [Display(Name = "Повторете паролата")]
         public string RepeatPassword { get; set; } = null!;
     }

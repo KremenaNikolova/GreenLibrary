@@ -47,15 +47,11 @@ export default defineConfig({
                 target,
                 secure: false
             },
-            '^/register': {
+            '^user/register': {
                 target,
                 secure: false
             },
             '^/user/login': {
-                target,
-                secure: false
-            },
-            '^/logout': {
                 target,
                 secure: false
             }

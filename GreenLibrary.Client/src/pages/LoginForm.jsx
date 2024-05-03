@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { Button, Form, Input, Message } from 'semantic-ui-react';
 import { useAuth } from '../hooks/AuthContext'
@@ -21,7 +21,11 @@ export default function LoginForm() {
             console.log('Logged in successfully');
 
             if (response.status === 200) {
-                login({ username });
+                login({
+                    username: response.data.username,
+                    roles: response.data.roles
+                });
+
                 navigate('/');
             } else {
                 console.error('Login failed:', response.data);
@@ -53,7 +57,7 @@ export default function LoginForm() {
                 />
                 {errors400.Username && <Message negative>{errors400.Username.join(' ')}</Message>}
                 <Form.Field
-                    error={errors400.Username !== undefined}
+                    error={errors400.Password !== undefined}
                     control={Input}
                     label='Парола*'
                     placeholder="*********"
@@ -64,7 +68,11 @@ export default function LoginForm() {
                 {errors400.Password && <Message negative>{errors400.Password.join(' ')}</Message>}
                 {error401 && <Message error content={error401} />}
                 <div className='login-btn-container'>
-                    <Button className='login-btn' type="submit">Login</Button>
+                    <Button className='login-btn' type="submit">Влизане</Button>
+                </div>
+                <div className="links-container">
+                    <Link className="register-link" to="/register">Регистрация</Link>
+                    <Link className="forgotten-password" to="#">Забравена парола</Link>
                 </div>
             </Form>
         </>

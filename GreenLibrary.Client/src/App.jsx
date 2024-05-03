@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import ArticleDetails from "./pages/ArticleDetails";
 import CategoryArticlesList from "./pages/CategoryArticlesList";
 import LoginForm from "./pages/LoginForm";
+import RegisterForm from "./pages/RegisterForm";
 
 
 function App() {
@@ -17,7 +18,8 @@ function App() {
                 <Route path="/articles/:id" element={<ArticleDetails />}/>
                 <Route path="/create" element={<CreateArticle />} />
                 <Route path="/categories/:category" element={<CategoryArticlesList />} />
-                <Route path="/login" element={<LoginForm />} />b
+                <Route path="/login" element={<LoginForm />} />
+                <Route path="/register" element={<RegisterForm />} />
             </Routes>
         </Router>
     );

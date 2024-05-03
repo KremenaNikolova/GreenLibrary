@@ -15,6 +15,7 @@
 
             public const int PasswordMinLength = 6;
             public const int PasswordMaxLength = 50;
+            public const string PasswordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z\\d]).{6,}$";
 
             public const int EmailMaxLength = 70;
             public const string EmailPattern = "^((?!\\.)[\\w-_.]*[^.])(@\\w+)(\\.\\w+(\\.\\w+)?[^.\\W])$";

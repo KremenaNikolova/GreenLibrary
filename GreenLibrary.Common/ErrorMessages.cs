@@ -28,7 +28,9 @@
 
             public const string UserNameAlreadyExist = "Това потребителско име вече е заето.";
 
-            public const string InvalidPassword = "Паролата трябва да е най-малко 5 символа, като задължително трябва да съдържа главна буква, малка буква, символ и цифра.";
+            public const string InvalidPasswordLength = "Паролата трябва да е най-малко 6 символа";
+
+            public const string InvalidPasswordPattern = "Паролата задължително трябва да съдържа главна буква, малка буква, символ и цифра.";
 
             public const string PasswordDoesntMatch = "Паролата в двете полета не съвпада.";
 

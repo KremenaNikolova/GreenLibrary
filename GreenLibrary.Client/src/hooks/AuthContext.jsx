@@ -7,6 +7,7 @@ const AuthContext = createContext(null);
 //AuthProvider holds authentication state and provides login and logout
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
+    const [role, setRole] = useState(null);
 
     const login = (userData) => {
         localStorage.setItem('user', JSON.stringify(userData));
@@ -19,7 +20,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, logout }}>
+        <AuthContext.Provider value={{ user, role, login, logout }}>
             {children}
         </AuthContext.Provider>
     );

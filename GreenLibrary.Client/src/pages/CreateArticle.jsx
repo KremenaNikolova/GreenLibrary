@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Button, Form, Input, Select, TextArea, List, Segment, Message } from 'semantic-ui-react';
+import { Button, Form, Input, Select, TextArea, List, Message } from 'semantic-ui-react';
+import { useAuth } from '../hooks/AuthContext'
 import './styles/createArticle.css'
 
 function ArticleForm() {
     const navigate = useNavigate();
+    const { user, role } = useAuth();
     const [title, setTitle] = useState('');
     const [categoryId, setCategoryId] = useState('');
     const [description, setDescription] = useState('');
@@ -16,6 +18,11 @@ function ArticleForm() {
     const [errors400, setErrors400] = useState({});
 
     useEffect(() => {
+
+        if (!user || role!=='admin') {
+            navigate('/login'); // Redirect to login if not logged in
+        }
+
         const fetchCategories = async () => {
             try {
                 const response = await axios.get('https://localhost:7195/api/categories');
@@ -31,7 +38,7 @@ function ArticleForm() {
         };
 
         fetchCategories();
-    }, []);
+    }, [navigate, user]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -82,7 +89,6 @@ function ArticleForm() {
 
     return (
         <>
-            {console.log(errors400)}
             <Form onSubmit={handleSubmit} className='createform' error={errors400.Username !== undefined}>
                 <Form.Field
                     control={Input}
