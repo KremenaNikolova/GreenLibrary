@@ -7,7 +7,7 @@ import './styles/createArticle.css'
 
 function ArticleForm() {
     const navigate = useNavigate();
-    const { user, role } = useAuth();
+    const { user } = useAuth();
     const [title, setTitle] = useState('');
     const [categoryId, setCategoryId] = useState('');
     const [description, setDescription] = useState('');
@@ -19,7 +19,7 @@ function ArticleForm() {
 
     useEffect(() => {
 
-        if (!user || role!=='admin') {
+        if (!user || user.roles!=='Admin') { //this is just example and test for roles check
             navigate('/login'); // Redirect to login if not logged in
         }
 
