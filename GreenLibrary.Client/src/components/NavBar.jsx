@@ -1,5 +1,6 @@
-import { Menu, Container, Button, Input } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Menu, Container, Button, Input, Icon } from 'semantic-ui-react';
+import { Link, useNavigate } from 'react-router-dom';
 import './styles/navBar.css'
 import DropDownCategories from './DropDownCategories';
 import { useAuth } from '../hooks/AuthContext'
@@ -8,8 +9,16 @@ import { useAuth } from '../hooks/AuthContext'
 export default function NavBar() {
     const title = "Зелена библиотека";
     const create = "Нова статия";
-
+    
     const { user, logout } = useAuth();
+    const [search, setSearch] = useState('');
+    const navigate = useNavigate();
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        navigate(`/search?query=${search}`); 
+        setSearch('');
+    };
 
     return (
         <Menu inverted fixed='top'>
@@ -33,7 +42,17 @@ export default function NavBar() {
             </Container>
             <Menu.Menu position='right'>
                 <Menu.Item>
-                    <Input icon='search' placeholder='Search...' />
+                        <Input
+                        icon={<Icon name='search' link onClick={handleSearch} />}
+                            placeholder='Search...'
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            onKeyPress={(e) => {
+                                if (e.key === 'Enter') {
+                                    handleSearch(e);
+                                }
+                            }}
+                        />
                 </Menu.Item>
                 {user ? (
                     <Menu.Item

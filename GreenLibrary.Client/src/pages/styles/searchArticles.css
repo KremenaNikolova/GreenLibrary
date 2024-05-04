@@ -1,0 +1,56 @@
+.ui.divided.relaxed.list {
+    padding: 0;
+    background-color: #006633 !important;
+    max-width: 60%;
+    margin: 5% 20% 1% 20% !important;
+    color: white !important;
+    font-size: 1.5rem !important;
+    border: 1px solid #BF6000 !important;
+}
+
+.ui.list .list > .item > .image:only-child, .ui.list .list > .item > img.image, .ui.list > .item > .image:only-child, .ui.list > .item {
+    padding: 0;
+    margin: 0;
+}
+
+    .ui.list .list > .item > .image:only-child, .ui.list .list > .item > img.image, .ui.list > .item > .image:only-child, .ui.list > .item > img.image {
+        width: 20%;
+        height: 10rem;
+        overflow: hidden;
+        object-fit: cover;
+    }
+
+.ui.list .list > .item, .ui.list > .item, ol.ui.list li, ul.ui.list li {
+    padding: 0.5em 0em 0.5em 0em !important;
+    margin: 0em 1em 0em 1em !important;
+}
+
+#article-list-title {
+    color: white !important;
+}
+
+    #article-list-title:hover {
+        color: black !important;
+    }
+
+.ui.list .list > .item .description, .ui.list > .item .description {
+    color: white !important;
+}
+
+
+.ui.pagination.menu {
+    background-color: #cc6000;
+}
+
+a.item {
+    color: white !important;
+    font-weight: 400 !important;
+}
+
+.h2-container {
+    display: flex;
+    justify-content: center;
+    color: white;
+    padding-top: 2rem;
+}
+

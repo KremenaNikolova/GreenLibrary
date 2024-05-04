@@ -1,11 +1,13 @@
 ﻿namespace GreenLibrary.Server.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
-
     using Microsoft.AspNetCore.Authorization;
+    
     using GreenLibrary.Extensions;
     using GreenLibrary.Server.Dtos.Article;
     using GreenLibrary.Services.Interfaces;
+    using static GreenLibrary.Common.ErrorMessages.ArticleErrorMessages;
+
 
     [Route("api/articles")]
     [ApiController]
@@ -68,6 +70,19 @@
             await articleService.SaveAsync();
 
             return CreatedAtAction(nameof(GetArticle), new { id = newArticle.Id }, newArticle);
+        }
+
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchArticles(string query)
+        {
+            var articles = await articleService.SearchedArticlesAsync(query);
+
+            if (!articles.Any())
+            {
+                return NotFound(NotFountArticles);
+            }
+
+            return Ok(articles);
         }
 
     }

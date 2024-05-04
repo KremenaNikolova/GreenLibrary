@@ -12,6 +12,8 @@
 
         Task<Article> CreateArticleFromDto(CreateArticleDto article, Guid userId);
 
+        Task<IEnumerable<ArticlesDto>> SearchedArticlesAsync(string query);
+
         Task SaveAsync();
 
     }

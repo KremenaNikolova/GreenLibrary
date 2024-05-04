@@ -10,7 +10,6 @@
     using GreenLibrary.Server.Dtos.Article;
     using System.Linq;
     using GreenLibrary.Services.Dtos.Article;
-    using Microsoft.AspNetCore.Http;
 
     public class ArticleService : IArticleService
     {
@@ -49,9 +48,9 @@
             var article = await dbContext
                 .Articles
                 .Where(a => a.Id == id)
-                .Select(a=> new ArticlesDto()
+                .Select(a => new ArticlesDto()
                 {
-                    Id=a.Id.ToString(),
+                    Id = a.Id.ToString(),
                     Title = a.Title,
                     Description = a.Description,
                     CreatedOn = a.CreatedOn.ToString("d"),
@@ -87,6 +86,32 @@
             await dbContext.Articles.AddAsync(newArticle);
 
             return newArticle;
+        }
+
+        public async Task<IEnumerable<ArticlesDto>> SearchedArticlesAsync(string query)
+        {
+            var articles = await dbContext
+                .Articles
+                .Where(a => a.Title.Contains(query)
+                || a.Description.Contains(query)
+                || a.User.FirstName.Contains(query)
+                || a.User.LastName.Contains(query)
+                || a.Category.Name.Contains(query)
+                || a.Image.Contains(query)
+                || a.Tags.Any(t=>t.Name.Contains(query)))
+                .Select(a=> new ArticlesDto()
+                {
+                    Id = a.Id.ToString(),
+                    Title = a.Title,
+                    Description = a.Description,
+                    CreatedOn = a.CreatedOn.ToString("d"),
+                    Category = a.Category.Name,
+                    Image = a.Image,
+                    User = a.User.FirstName + ' ' + a.User.LastName
+                })
+                .ToListAsync();
+
+            return articles;
         }
 
         public async Task SaveAsync()

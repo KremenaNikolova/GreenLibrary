@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Button, Form, Input, Select, TextArea, List, Message } from 'semantic-ui-react';
 import { useAuth } from '../hooks/AuthContext'
-import './styles/createArticle.css'
+import './styles/createArticleForm.css'
 
-function ArticleForm() {
+function CreateArticleForm() {
     const navigate = useNavigate();
     const { user } = useAuth();
     const [title, setTitle] = useState('');
@@ -156,4 +156,4 @@ function ArticleForm() {
     );
 }
 
-export default ArticleForm;
+export default CreateArticleForm;

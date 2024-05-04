@@ -10,3 +10,10 @@
     margin-right: 10px;
 }
 
+.search-submit-form {
+    margin: 0;
+    padding: 0;
+    display: none;
+}
+
+

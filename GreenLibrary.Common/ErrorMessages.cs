@@ -12,6 +12,9 @@
 
             public const string RequiredField = "Полето е задължително!";
 
+
+            public const string NotFountArticles = "Не са намерени статии, които да съвпадат с критериите за търсене.";
+
         }
 
         public static class  UserErrorMessages
