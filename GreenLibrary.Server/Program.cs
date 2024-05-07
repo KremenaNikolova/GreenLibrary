@@ -1,13 +1,18 @@
 
 namespace GreenLibrary.Server
 {
-    using Microsoft.EntityFrameworkCore;
+    using System.Text;
+    
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.IdentityModel.Tokens;
 
     using GreenLibrary.Data;
+    using GreenLibrary.Data.Entities;
     using GreenLibrary.Services.Interfaces;
     using GreenLibrary.Services;
-    using GreenLibrary.Data.Entities;
 
     public class Program
     {
@@ -16,15 +21,7 @@ namespace GreenLibrary.Server
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
-            builder.Services.AddDistributedMemoryCache();
-            builder.Services.AddSession(opt =>
-            {
-                opt.IdleTimeout = TimeSpan.FromSeconds(30);
-                opt.Cookie.HttpOnly = true;
-                opt.Cookie.IsEssential = true;
-            });
-
+            
             builder.Services.AddControllers()
                 .AddNewtonsoftJson(opt =>
                 {
@@ -39,7 +36,7 @@ namespace GreenLibrary.Server
                 opt.UseSqlServer(connectionString);
             });
 
-            builder.Services.AddAuthentication();
+
             builder.Services.AddIdentity<User, IdentityRole<Guid>>(opt =>
             {
                 opt.Password.RequireDigit = true;
@@ -50,6 +47,26 @@ namespace GreenLibrary.Server
             })
             .AddEntityFrameworkStores<GreenLibraryDbContext>()
             .AddDefaultTokenProviders();
+
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateActor = true,
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        RequireExpirationTime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = builder.Configuration.GetSection("Jwt:Issuer").Value,
+                        ValidAudience = builder.Configuration.GetSection("Jwt:Audience").Value,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("Jwt:Key").Value))
+                };
+                });
 
             builder.Services.AddScoped<IArticleService, ArticleService>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
@@ -69,6 +86,14 @@ namespace GreenLibrary.Server
                     .WithExposedHeaders("pagination")
                     .AllowCredentials();
             });
+            });
+
+            builder.Services.AddDistributedMemoryCache();
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
             });
 
             var app = builder.Build();

@@ -16,5 +16,7 @@
         public string CreatedOn { get; set; } = null!;
 
         public string User { get; set; } = null!;
+
+        public int Likes { get; set; }
     }
 }

@@ -2,7 +2,7 @@
     padding: 0;
     background-color: #006633 !important;
     max-width: 80%;
-    margin: 2% 10% 5% 10% !important;
+    margin: 0% 10% 5% 10% !important;
     color: white !important;
     font-size: 1.5rem !important;
     border: 1px solid #BF6000 !important;
@@ -13,4 +13,38 @@
     justify-content: center;
     color: white;
     padding-top: 3%;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
 }
+
+.h1-container h1{
+    font-size: 3rem;
+}
+
+.ui.button > .icon:not(.button) {
+    color: yellow;
+}
+
+.ui.segment.likes-btn-container {
+    border: none !important;
+    padding: 0 !important;
+    box-shadow: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.likes-btn {
+    margin: 0 !important;
+    background-color: transparent !important;
+    border: 1px solid #BF6000 !important;
+    color: white !important;
+    margin-left: auto; 
+}
+
+    .likes-btn:hover {
+        background-color: #BF6000 !important;
+        border: 1px solid #BF6000 !important;
+    }

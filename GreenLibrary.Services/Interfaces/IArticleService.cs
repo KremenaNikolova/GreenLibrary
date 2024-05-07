@@ -15,6 +15,8 @@
 
         Task<(IEnumerable<ArticlesDto>, PaginationMetadata)> SearchedArticlesAsync(string query, int currentPage, int pageSize);
 
+        Task<ArticleLike?> AddLikeAsync(Guid articleId, Guid userId);
+
         Task SaveAsync();
 
     }

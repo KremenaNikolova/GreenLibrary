@@ -1,5 +1,6 @@
 ﻿namespace GreenLibrary.Services
 {
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.EntityFrameworkCore;
@@ -8,7 +9,6 @@
     using GreenLibrary.Data.Entities;
     using GreenLibrary.Services.Interfaces;
     using GreenLibrary.Server.Dtos.Article;
-    using System.Linq;
     using GreenLibrary.Services.Dtos.Article;
     using GreenLibrary.Services.Helpers;
 
@@ -37,7 +37,8 @@
                     CreatedOn = a.CreatedOn.ToString("d"),
                     Category = a.Category.Name,
                     User = a.User.FirstName + ' ' + a.User.LastName,
-                    Image = a.Image
+                    Image = a.Image,
+                    Likes = a.ArticleLikes.Count()
                 })
                 .AsQueryable();
 
@@ -59,6 +60,7 @@
                     Category = a.Category.Name,
                     Image = a.Image,
                     User = a.User.FirstName + ' ' + a.User.LastName,
+                    Likes = a.ArticleLikes.Count()
                 })
                 .FirstOrDefaultAsync();
 
@@ -100,9 +102,9 @@
                 || a.User.LastName.Contains(query)
                 || a.Category.Name.Contains(query)
                 || a.Image.Contains(query)
-                || a.Tags.Any(t=>t.Name.Contains(query)))
+                || a.Tags.Any(t => t.Name.Contains(query)))
                 .OrderByDescending(a => a.CreatedOn)
-                .Select(a=> new ArticlesDto()
+                .Select(a => new ArticlesDto()
                 {
                     Id = a.Id.ToString(),
                     Title = a.Title,
@@ -110,12 +112,39 @@
                     CreatedOn = a.CreatedOn.ToString("d"),
                     Category = a.Category.Name,
                     Image = a.Image,
-                    User = a.User.FirstName + ' ' + a.User.LastName
+                    User = a.User.FirstName + ' ' + a.User.LastName,
+                    Likes = a.ArticleLikes.Count()
                 })
                 .AsQueryable();
 
             var result = await PaginationHelper.CreatePaginatedResponseAsync(articles, currentPage, pageSize);
             return result;
+        }
+
+        public async Task<ArticleLike?> AddLikeAsync(Guid articleId, Guid userId)
+        {
+            var articleLike = await dbContext
+                .ArticlesLikes
+                .Where(a => a.ArticleId == articleId
+                && a.UserId == userId)
+                .FirstOrDefaultAsync();
+
+            if(articleLike == null)
+            {
+                ArticleLike newLike = new ArticleLike()
+                {
+                    ArticleId = articleId,
+                    UserId = userId
+                };
+                await dbContext.ArticlesLikes.AddAsync(newLike);
+
+            }
+            else
+            {
+                dbContext.ArticlesLikes.Remove(articleLike);
+            }
+
+            return (articleLike);
         }
 
         public async Task SaveAsync()

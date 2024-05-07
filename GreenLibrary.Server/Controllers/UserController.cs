@@ -1,7 +1,12 @@
 ﻿namespace GreenLibrary.Server.Controllers
 {
+    using System.Security.Claims;
+    using System.IdentityModel.Tokens.Jwt;
+    using System.Text;
+    
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.IdentityModel.Tokens;
 
     using GreenLibrary.Data.Entities;
     using GreenLibrary.Services.Dtos.User;
@@ -14,11 +19,13 @@
     {
         private readonly SignInManager<User> signInManager;
         private readonly UserManager<User> userManager;
+        private readonly IConfiguration configuration;
 
-        public UserController(SignInManager<User> signInManager, UserManager<User> userManager)
+        public UserController(SignInManager<User> signInManager, UserManager<User> userManager, IConfiguration config)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
+            configuration = config;
 
         }
 
@@ -30,19 +37,43 @@
                 return BadRequest(ModelState);
             }
 
-            var result = await signInManager.PasswordSignInAsync(loginDto.Username, loginDto.Password, false, false);
-            if (result.Succeeded)
-            {
-                var user = await userManager.FindByNameAsync(loginDto.Username);
-                var roles = await userManager.GetRolesAsync(user);
-                HttpContext.Session.SetString("username", loginDto.Username);
+            var user = await userManager.FindByNameAsync(loginDto.Username);
 
-                return Ok(new
+            if (user != null)
+            {
+                var result = await signInManager.PasswordSignInAsync(user, loginDto.Password, false, false);
+
+                if (result.Succeeded)
                 {
-                    Username = user.UserName,
-                    Roles = roles[0]
-                });
+                    var roles = await userManager.GetRolesAsync(user!);
+
+                    var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Email, user.Email!),
+                        new Claim(ClaimTypes.Role, roles[0]),
+                        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+                    };
+
+                    var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetSection("Jwt:Key").Value));
+                    SigningCredentials signingCred = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha512Signature);
+
+                    var securityToken = new JwtSecurityToken(
+                        claims: claims,
+                        expires: DateTime.Now.AddMinutes(60),
+                        issuer: configuration.GetSection("Jwt:Issuer").Value,
+                        audience: configuration.GetSection("Jwt:Audience").Value,
+                        signingCredentials: signingCred);
+
+                    var tokenString = new JwtSecurityTokenHandler().WriteToken(securityToken);
+                    return Ok(new
+                    {
+                        token = tokenString,
+                        username = user.UserName,
+                        roles = roles[0]
+                    });
+                }
             }
+
             return Unauthorized(InvalidUsernameOrPassword);
         }
 

@@ -21,10 +21,8 @@ export default function LoginForm() {
             console.log('Logged in successfully');
 
             if (response.status === 200) {
-                login({
-                    username: response.data.username,
-                    roles: response.data.roles
-                });
+                const { token, username, roles } = response.data;
+                login(token,username, roles);
 
                 navigate('/');
             } else {

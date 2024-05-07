@@ -38,14 +38,30 @@
             return Ok(articles);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetArticle(Guid id)
+        [HttpGet("details")]
+        public async Task<IActionResult> GetArticle(Guid articleId)
         {
-            var article = await articleService.GetArticleByIdAsync(id);
+            var article = await articleService.GetArticleByIdAsync(articleId);
             return Ok(article);
         }
 
-        [Authorize(Roles = "Admin")]
+        [HttpPost("details/like")]
+        public async Task<IActionResult> LikeArticle(Guid articleId)
+        {
+            var userId = Guid.Parse(User.GetId()!);
+            //var userId = Guid.Parse("59dc4c83-cf09-48da-a0df-6e07187b910b");
+
+            var articleLike = await articleService.AddLikeAsync(articleId, userId);
+            await articleService.SaveAsync();
+            
+            if(articleLike == null)
+            {
+                return Ok(false);
+            }
+
+            return Ok(true);
+        }
+
         [HttpPost("create")]
         public async Task<IActionResult> CreateArticle([FromForm] CreateArticleDto article)
         {
