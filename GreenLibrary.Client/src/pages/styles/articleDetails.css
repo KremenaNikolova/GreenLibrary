@@ -2,8 +2,15 @@
     padding: 0;
     background-color: #006633 !important;
     max-width: 80%;
-    margin: 5% 10% 5% 10% !important;
+    margin: 2% 10% 5% 10% !important;
     color: white !important;
     font-size: 1.5rem !important;
     border: 1px solid #BF6000 !important;
+}
+
+.h1-container {
+    display: flex;
+    justify-content: center;
+    color: white;
+    padding-top: 3%;
 }

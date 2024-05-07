@@ -24,11 +24,16 @@ export default function ArticleDetails() {
     }, [id]);
 
     return (
-        <Segment>
-            {article && <Image src={imageUrl + article.image} size='medium' floated='left' />}
-            {article && <p>
-                {article.description}
-            </p>}
-        </Segment>
+        <>
+            <div className="h1-container">
+                {article && <h1>{article.title}</h1>}
+            </div>
+            <Segment>
+                {article && <Image src={imageUrl + article.image} size='medium' floated='left' />}
+                {article && <p>
+                    {article.description}
+                </p>}
+            </Segment>
+        </>
     );
 }
