@@ -12,13 +12,24 @@ export default function SearchArticles() {
     const query = useQuery().get('query');
     const [results, setResults] = useState([]);
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+
     const imageUrlBase = 'https://localhost:7195/Images/'
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`https://localhost:7195/api/articles/search?query=${query}`);
+                const response = await axios.get(`https://localhost:7195/api/articles/search?query=${query}`, {
+                    params: { page: currentPage }
+                });
                 setResults(response.data);
+
+                const paginationHeader = response.headers['pagination'];
+                if (paginationHeader) {
+                    const paginationData = JSON.parse(paginationHeader);
+                    setTotalPages(paginationData.TotalPageCount || 1);
+                }
             } catch (error) {
                 console.error('Error fetching search results:', error);
             }
@@ -26,7 +37,11 @@ export default function SearchArticles() {
         if (query) {
             fetchData();
         }
-    }, [query]);
+    }, [query, currentPage]);
+
+    const handlePaginationChange = (e, { activePage }) => {
+        setCurrentPage(activePage);
+    };
 
     return (
         <>
@@ -44,6 +59,17 @@ export default function SearchArticles() {
                     </List.Item>
                 ))}
             </List>
+            <Grid>
+                <Grid.Row>
+                    <Grid.Column textAlign="center">
+                        <Pagination
+                            activePage={currentPage}
+                            onPageChange={handlePaginationChange}
+                            totalPages={totalPages}
+                        />
+                    </Grid.Column>
+                </Grid.Row>
+            </Grid>
         </>
     );
 }

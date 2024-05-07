@@ -36,7 +36,7 @@
             return categories;
         }
 
-        public async Task<(IEnumerable<ArticlesDto>, ArticlePaginationMetadata)> GetAllArticlesByCategoryNameAsync(string categoryName, int currentPage, int pageSize)
+        public async Task<(IEnumerable<ArticlesDto>, PaginationMetadata)> GetAllArticlesByCategoryNameAsync(string categoryName, int currentPage, int pageSize)
         {
             var articles = dbContext
                 .Articles
@@ -54,16 +54,8 @@
                 })
                 .AsQueryable();
 
-            var totalArticlesCount = articles.Count();
-            
-            var articlesPagination = await articles
-                .Skip(pageSize * (currentPage - 1))
-                .Take(pageSize)
-                .ToListAsync();
-
-            var paginationMetadata = new ArticlePaginationMetadata(totalArticlesCount, pageSize, currentPage);
-
-            return (articlesPagination, paginationMetadata);
+            var result = await PaginationHelper.CreatePaginatedResponseAsync(articles, currentPage, pageSize);
+            return result;
 
         }
 

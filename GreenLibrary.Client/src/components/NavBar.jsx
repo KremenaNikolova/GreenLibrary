@@ -9,6 +9,7 @@ import { useAuth } from '../hooks/AuthContext'
 export default function NavBar() {
     const title = "Зелена библиотека";
     const create = "Нова статия";
+    const allArticls = "Всички статии";
     
     const { user, logout } = useAuth();
     const [search, setSearch] = useState('');
@@ -32,6 +33,11 @@ export default function NavBar() {
                     </Link>
                 </Menu.Item>
                 <DropDownCategories />
+                <Menu.Item>
+                    <Link to='/articles'>
+                        <p>{allArticls}</p>
+                    </Link>
+                </Menu.Item>
                 {user && (
                 <Menu.Item>
                     <Link to="/create">

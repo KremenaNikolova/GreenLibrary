@@ -10,6 +10,7 @@
     using GreenLibrary.Server.Dtos.Article;
     using System.Linq;
     using GreenLibrary.Services.Dtos.Article;
+    using GreenLibrary.Services.Helpers;
 
     public class ArticleService : IArticleService
     {
@@ -20,10 +21,10 @@
             this.dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<ArticlesDto>> GetAllArticlesAsync()
+        public async Task<(IEnumerable<ArticlesDto>, PaginationMetadata)> GetAllArticlesAsync(int currentPage, int pageSize)
         {
 
-            var allArticles = await dbContext
+            var allArticles = dbContext
                 .Articles
                 .Include(a => a.Category)
                 .Include(a => a.User)
@@ -38,9 +39,10 @@
                     User = a.User.FirstName + ' ' + a.User.LastName,
                     Image = a.Image
                 })
-                .ToArrayAsync();
+                .AsQueryable();
 
-            return allArticles;
+            var result = await PaginationHelper.CreatePaginatedResponseAsync(allArticles, currentPage, pageSize);
+            return result;
         }
 
         public async Task<ArticlesDto?> GetArticleByIdAsync(Guid id)
@@ -88,9 +90,9 @@
             return newArticle;
         }
 
-        public async Task<IEnumerable<ArticlesDto>> SearchedArticlesAsync(string query)
+        public async Task<(IEnumerable<ArticlesDto>, PaginationMetadata)> SearchedArticlesAsync(string query, int currentPage, int pageSize)
         {
-            var articles = await dbContext
+            var articles = dbContext
                 .Articles
                 .Where(a => a.Title.Contains(query)
                 || a.Description.Contains(query)
@@ -99,6 +101,7 @@
                 || a.Category.Name.Contains(query)
                 || a.Image.Contains(query)
                 || a.Tags.Any(t=>t.Name.Contains(query)))
+                .OrderByDescending(a => a.CreatedOn)
                 .Select(a=> new ArticlesDto()
                 {
                     Id = a.Id.ToString(),
@@ -109,9 +112,10 @@
                     Image = a.Image,
                     User = a.User.FirstName + ' ' + a.User.LastName
                 })
-                .ToListAsync();
+                .AsQueryable();
 
-            return articles;
+            var result = await PaginationHelper.CreatePaginatedResponseAsync(articles, currentPage, pageSize);
+            return result;
         }
 
         public async Task SaveAsync()

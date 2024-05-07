@@ -7,6 +7,7 @@ import CategoryArticlesList from "./pages/CategoryArticlesList";
 import LoginForm from "./pages/LoginForm";
 import RegisterForm from "./pages/RegisterForm";
 import SearchArticles from "./pages/SearchArticles";
+import Articles from "./pages/Articles";
 
 
 export default function App() {
@@ -22,6 +23,7 @@ export default function App() {
                 <Route path="/login" element={<LoginForm />} />
                 <Route path="/register" element={<RegisterForm />} />
                 <Route path="/search" element={<SearchArticles />} />
+                <Route path="/articles" element={<Articles /> } />
             </Routes>
         </Router>
     );

@@ -1,5 +1,7 @@
 ﻿namespace GreenLibrary.Server.Controllers
 {
+    using System.Text.Json;
+    
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Authorization;
     
@@ -7,7 +9,8 @@
     using GreenLibrary.Server.Dtos.Article;
     using GreenLibrary.Services.Interfaces;
     using static GreenLibrary.Common.ErrorMessages.ArticleErrorMessages;
-
+    using static GreenLibrary.Common.ApplicationConstants;
+    using GreenLibrary.Services.Helpers;
 
     [Route("api/articles")]
     [ApiController]
@@ -26,11 +29,13 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetArticles()
+        public async Task<IActionResult> GetArticles(int page = DefaultPage, int pageSize = MaxPageSize)
         {
-            var allArticles = await articleService.GetAllArticlesAsync();
+            var (articles, paginationMetadata) = await articleService.GetAllArticlesAsync(page, pageSize);
 
-            return Ok(allArticles);
+            Response.Headers.Append("Pagination", JsonSerializer.Serialize(paginationMetadata));
+
+            return Ok(articles);
         }
 
         [HttpGet("{id}")]
@@ -73,14 +78,16 @@
         }
 
         [HttpGet("search")]
-        public async Task<IActionResult> SearchArticles(string query)
+        public async Task<IActionResult> SearchArticles(string query, int page = DefaultPage, int pageSize = MaxPageSize)
         {
-            var articles = await articleService.SearchedArticlesAsync(query);
+            var (articles, paginationMetadata) = await articleService.SearchedArticlesAsync(query, page, pageSize);
 
             if (!articles.Any())
             {
                 return NotFound(NotFountArticles);
             }
+
+            Response.Headers.Append("Pagination", JsonSerializer.Serialize(paginationMetadata));
 
             return Ok(articles);
         }
