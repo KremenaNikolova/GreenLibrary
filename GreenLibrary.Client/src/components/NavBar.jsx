@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Menu, Container, Button, Input, Icon } from 'semantic-ui-react';
+import { Menu, Container, Button, Input, Icon, Dropdown, DropdownMenu, DropdownItem } from 'semantic-ui-react';
 import { Link, useNavigate } from 'react-router-dom';
 import './styles/navBar.css'
 import DropDownCategories from './DropDownCategories';
+import DropDownProfile from './DropDownProfile';
 import { useAuth } from '../hooks/AuthContext'
 
 
@@ -61,16 +62,11 @@ export default function NavBar() {
                         />
                 </Menu.Item>
                 {user ? (
-                    <Menu.Item
-                        name='logout'
-                        onClick={logout}
-                    >
-                        Logout
-                    </Menu.Item>
+                    <DropDownProfile logout={ logout } />
                 ) : (
                     <Menu.Item>
                         <Link to="/login">
-                            <p>Login</p>
+                            <p>Вход</p>
                         </Link>
                     </Menu.Item>
                 )}
