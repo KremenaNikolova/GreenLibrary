@@ -104,6 +104,7 @@
                 || a.Image.Contains(query)
                 || a.Tags.Any(t => t.Name.Contains(query)))
                 .OrderByDescending(a => a.CreatedOn)
+                .ThenByDescending(a => a.Tags.Where(t => t.Name.Contains(query)).Count())
                 .Select(a => new ArticlesDto()
                 {
                     Id = a.Id.ToString(),
@@ -118,6 +119,11 @@
                 .AsQueryable();
 
             var result = await PaginationHelper.CreatePaginatedResponseAsync(articles, currentPage, pageSize);
+
+            result.Item1 = result.Item1
+                .OrderByDescending(i => i.Description.Split(new [] { ' ', ',', '-', '.', '?', '!' }, StringSplitOptions.RemoveEmptyEntries)
+                .Count(word => word.Contains(query, StringComparison.OrdinalIgnoreCase)))
+                .ToList();
             return result;
         }
 
