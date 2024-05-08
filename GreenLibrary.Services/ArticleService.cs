@@ -100,7 +100,6 @@
                 || a.Description.Contains(query)
                 || a.User.FirstName.Contains(query)
                 || a.User.LastName.Contains(query)
-                || a.Category.Name.Contains(query)
                 || a.Image.Contains(query)
                 || a.Tags.Any(t => t.Name.Contains(query)))
                 .OrderByDescending(a => a.CreatedOn)
