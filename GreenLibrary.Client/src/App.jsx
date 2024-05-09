@@ -8,6 +8,7 @@ import LoginForm from "./pages/LoginForm";
 import RegisterForm from "./pages/RegisterForm";
 import SearchArticles from "./pages/SearchArticles";
 import Articles from "./pages/Articles";
+import UserSettings from "./pages/UserSettings";
 
 
 export default function App() {
@@ -23,7 +24,8 @@ export default function App() {
                 <Route path="/login" element={<LoginForm />} />
                 <Route path="/register" element={<RegisterForm />} />
                 <Route path="/search" element={<SearchArticles />} />
-                <Route path="/articles" element={<Articles /> } />
+                <Route path="/articles" element={<Articles />} />
+                <Route path="/user/settings" element={<UserSettings /> } />
             </Routes>
         </Router>
     );

@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Button, Form, Input, Select, TextArea, List, Message } from 'semantic-ui-react';
-import { useAuth } from '../hooks/AuthContext'
-import './styles/createArticleForm.css'
+import { useAuth } from '../hooks/AuthContext';
+import './styles/createArticleForm.css';
 
 function CreateArticleForm() {
     const navigate = useNavigate();
@@ -142,7 +142,7 @@ function CreateArticleForm() {
                     {tags.map((tag, index) => (
                         <List.Item key={index}>
                             <div className="tag-container">{tag}
-                                <Button size='tiny' negative onClick={() => setTags(tags.filter(t => t !== tag))}>Remove</Button>
+                                <Button size='tiny' negative onClick={() => setTags(tags.filter(t => t !== tag))}>Премахване</Button>
                             </div>
                         </List.Item>
                     ))}

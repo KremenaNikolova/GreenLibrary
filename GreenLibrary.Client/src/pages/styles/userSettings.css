@@ -1,0 +1,63 @@
+.ui.grid.profile-container {
+    margin-top: 5%;
+    margin-left: 20%;
+    max-width:90%;
+}
+
+.ui.fluid.vertical.profile-menu.menu {
+    border: 1px solid white;
+    background-color: transparent;
+}
+
+.ui.form.profile-details-container {
+    border: 1px solid white;
+    border-radius: 5px;
+    background-color: transparent;
+    padding: 1rem;
+}
+
+.ui.vertical.menu .item {
+    color: white;
+}
+
+.active.item {
+    color: black !important;
+}
+
+
+.field.deactivate-btn-field {
+    margin-top: 2rem !important;
+}
+
+.ui.button.save-btn {
+    background-color: #cc6600;
+    color: white;
+
+}
+
+    .ui.button.save-btn:hover {
+        background-color: #FF9900;
+        color: black;
+    }
+
+.sumbit.button.container {
+    display: flex;
+    justify-content:space-between;
+}
+
+.deactivate-btn {
+    background-color: darkred !important;
+    color: white !important;
+
+    justify-self: right;
+}
+
+    .deactivate-btn:hover {
+        background-color: red !important;
+        color: black !important;
+    }
+
+    .ui.small.image.profile-image {
+        border: 1px solid #CC6600;
+        padding: 0.5rem;
+    }

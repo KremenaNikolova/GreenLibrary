@@ -80,7 +80,13 @@
 
             //var userId = Guid.Parse("59dc4c83-cf09-48da-a0df-6e07187b910b");
 
-            var userId = Guid.Parse(User.GetId()!);
+            var isUserLogged = Guid.TryParse(User.GetId(), out Guid userId);
+
+            if (!isUserLogged)
+            {
+                return Unauthorized();
+            }
+
             var newArticle = await articleService.CreateArticleFromDto(article, userId);
 
             if (newArticle == null)

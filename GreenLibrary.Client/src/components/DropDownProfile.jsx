@@ -6,7 +6,7 @@ export default function DropDownProfile({ logout }) {
     return (
         <Dropdown item icon={<Icon name="user circle" size="big" />}>
             <DropdownMenu className="profile-dropdown-container">
-                <DropdownItem as={Link} to="#">
+                <DropdownItem as={Link} to="/user/settings">
                     Моят профил
                 </DropdownItem>
                 <DropdownItem as={Link} to="#">

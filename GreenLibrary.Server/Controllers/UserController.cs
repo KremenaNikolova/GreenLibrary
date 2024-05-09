@@ -14,6 +14,7 @@
     using static GreenLibrary.Common.ErrorMessages.UserErrorMessages;
     using GreenLibrary.Extensions;
     using GreenLibrary.Services.Interfaces;
+    using GreenLibrary.Services;
 
     [Route("api/user")]
     [ApiController]
@@ -23,13 +24,15 @@
         private readonly UserManager<User> userManager;
         private readonly IConfiguration configuration;
         private readonly IUserService userService;
+        private readonly IImageService imageService;
 
-        public UserController(SignInManager<User> signInManager, UserManager<User> userManager, IConfiguration config, IUserService userService)
+        public UserController(SignInManager<User> signInManager, UserManager<User> userManager, IConfiguration config, IUserService userService, IImageService imageService)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
             configuration = config;
             this.userService = userService;
+            this.imageService = imageService;
 
         }
 
@@ -63,7 +66,7 @@
 
                     var securityToken = new JwtSecurityToken(
                         claims: claims,
-                        expires: DateTime.Now.AddMinutes(60),
+                        expires: DateTime.Now.AddMinutes(5),
                         issuer: configuration.GetSection("Jwt:Issuer").Value,
                         audience: configuration.GetSection("Jwt:Audience").Value,
                         signingCredentials: signingCred);
@@ -139,11 +142,77 @@
                 return Unauthorized();
             }
 
-
             var user = await userService.LoggedUserAsync(userId);
 
             return Ok(user);
         }
+
+        [HttpPut]
+        public async Task<IActionResult> EditUserProfile([FromForm] UserProfileDto userDto)
+        {
+            var isUserLogged = Guid.TryParse(User.GetId(), out Guid userId);
+
+            if (!isUserLogged)
+            {
+                return Unauthorized();
+            }
+
+            var users = await userService.GetAllUsersExceptCurrentOneAsync(userId);
+            var user = await userService.GetLoggedUserAsync(userId);
+
+            if (users.Any(u=>u.Email == userDto.Email) && user.Email != userDto.Email)
+            {
+                ModelState.AddModelError("Email", EmailAlreadyExist);
+            }
+
+            if (userDto.Username != null && users.Any(u => u.UserName!.ToLower() == userDto.Username.ToLower()) && user.UserName != userDto.Username)
+            {
+                ModelState.AddModelError("UserName", UserNameAlreadyExist);
+            }
+
+            if (userDto.ImageFile != null && userDto.ImageFile.Length > 0)
+            {
+                var filePath = await imageService.SaveImageAsync(userDto.ImageFile);
+                userDto.Image = filePath;
+            }
+
+            userDto.Image ??= "profile.jpg";
+
+            if(userDto.OldPassword != null)
+            {
+                if(userDto.NewPassword == null)
+                {
+                    return BadRequest(EmptyNewPasswordField);
+                } 
+                else if(userDto.NewPassword != null && userDto.RepeatNewPassword == null)
+                {
+                    return BadRequest(EmptyRepeatNewPasswordField);
+                } 
+                else if(userDto.NewPassword != userDto.RepeatNewPassword)
+                {
+                    return BadRequest(PasswordDoesntMatch);
+                }
+
+                var isCorrectPassword = await userManager.CheckPasswordAsync(user, userDto.OldPassword);
+
+                if (!isCorrectPassword)
+                {
+                    return BadRequest(InvalidPassword);
+                }
+
+                var result = await userManager.ChangePasswordAsync(user, userDto.OldPassword, userDto.NewPassword!);
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            await userService.EditUserDetailsAsync(userDto, userId);
+
+            return Ok();
+        }
+
     }
 
 }
