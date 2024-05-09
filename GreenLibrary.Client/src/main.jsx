@@ -13,6 +13,19 @@ axios.interceptors.request.use(config => {
     return config;
 });
 
+axios.interceptors.response.use(
+    response => response,
+    error => {
+        console.log(error);
+        if (error.response && error.response.status === 401) {
+            localStorage.removeItem('token');
+            window.location = '/login';
+        }
+        return Promise.reject(error);
+    }
+);
+
+
 ReactDOM.createRoot(document.getElementById('root')).render(
     <AuthProvider>
         <App />

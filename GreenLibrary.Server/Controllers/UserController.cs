@@ -12,6 +12,8 @@
     using GreenLibrary.Services.Dtos.User;
 
     using static GreenLibrary.Common.ErrorMessages.UserErrorMessages;
+    using GreenLibrary.Extensions;
+    using GreenLibrary.Services.Interfaces;
 
     [Route("api/user")]
     [ApiController]
@@ -20,12 +22,14 @@
         private readonly SignInManager<User> signInManager;
         private readonly UserManager<User> userManager;
         private readonly IConfiguration configuration;
+        private readonly IUserService userService;
 
-        public UserController(SignInManager<User> signInManager, UserManager<User> userManager, IConfiguration config)
+        public UserController(SignInManager<User> signInManager, UserManager<User> userManager, IConfiguration config, IUserService userService)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
             configuration = config;
+            this.userService = userService;
 
         }
 
@@ -123,6 +127,22 @@
             await signInManager.SignInAsync(user, false);
 
             return Ok();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> UserProfile()
+        {
+            var isUserLogged = Guid.TryParse(User.GetId(), out Guid userId);
+            
+            if(!isUserLogged)
+            {
+                return Unauthorized();
+            }
+
+
+            var user = await userService.LoggedUserAsync(userId);
+
+            return Ok(user);
         }
     }
 
