@@ -40,11 +40,8 @@ export default function RegisterForm() {
         } catch (error) {
             if (error.response && error.response.status === 400 && typeof (error.response.data) !== "string") {
                 setErrors400(error.response.data.errors);
-                console.log(error.response.data);
-                console.log(typeof (error.response.data));
             } else if (typeof (error.response.data) === "string") {
                 seErrorString(error.response.data);
-                console.log(error.response.data);
             } else {
                 console.error('Register failed:', error.response.data);
             }

@@ -18,7 +18,7 @@ export default function DropDownProfile({ logout }) {
                 <DropdownItem as={Link} to="#">
                     Последователи
                 </DropdownItem>
-                <DropdownItem onClick={logout} as={Link} to="#">
+                <DropdownItem onClick={logout} as={Link} to="/">
                     Изход
                 </DropdownItem>
             </DropdownMenu>
