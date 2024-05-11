@@ -179,7 +179,7 @@
 
             userDto.Image ??= "profile.jpg";
 
-            if(userDto.OldPassword != null)
+            if(!string.IsNullOrWhiteSpace(userDto.OldPassword))
             {
                 var isCorrectPassword = await userManager.CheckPasswordAsync(user, userDto.OldPassword);
 
