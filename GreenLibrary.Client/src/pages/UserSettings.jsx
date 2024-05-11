@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Menu, Form, Input, Button, Image, GridColumn, Grid } from 'semantic-ui-react';
+import { Menu, Form, Input, Button, Image, GridColumn, Grid, Message } from 'semantic-ui-react';
 import { useAuth } from '../hooks/AuthContext'
 import axios from 'axios';
 import './styles/userSettings.css';
@@ -11,6 +11,7 @@ export default function UserSettings() {
     const [userDetails, setUserDetails] = useState();
     const [activeItem, setActiveItem] = useState('profile');
     const [errors400, setErrors400] = useState({});
+    const [errorString, setErrorString] = useState("");
 
 
     useEffect(() => {
@@ -37,13 +38,14 @@ export default function UserSettings() {
             formData.append('imageFile', userDetails.imageFile);
         }
 
-        if (userDetails.oldPassword && userDetails.newPassword) {
-            formData.append('oldPassword', userDetails.oldPassword);
-            formData.append('newPassword', userDetails.newPassword);
-            formData.append('repeatNewPassword', userDetails.repeatNewPassword);
-        }
+        formData.append('oldPassword', userDetails.oldPassword);
+        formData.append('newPassword', userDetails.newPassword);
+        formData.append('repeatNewPassword', userDetails.repeatNewPassword);
 
         try {
+            setErrorString('');
+            setErrors400({});
+
             const response = await axios({
                 method: 'put',
                 url: 'https://localhost:7195/api/user',
@@ -53,12 +55,17 @@ export default function UserSettings() {
             console.log('User edited:', response.data);
 
         } catch (error) {
-            setErrors400({});
-            if (error.response && error.response.status === 400) {
-                setErrors400(error.response.data.errors);
+            if (error.response && error.response.status === 400 && typeof (error.response.data) !== "string") {
+                if (error.response.data.errors !== undefined) {
+                    setErrors400(error.response.data.errors);
+                } else {
+                    setErrors400(error.response.data);
+                }
+            } else if (typeof (error.response.data) === "string") {
+                setErrorString(error.response.data);
+                console.log(error.response.data);
             } else {
                 console.error('Edit failed:', error.response.data);
-                console.error('Failed to edit the user:', error);
             }
         }
 
@@ -81,9 +88,10 @@ export default function UserSettings() {
 
             {userDetails &&
                 <GridColumn stretched width={7}>
-                    <Form onSubmit={handleSubmit} className='profile-details-container'>
+                    <Form onSubmit={handleSubmit} className='profile-details-container' error={!!errorString} >
                         <Form.Group widths='equal'>
                             <Form.Field
+                                error={errors400.FirstName && { content: errors400.FirstName.join(' '), pointing: 'below' }}
                                 control={Input}
                                 label='Име'
                                 value={userDetails.firstName}
@@ -93,6 +101,7 @@ export default function UserSettings() {
                                 }))}
                             />
                             <Form.Field
+                                error={errors400.LastName && { content: errors400.LastName.join(' '), pointing: 'below' }}
                                 control={Input}
                                 label='Фамилия'
                                 value={userDetails.lastName}
@@ -105,6 +114,7 @@ export default function UserSettings() {
 
                         <Form.Group widths='equal'>
                             <Form.Field
+                                error={errors400.Username && { content: errors400.Username.join(' '), pointing: 'below' }}
                                 control={Input}
                                 label='Потребителско име'
                                 value={userDetails.username}
@@ -114,6 +124,7 @@ export default function UserSettings() {
                                 }))}
                             />
                             <Form.Field
+                                error={errors400.Email && { content: errors400.Email.join(' '), pointing: 'below' }}
                                 control={Input}
                                 label='Имейл'
                                 value={userDetails.email}
@@ -143,6 +154,7 @@ export default function UserSettings() {
 
                         <Form.Group widths={2}>
                             <Form.Field
+                                error={errors400.Password && { content: errors400.Password.join(' '), pointing: 'below' }}
                                 control={Input}
                                 label='Стара парола'
                                 type='password'
@@ -156,6 +168,7 @@ export default function UserSettings() {
 
                         <Form.Group widths='equal'>
                             <Form.Field
+                                error={errors400.NewPassword && { content: errors400.NewPassword.join(' '), pointing: 'below' }}
                                 control={Input}
                                 type='password'
                                 label='Нова парола'
@@ -166,6 +179,7 @@ export default function UserSettings() {
                                 }))}
                             />
                             <Form.Field
+                                error={errors400.RepeatNewPassword && { content: errors400.RepeatNewPassword.join(' '), pointing: 'below' }}
                                 control={Input}
                                 type='password'
                                 label='Повтори новата парола'
@@ -177,6 +191,7 @@ export default function UserSettings() {
                             />
                         </Form.Group>
 
+                        {errorString && <Message error content={errorString} />}
                         <div className="sumbit button container">
                             <Button type='submit' className='deactivate-btn'>Деактивиране на профила</Button>
                             <Button type='submit' className='save-btn'>Запазване</Button>

@@ -31,19 +31,19 @@
 
             public const string UserNameAlreadyExist = "Това потребителско име вече е заето.";
 
-            public const string InvalidPasswordLength = "Паролата трябва да е най-малко 6 символа";
+            public const string InvalidPasswordLength = "Паролата трябва да е най-малко 6 символа.";
 
             public const string InvalidPasswordPattern = "Паролата задължително трябва да съдържа главна буква, малка буква, символ и цифра.";
 
             public const string PasswordDoesntMatch = "Паролата в двете полета не съвпада.";
 
-            public const string EmptyNewPasswordField = "Моля, въведете нова парола";
+            public const string EmptyNewPasswordField = "Моля, въведете нова парола.";
 
-            public const string EmptyRepeatNewPasswordField = "Моля, повторете новата парола";
+            public const string EmptyRepeatNewPasswordField = "Моля, повторете новата парола.";
 
-            public const string InvalidPassword = "Не сте въвели правилно старата си парола";
+            public const string InvalidPassword = "Не сте въвели правилно старата си парола.";
 
-            public const string InvalidEmail = "Имейла трябва да бъде във формат example@test.com";
+            public const string InvalidEmail = "Имейла трябва да бъде във формат example@test.com.";
 
             public const string EmailAlreadyExist = "Вече съществува потребител с този Имейл.";
         }

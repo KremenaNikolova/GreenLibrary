@@ -167,7 +167,7 @@
 
             if (userDto.Username != null && users.Any(u => u.UserName!.ToLower() == userDto.Username.ToLower()) && user.UserName != userDto.Username)
             {
-                ModelState.AddModelError("UserName", UserNameAlreadyExist);
+                ModelState.AddModelError("Username", UserNameAlreadyExist);
             }
 
             if (userDto.ImageFile != null && userDto.ImageFile.Length > 0)
@@ -176,11 +176,19 @@
                 userDto.Image = filePath;
             }
 
+
             userDto.Image ??= "profile.jpg";
 
             if(userDto.OldPassword != null)
             {
-                if(userDto.NewPassword == null)
+                var isCorrectPassword = await userManager.CheckPasswordAsync(user, userDto.OldPassword);
+
+                if (!isCorrectPassword)
+                {
+                    return BadRequest(InvalidPassword);
+                }
+
+                if (userDto.NewPassword == null)
                 {
                     return BadRequest(EmptyNewPasswordField);
                 } 
@@ -193,12 +201,7 @@
                     return BadRequest(PasswordDoesntMatch);
                 }
 
-                var isCorrectPassword = await userManager.CheckPasswordAsync(user, userDto.OldPassword);
-
-                if (!isCorrectPassword)
-                {
-                    return BadRequest(InvalidPassword);
-                }
+                
 
                 var result = await userManager.ChangePasswordAsync(user, userDto.OldPassword, userDto.NewPassword!);
             }
