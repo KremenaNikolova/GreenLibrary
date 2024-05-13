@@ -38,7 +38,7 @@ export default function UserSettings() {
             formData.append('imageFile', userDetails.imageFile);
         }
 
-        if (userDetails.oldPassword !== null) {
+        if (userDetails.oldPassword) {
             formData.append('oldPassword', userDetails.oldPassword);
             formData.append('newPassword', userDetails.newPassword);
             formData.append('repeatNewPassword', userDetails.repeatNewPassword);

@@ -66,7 +66,7 @@
 
                     var securityToken = new JwtSecurityToken(
                         claims: claims,
-                        expires: DateTime.Now.AddMinutes(5),
+                        expires: DateTime.Now.AddMinutes(60),
                         issuer: configuration.GetSection("Jwt:Issuer").Value,
                         audience: configuration.GetSection("Jwt:Audience").Value,
                         signingCredentials: signingCred);
