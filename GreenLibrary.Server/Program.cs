@@ -13,6 +13,7 @@ namespace GreenLibrary.Server
     using GreenLibrary.Data.Entities;
     using GreenLibrary.Services.Interfaces;
     using GreenLibrary.Services;
+    using GreenLibrary.Extensions;
 
     public class Program
     {
@@ -73,6 +74,7 @@ namespace GreenLibrary.Server
             builder.Services.AddScoped<IImageService, ImageService>();
             builder.Services.AddScoped<IUserService, UserService>();
 
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
@@ -96,6 +98,8 @@ namespace GreenLibrary.Server
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
+            
+            builder.Services.AddTransient<GlobalExceptionHandlingMiddlewear>();
 
             var app = builder.Build();
 
@@ -117,6 +121,8 @@ namespace GreenLibrary.Server
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseMiddleware<GlobalExceptionHandlingMiddlewear>();
 
             app.MapControllers();
 
