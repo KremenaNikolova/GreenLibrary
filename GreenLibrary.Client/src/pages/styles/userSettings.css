@@ -42,7 +42,7 @@
 
 .sumbit.button.container {
     display: flex;
-    justify-content:right;
+    justify-content:space-between;
 }
 
 .deactivate-btn {
