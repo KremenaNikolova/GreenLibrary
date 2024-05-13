@@ -1,44 +1,76 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import axios from "axios";
 import { useAuth } from '../hooks/AuthContext';
-import { Button, Label, GridColumn, Container, List } from 'semantic-ui-react';
+import { Button, Label, GridColumn, Container, List, Pagination, Grid } from 'semantic-ui-react';
 import './styles/userArticles.css';
 
 export default function UserArticles() {
     const { user, logout } = useAuth();
     const [articles, setArticles] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
     useEffect(() => {
         if (!user) {
             logout();
         } else {
-            axios.get("https://localhost:7195/api/user/articles")
-                .then((response) => {
+            const fetchArticles = async () => {
+                try {
+                    const response = await axios.get(`https://localhost:7195/api/user/articles`, {
+                        params: { page: currentPage }
+                    });
+
                     setArticles(response.data);
-                })
-                .catch(error => {
+                    const paginationHeader = response.headers['pagination'];
+
+                    if (paginationHeader) {
+                        const paginationData = JSON.parse(paginationHeader);
+                        setTotalPages(paginationData.TotalPageCount || 1);
+                    }
+                } catch (error) {
                     console.log("Error fetching articles:", error);
-                });
+                }
+            };
+            fetchArticles();
         }
-    }, [user, logout]);
+    }, [user, logout, currentPage]);
+
+
+    const handlePaginationChange = (e, { activePage }) => {
+        setCurrentPage(activePage);
+    };
 
     return (
-        <GridColumn stretched width={13}>
-            <Container className='profile-articles-container' >
-                <List divided>
-                    {articles.map(article => (
-                        <List.Item key={article.id}>
-                            <List.Content floated='left'>
-                                <Label basic size='large' className='ellipsis-label'>{article.title}</Label>
-                            </List.Content>
-                            <List.Content floated='right'>
-                                <Button  color='blue'>Редактирай</Button>
-                                <Button  color='red'>Изтрий</Button>
-                            </List.Content>
-                        </List.Item>
-                    ))}
-                </List>
-            </Container>
-        </GridColumn>
+        <>
+            <GridColumn stretched width={13}>
+                <Container className='profile-articles-container' >
+                    <List divided>
+                        {articles.map(article => (
+                            <List.Item key={article.id}>
+                                <List.Content floated='left'>
+                                    <Label as={Link} to={`/articles/${article.id}`} basic size='large' className='ellipsis-label'>{article.title}</Label>
+                                </List.Content>
+                                <List.Content floated='right'>
+                                    <Button color='blue'>Редактирай</Button>
+                                    <Button color='red'>Изтрий</Button>
+                                </List.Content>
+                            </List.Item>
+                        ))}
+                    </List>
+                    <Grid>
+                        <Grid.Row>
+                            <Grid.Column textAlign="center">
+                                <Pagination
+                                    activePage={currentPage}
+                                    onPageChange={handlePaginationChange}
+                                    totalPages={totalPages}
+                                />
+                            </Grid.Column>
+                        </Grid.Row>
+                    </Grid>
+                </Container>
+            </GridColumn>
+        </>
     );
 }

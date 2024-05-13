@@ -153,9 +153,9 @@
             return (articleLike);
         }
 
-        public async Task<IEnumerable<ArticlesDto>> GetUserArticlesAsync(Guid userId)
+        public async Task<(IEnumerable<ArticlesDto>, PaginationMetadata)> GetUserArticlesAsync(Guid userId, int currentPage, int pageSize)
         {
-            var artciles = await dbContext
+            var articles = dbContext
                 .Articles
                 .Where(a => a.UserId == userId)
                 .OrderByDescending(a=>a.CreatedOn)
@@ -170,9 +170,10 @@
                     User = a.User.FirstName + ' ' + a.User.LastName,
                     Likes = a.ArticleLikes.Count()
                 })
-                .ToListAsync();
+                .AsQueryable();
 
-            return artciles;
+            var result = await PaginationHelper.CreatePaginatedResponseAsync(articles, currentPage, pageSize);
+            return result;
         }
 
         public async Task SaveAsync()

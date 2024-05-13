@@ -1,20 +1,23 @@
 ﻿namespace GreenLibrary.Server.Controllers
 {
-    using System.Security.Claims;
     using System.IdentityModel.Tokens.Jwt;
+    using System.Security.Claims;
     using System.Text;
-    
+    using System.Text.Json;
+
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.IdentityModel.Tokens;
 
     using GreenLibrary.Data.Entities;
+    using GreenLibrary.Extensions;
     using GreenLibrary.Services.Dtos.User;
+    using GreenLibrary.Services.Interfaces;
 
+    using static GreenLibrary.Common.ApplicationConstants;
+    using static GreenLibrary.Common.ErrorMessages.ArticleErrorMessages;
     using static GreenLibrary.Common.ErrorMessages.UserErrorMessages;
     using static GreenLibrary.Common.SuccessfulMessage.UserSuccessfulMessages;
-    using GreenLibrary.Extensions;
-    using GreenLibrary.Services.Interfaces;
 
     [Route("api/user")]
     [ApiController]
@@ -138,8 +141,8 @@
         public async Task<IActionResult> UserProfile()
         {
             var isUserLogged = Guid.TryParse(User.GetId(), out Guid userId);
-            
-            if(!isUserLogged)
+
+            if (!isUserLogged)
             {
                 return Unauthorized();
             }
@@ -162,7 +165,7 @@
             var users = await userService.GetAllUsersExceptCurrentOneAsync(userId);
             var user = await userService.GetLoggedUserAsync(userId);
 
-            if (users.Any(u=>u.Email == userDto.Email) && user.Email != userDto.Email)
+            if (users.Any(u => u.Email == userDto.Email) && user.Email != userDto.Email)
             {
                 ModelState.AddModelError("Email", EmailAlreadyExist);
             }
@@ -181,7 +184,7 @@
 
             userDto.Image ??= "profile.jpg";
 
-            if(!string.IsNullOrWhiteSpace(userDto.OldPassword))
+            if (!string.IsNullOrWhiteSpace(userDto.OldPassword))
             {
                 var isCorrectPassword = await userManager.CheckPasswordAsync(user, userDto.OldPassword);
 
@@ -193,17 +196,17 @@
                 if (userDto.NewPassword == null)
                 {
                     return BadRequest(EmptyNewPasswordField);
-                } 
-                else if(userDto.NewPassword != null && userDto.RepeatNewPassword == null)
+                }
+                else if (userDto.NewPassword != null && userDto.RepeatNewPassword == null)
                 {
                     return BadRequest(EmptyRepeatNewPasswordField);
-                } 
-                else if(userDto.NewPassword != userDto.RepeatNewPassword)
+                }
+                else if (userDto.NewPassword != userDto.RepeatNewPassword)
                 {
                     return BadRequest(PasswordDoesntMatch);
                 }
 
-                
+
 
                 var result = await userManager.ChangePasswordAsync(user, userDto.OldPassword, userDto.NewPassword!);
             }
@@ -218,11 +221,12 @@
             return Ok();
         }
 
-        [HttpPut("delete")]public async Task<IActionResult> SoftDeleteUser()
+        [HttpPut("delete")]
+        public async Task<IActionResult> SoftDeleteUser()
         {
             var isUserLogged = Guid.TryParse(User.GetId(), out Guid userId);
 
-            if(isUserLogged)
+            if (isUserLogged)
             {
                 await userService.SoftDeleteUser(userId);
 
@@ -233,14 +237,20 @@
         }
 
         [HttpGet("articles")]
-        public async Task<IActionResult> GetUserArticles()
+        public async Task<IActionResult> GetUserArticles(int page = DefaultPage, int pageSize = MaxPageSizeUserArticles)
         {
             var isUserLogged = Guid.TryParse(User.GetId(), out Guid userId);
 
             if (isUserLogged)
             {
-                var articles = await articleService.GetUserArticlesAsync(userId);
+                var (articles, paginationMetadata) = await articleService.GetUserArticlesAsync(userId, page, pageSize);
 
+                if (!articles.Any())
+                {
+                    return NotFound(NotFountArticles);
+                }
+
+                Response.Headers.Append("Pagination", JsonSerializer.Serialize(paginationMetadata));
                 return Ok(articles);
             }
 
