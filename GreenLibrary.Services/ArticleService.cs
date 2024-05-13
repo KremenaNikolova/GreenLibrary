@@ -153,6 +153,28 @@
             return (articleLike);
         }
 
+        public async Task<IEnumerable<ArticlesDto>> GetUserArticlesAsync(Guid userId)
+        {
+            var artciles = await dbContext
+                .Articles
+                .Where(a => a.UserId == userId)
+                .OrderByDescending(a=>a.CreatedOn)
+                .Select(a => new ArticlesDto()
+                {
+                    Id = a.Id.ToString(),
+                    Title = a.Title,
+                    Description = a.Description,
+                    CreatedOn = a.CreatedOn.ToString("d"),
+                    Category = a.Category.Name,
+                    Image = a.Image,
+                    User = a.User.FirstName + ' ' + a.User.LastName,
+                    Likes = a.ArticleLikes.Count()
+                })
+                .ToListAsync();
+
+            return artciles;
+        }
+
         public async Task SaveAsync()
         {
             await dbContext.SaveChangesAsync();

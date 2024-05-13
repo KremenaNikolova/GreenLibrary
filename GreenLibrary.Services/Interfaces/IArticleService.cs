@@ -17,6 +17,8 @@
 
         Task<ArticleLike?> AddLikeAsync(Guid articleId, Guid userId);
 
+        Task<IEnumerable<ArticlesDto>> GetUserArticlesAsync(Guid userId);
+
         Task SaveAsync();
 
     }

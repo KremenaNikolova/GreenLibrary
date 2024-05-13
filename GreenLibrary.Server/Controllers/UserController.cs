@@ -25,14 +25,16 @@
         private readonly IConfiguration configuration;
         private readonly IUserService userService;
         private readonly IImageService imageService;
+        private readonly IArticleService articleService;
 
-        public UserController(SignInManager<User> signInManager, UserManager<User> userManager, IConfiguration config, IUserService userService, IImageService imageService)
+        public UserController(SignInManager<User> signInManager, UserManager<User> userManager, IConfiguration config, IUserService userService, IImageService imageService, IArticleService articleService)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
             configuration = config;
             this.userService = userService;
             this.imageService = imageService;
+            this.articleService = articleService;
 
         }
 
@@ -218,10 +220,31 @@
 
         [HttpPut("delete")]public async Task<IActionResult> SoftDeleteUser()
         {
-            var userId = Guid.Parse(User.GetId());
-            await userService.SoftDeleteUser(userId);
+            var isUserLogged = Guid.TryParse(User.GetId(), out Guid userId);
 
-            return Ok(SuccessfullDeleteUser);
+            if(isUserLogged)
+            {
+                await userService.SoftDeleteUser(userId);
+
+                return Ok(SuccessfullDeleteUser);
+            }
+
+            return Unauthorized();
+        }
+
+        [HttpGet("articles")]
+        public async Task<IActionResult> GetUserArticles()
+        {
+            var isUserLogged = Guid.TryParse(User.GetId(), out Guid userId);
+
+            if (isUserLogged)
+            {
+                var articles = await articleService.GetUserArticlesAsync(userId);
+
+                return Ok(articles);
+            }
+
+            return Unauthorized();
         }
 
     }
