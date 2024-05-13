@@ -50,7 +50,7 @@
         {
             var article = await dbContext
                 .Articles
-                .Where(a => a.Id == id)
+                .Where(a => a.Id == id && a.User.IsDeleted == false)
                 .Select(a => new ArticlesDto()
                 {
                     Id = a.Id.ToString(),
@@ -96,12 +96,13 @@
         {
             var articles = dbContext
                 .Articles
-                .Where(a => a.Title.Contains(query)
+                .Where(a => a.User.IsDeleted == false 
+                && (a.Title.Contains(query)
                 || a.Description.Contains(query)
                 || a.User.FirstName.Contains(query)
                 || a.User.LastName.Contains(query)
                 || a.Image.Contains(query)
-                || a.Tags.Any(t => t.Name.Contains(query)))
+                || a.Tags.Any(t => t.Name.Contains(query))))
                 .OrderByDescending(a => a.CreatedOn)
                 .ThenByDescending(a => a.Tags.Where(t => t.Name.Contains(query)).Count())
                 .Select(a => new ArticlesDto()

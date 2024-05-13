@@ -12,9 +12,9 @@
     using GreenLibrary.Services.Dtos.User;
 
     using static GreenLibrary.Common.ErrorMessages.UserErrorMessages;
+    using static GreenLibrary.Common.SuccessfulMessage.UserSuccessfulMessages;
     using GreenLibrary.Extensions;
     using GreenLibrary.Services.Interfaces;
-    using GreenLibrary.Services;
 
     [Route("api/user")]
     [ApiController]
@@ -46,7 +46,7 @@
 
             var user = await userManager.FindByNameAsync(loginDto.Username);
 
-            if (user != null)
+            if (user != null && user.IsDeleted == false)
             {
                 var result = await signInManager.PasswordSignInAsync(user, loginDto.Password, false, false);
 
@@ -214,6 +214,14 @@
             await userService.EditUserDetailsAsync(userDto, userId);
 
             return Ok();
+        }
+
+        [HttpPut("delete")]public async Task<IActionResult> SoftDeleteUser()
+        {
+            var userId = Guid.Parse(User.GetId());
+            await userService.SoftDeleteUser(userId);
+
+            return Ok(SuccessfullDeleteUser);
         }
 
     }

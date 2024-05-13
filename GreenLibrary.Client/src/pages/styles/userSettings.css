@@ -42,7 +42,7 @@
 
 .sumbit.button.container {
     display: flex;
-    justify-content:space-between;
+    justify-content:right;
 }
 
 .deactivate-btn {
@@ -60,4 +60,14 @@
     .ui.small.image.profile-image {
         border: 1px solid #CC6600;
         padding: 0.5rem;
+    }
+
+.actions > .ui.button {
+    background-color: darkred;
+    color: white;
+}
+
+    .actions > .ui.button:hover {
+        background-color: red;
+        color: black;
     }

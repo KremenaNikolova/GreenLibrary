@@ -73,10 +73,22 @@
         {
             var users = await dbContext
                 .Users
-                .Where(u=>u.Id != uesrId)
+                .Where(u=>u.Id != uesrId && u.IsDeleted == false)
                 .ToListAsync();
 
             return users;
+        }
+
+        public async Task SoftDeleteUser(Guid userId)
+        {
+            var user = await dbContext
+                .Users
+                .Where(u => u.Id == userId)
+                .FirstAsync();
+
+            user.IsDeleted = true;
+
+            await dbContext.SaveChangesAsync();
         }
 
     }

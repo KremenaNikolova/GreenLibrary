@@ -12,5 +12,7 @@
         Task<User> GetLoggedUserAsync(Guid userId);
 
         Task<IEnumerable<User>> GetAllUsersExceptCurrentOneAsync(Guid uesrId);
+
+        Task SoftDeleteUser(Guid userId);
     }
 }

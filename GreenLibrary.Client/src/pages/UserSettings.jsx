@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Menu, Form, Input, Button, Image, GridColumn, Grid, Message } from 'semantic-ui-react';
+import { Menu, Form, Input, Button, Image, GridColumn, Grid, Message, Modal } from 'semantic-ui-react';
 import { useAuth } from '../hooks/AuthContext'
 import axios from 'axios';
 import './styles/userSettings.css';
+import DeactivateUserModal from '../components/DeactivateUserModal';
 
 export default function UserSettings() {
-    const { user } = useAuth();
+    const { user, logout } = useAuth();
     const navigate = useNavigate();
     const [userDetails, setUserDetails] = useState();
     const [activeItem, setActiveItem] = useState('profile');
@@ -44,7 +45,7 @@ export default function UserSettings() {
             formData.append('repeatNewPassword', userDetails.repeatNewPassword);
         }
 
-        
+
         try {
             setErrorString('');
             setErrors400({});
@@ -73,6 +74,8 @@ export default function UserSettings() {
         }
 
     };
+
+
 
 
     const handleItemClick = (name) => setActiveItem(name);
@@ -196,10 +199,10 @@ export default function UserSettings() {
 
                         {errorString && <Message error content={errorString} />}
                         <div className="sumbit button container">
-                            <Button type='submit' className='deactivate-btn'>Деактивиране на профила</Button>
-                            <Button type='submit' className='save-btn'>Запазване</Button>
+                            <Button type='submit' name='deactivate' className='save-btn'>Запазване</Button>
                         </div>
                     </Form>
+                            <DeactivateUserModal userDetails={userDetails} />
                 </GridColumn>
             }
         </Grid>
