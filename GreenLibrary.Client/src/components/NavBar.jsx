@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Menu, Container, Button, Input, Icon, Dropdown, DropdownMenu, DropdownItem } from 'semantic-ui-react';
+import { Menu, Container, Button, Input, Icon} from 'semantic-ui-react';
 import { Link, useNavigate } from 'react-router-dom';
-import './styles/navBar.css'
 import DropDownCategories from './DropDownCategories';
 import DropDownProfile from './DropDownProfile';
 import { useAuth } from '../hooks/AuthContext'
+import './styles/navBar.css'
 
 
 export default function NavBar() {

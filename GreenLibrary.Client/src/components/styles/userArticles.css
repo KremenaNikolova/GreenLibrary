@@ -1,0 +1,24 @@
+.ui.container.profile-articles-container {
+    border: 1px solid white;
+    border-radius: 5px;
+    background-color: transparent;
+    padding: 1rem;
+    width: 90%;
+}
+
+.ellipsis-label {
+    width:30rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media (max-width: 1664px){
+    .ellipsis-label {
+        width: 17rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
