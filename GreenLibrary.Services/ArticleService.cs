@@ -64,7 +64,7 @@
                 })
                 .FirstOrDefaultAsync();
 
-            if(article != null)
+            if (article != null)
             {
                 article.Tags = await dbContext
                 .Tags
@@ -193,7 +193,7 @@
 
             article.Tags = await dbContext
                 .Tags
-                .Where(t=>t.ArticleId == articleId)
+                .Where(t => t.ArticleId == articleId)
                 .ToListAsync();
 
             article.Title = articleDto.Title;
@@ -204,15 +204,40 @@
             foreach (var tagName in articleDto.Tags)
             {
                 var isArticleTagExist = dbContext
-                    .Tags.Any(t=>t.Name == tagName && t.ArticleId ==articleId);
+                    .Tags.Any(t => t.Name == tagName && t.ArticleId == articleId);
 
-                if(!isArticleTagExist)
-                dbContext.Tags.Add(new Tag()
-                {
-                    Name = tagName,
-                    ArticleId = articleId
-                });
+                if (!isArticleTagExist)
+                    dbContext.Tags.Add(new Tag()
+                    {
+                        Name = tagName,
+                        ArticleId = articleId
+                    });
             }
+        }
+
+        public async Task DeleteArticle(Guid articleId, Guid userId)
+        {
+            var article = await dbContext
+                .Articles
+                .Where(a => a.Id == articleId && a.UserId == userId)
+                .FirstOrDefaultAsync();
+
+            var tags = await dbContext
+                .Tags
+                .Where(t => t.ArticleId == articleId)
+                .ToListAsync();
+
+            if (article != null)
+            {
+                if(tags.Count > 0)
+                {
+                    dbContext.Tags.RemoveRange(tags);
+                }
+
+                dbContext.Articles.Remove(article);
+                await dbContext.SaveChangesAsync();
+            }
+
         }
 
         public async Task SaveAsync()

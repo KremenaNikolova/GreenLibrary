@@ -12,6 +12,8 @@
         public static class ArticleSuccesfulMessage
         {
             public const string SuccessfullEditedArticle = "Статията беше успешно променена.";
+
+            public const string SuccessfullDeletedArticle = "Статията беше успешно изтрита";
         }
     }
 }

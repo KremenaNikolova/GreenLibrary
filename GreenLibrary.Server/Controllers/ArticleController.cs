@@ -3,16 +3,13 @@
     using System.Text.Json;
     
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Authorization;
     
     using GreenLibrary.Extensions;
     using GreenLibrary.Server.Dtos.Article;
     using GreenLibrary.Services.Interfaces;
-    using GreenLibrary.Services.Dtos.Article;
     using static GreenLibrary.Common.ApplicationConstants;
     using static GreenLibrary.Common.ErrorMessages.ArticleErrorMessages;
     using static GreenLibrary.Common.SuccessfulMessage.ArticleSuccesfulMessage;
-    using GreenLibrary.Data.Entities;
 
     [Route("api/articles")]
     [ApiController]
@@ -141,6 +138,21 @@
             await articleService.SaveAsync();
 
             return Ok(SuccessfullEditedArticle);
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteArticle(Guid articleId)
+        {
+            var isUserLogged = Guid.TryParse(User.GetId(), out Guid userId);
+
+            if (!isUserLogged)
+            {
+                return Unauthorized();
+            }
+
+            await articleService.DeleteArticle(articleId, userId);
+
+            return Ok(SuccessfullDeletedArticle);
         }
 
     }
