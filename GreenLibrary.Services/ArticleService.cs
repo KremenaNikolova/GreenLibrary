@@ -64,6 +64,14 @@
                 })
                 .FirstOrDefaultAsync();
 
+            if(article != null)
+            {
+                article.Tags = await dbContext
+                .Tags
+                .Where(t => t.ArticleId == id)
+                .Select(t => t.Name)
+                .ToListAsync();
+            }
             return article;
         }
 
@@ -96,7 +104,7 @@
         {
             var articles = dbContext
                 .Articles
-                .Where(a => a.User.IsDeleted == false 
+                .Where(a => a.User.IsDeleted == false
                 && (a.Title.Contains(query)
                 || a.Description.Contains(query)
                 || a.User.FirstName.Contains(query)
@@ -121,7 +129,7 @@
             var result = await PaginationHelper.CreatePaginatedResponseAsync(articles, currentPage, pageSize);
 
             result.Item1 = result.Item1
-                .OrderByDescending(i => i.Description.Split(new [] { ' ', ',', '-', '.', '?', '!' }, StringSplitOptions.RemoveEmptyEntries)
+                .OrderByDescending(i => i.Description.Split(new[] { ' ', ',', '-', '.', '?', '!' }, StringSplitOptions.RemoveEmptyEntries)
                 .Count(word => word.Contains(query, StringComparison.OrdinalIgnoreCase)))
                 .ToList();
             return result;
@@ -135,7 +143,7 @@
                 && a.UserId == userId)
                 .FirstOrDefaultAsync();
 
-            if(articleLike == null)
+            if (articleLike == null)
             {
                 ArticleLike newLike = new ArticleLike()
                 {
@@ -158,7 +166,7 @@
             var articles = dbContext
                 .Articles
                 .Where(a => a.UserId == userId)
-                .OrderByDescending(a=>a.CreatedOn)
+                .OrderByDescending(a => a.CreatedOn)
                 .Select(a => new ArticlesDto()
                 {
                     Id = a.Id.ToString(),
@@ -174,6 +182,37 @@
 
             var result = await PaginationHelper.CreatePaginatedResponseAsync(articles, currentPage, pageSize);
             return result;
+        }
+
+        public async Task EditArticleAsync(Guid userId, Guid articleId, CreateArticleDto articleDto)
+        {
+            var article = await dbContext
+                .Articles
+                .Where(a => a.UserId == userId && a.Id == articleId)
+                .FirstAsync();
+
+            article.Tags = await dbContext
+                .Tags
+                .Where(t=>t.ArticleId == articleId)
+                .ToListAsync();
+
+            article.Title = articleDto.Title;
+            article.Description = articleDto.Description;
+            article.CategoryId = articleDto.CategoryId;
+            article.Image = articleDto.ImageName != null ? articleDto.ImageName : article.Image;
+
+            foreach (var tagName in articleDto.Tags)
+            {
+                var isArticleTagExist = dbContext
+                    .Tags.Any(t=>t.Name == tagName && t.ArticleId ==articleId);
+
+                if(!isArticleTagExist)
+                dbContext.Tags.Add(new Tag()
+                {
+                    Name = tagName,
+                    ArticleId = articleId
+                });
+            }
         }
 
         public async Task SaveAsync()

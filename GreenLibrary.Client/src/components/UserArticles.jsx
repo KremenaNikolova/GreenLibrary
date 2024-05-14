@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from "axios";
 import { useAuth } from '../hooks/AuthContext';
 import { Button, Label, GridColumn, Container, List, Pagination, Grid } from 'semantic-ui-react';
+import EditArticle from './EditArticle';
 import './styles/userArticles.css';
 
 export default function UserArticles() {
@@ -10,6 +11,7 @@ export default function UserArticles() {
     const [articles, setArticles] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [editingArticleId, setEditingArticleId] = useState(null);
 
     useEffect(() => {
         if (!user) {
@@ -41,36 +43,48 @@ export default function UserArticles() {
         setCurrentPage(activePage);
     };
 
+    const handleEditClick = (articleId) => {
+        setEditingArticleId(articleId);
+    };
+
+    const handleCancelEdit = () => {
+        setEditingArticleId(null);
+    };
+
     return (
         <>
-            <GridColumn stretched width={13}>
-                <Container className='profile-articles-container' >
-                    <List divided>
-                        {articles.map(article => (
-                            <List.Item key={article.id}>
-                                <List.Content floated='left'>
-                                    <Label as={Link} to={`/articles/${article.id}`} basic size='large' className='ellipsis-label'>{article.title}</Label>
-                                </List.Content>
-                                <List.Content floated='right'>
-                                    <Button color='blue'>Редактирай</Button>
-                                    <Button color='red'>Изтрий</Button>
-                                </List.Content>
-                            </List.Item>
-                        ))}
-                    </List>
-                    <Grid>
-                        <Grid.Row>
-                            <Grid.Column textAlign="center">
-                                <Pagination
-                                    activePage={currentPage}
-                                    onPageChange={handlePaginationChange}
-                                    totalPages={totalPages}
-                                />
-                            </Grid.Column>
-                        </Grid.Row>
-                    </Grid>
-                </Container>
-            </GridColumn>
+            {editingArticleId ? (
+                <EditArticle articleId={editingArticleId} onCancel={handleCancelEdit} />
+            ) : (
+                <GridColumn stretched width={13}>
+                    <Container className='profile-articles-container' >
+                        <List divided>
+                            {articles.map(article => (
+                                <List.Item key={article.id}>
+                                    <List.Content floated='left'>
+                                        <Label as={Link} to={`/articles/${article.id}`} basic size='large' className='ellipsis-label'>{article.title}</Label>
+                                    </List.Content>
+                                    <List.Content floated='right'>
+                                        <Button color='blue' onClick={() => handleEditClick(article.id)}>Редактирай</Button>
+                                        <Button color='red'>Изтрий</Button>
+                                    </List.Content>
+                                </List.Item>
+                            ))}
+                        </List>
+                        <Grid>
+                            <Grid.Row>
+                                <Grid.Column textAlign="center">
+                                    <Pagination
+                                        activePage={currentPage}
+                                        onPageChange={handlePaginationChange}
+                                        totalPages={totalPages}
+                                    />
+                                </Grid.Column>
+                            </Grid.Row>
+                        </Grid>
+                    </Container>
+                </GridColumn>
+            )}
         </>
     );
 }

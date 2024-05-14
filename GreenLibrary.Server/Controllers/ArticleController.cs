@@ -8,9 +8,11 @@
     using GreenLibrary.Extensions;
     using GreenLibrary.Server.Dtos.Article;
     using GreenLibrary.Services.Interfaces;
-    using static GreenLibrary.Common.ErrorMessages.ArticleErrorMessages;
+    using GreenLibrary.Services.Dtos.Article;
     using static GreenLibrary.Common.ApplicationConstants;
-    using GreenLibrary.Services.Helpers;
+    using static GreenLibrary.Common.ErrorMessages.ArticleErrorMessages;
+    using static GreenLibrary.Common.SuccessfulMessage.ArticleSuccesfulMessage;
+    using GreenLibrary.Data.Entities;
 
     [Route("api/articles")]
     [ApiController]
@@ -112,6 +114,33 @@
             Response.Headers.Append("Pagination", JsonSerializer.Serialize(paginationMetadata));
 
             return Ok(articles);
+        }
+
+        [HttpPut("edit")]
+        public async Task<IActionResult> EditArticle(Guid articleId, [FromForm] CreateArticleDto articleDto)
+        {
+            var isUserLogged = Guid.TryParse(User.GetId(), out Guid userId);
+
+            if (!isUserLogged)
+            {
+                return Unauthorized();
+            }
+
+            if (!ModelState.IsValid) 
+            { 
+                return BadRequest(ModelState);
+            }
+
+            if (articleDto.ImageFile != null && articleDto.ImageFile.Length > 0)
+            {
+                var filePath = await imageService.SaveImageAsync(articleDto.ImageFile);
+                articleDto.ImageName = filePath;
+            }
+
+            await articleService.EditArticleAsync(userId, articleId, articleDto);
+            await articleService.SaveAsync();
+
+            return Ok(SuccessfullEditedArticle);
         }
 
     }

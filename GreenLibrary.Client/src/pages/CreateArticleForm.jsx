@@ -5,7 +5,7 @@ import { Button, Form, Input, Select, TextArea, List, Message } from 'semantic-u
 import { useAuth } from '../hooks/AuthContext';
 import './styles/createArticleForm.css';
 
-function CreateArticleForm() {
+export default function CreateArticleForm() {
     const navigate = useNavigate();
     const { user } = useAuth();
     const [title, setTitle] = useState('');
@@ -155,5 +155,3 @@ function CreateArticleForm() {
         </>
     );
 }
-
-export default CreateArticleForm;

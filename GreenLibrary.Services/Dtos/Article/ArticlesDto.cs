@@ -3,6 +3,11 @@
 
     public class ArticlesDto
     {
+        public ArticlesDto()
+        {
+            Tags = new List<string>();
+        }
+
         public string Id { get; set; } = null!;
 
         public string Title { get; set; } = null!;
@@ -18,5 +23,7 @@
         public string User { get; set; } = null!;
 
         public int Likes { get; set; }
+
+        public ICollection<string> Tags { get; set; }
     }
 }
