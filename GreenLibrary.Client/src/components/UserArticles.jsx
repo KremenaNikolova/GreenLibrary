@@ -4,6 +4,7 @@ import axios from "axios";
 import { useAuth } from '../hooks/AuthContext';
 import { Button, Label, GridColumn, Container, List, Pagination, Grid } from 'semantic-ui-react';
 import EditArticle from './EditArticle';
+import DeleteArticleModal from './DeleteArticleModal';
 import './styles/userArticles.css';
 
 export default function UserArticles() {
@@ -51,6 +52,10 @@ export default function UserArticles() {
         setEditingArticleId(null);
     };
 
+    const handleDeleteSuccess = (articleId) => {
+        setArticles(prevArticles => prevArticles.filter(article => article.id !== articleId));
+    };
+
     return (
         <>
             {editingArticleId ? (
@@ -66,7 +71,7 @@ export default function UserArticles() {
                                     </List.Content>
                                     <List.Content floated='right'>
                                         <Button color='blue' onClick={() => handleEditClick(article.id)}>Редактирай</Button>
-                                        <Button color='red'>Изтрий</Button>
+                                        <DeleteArticleModal articleId={article.id} onDeleteSuccess={handleDeleteSuccess} />
                                     </List.Content>
                                 </List.Item>
                             ))}
