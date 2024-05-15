@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Button, Form, Input, Select, TextArea, List, Message } from 'semantic-ui-react';
 import { useAuth } from '../hooks/AuthContext';
+import './styles/editArticle.css';
 
 export default function EditArticle({ articleId, onCancel }) {
     const navigate = useNavigate();
@@ -119,7 +120,7 @@ export default function EditArticle({ articleId, onCancel }) {
 
     return (
         <>
-            <Form onSubmit={handleSubmit} className='createform' error={errors400.Username !== undefined}>
+            <Form onSubmit={handleSubmit} className='editform' error={errors400.Username !== undefined}>
                 <Form.Field
                     control={Input}
                     label='Заглавие*'
@@ -168,18 +169,18 @@ export default function EditArticle({ articleId, onCancel }) {
                         }
                     }}
                 />
-                <List>
+                <List className="tags-container">
                     {tags.map((tag, index) => (
                         <List.Item key={index}>
-                            <div className="tag-container">{tag}
-                                <Button size='tiny' negative type='button' onClick={() => setTags(tags.filter(t => t !== tag))}>Премахване</Button>
-                            </div>
+                            <List.Item className="tag-container">{tag}
+                                <button className="remove-tag-button" type='button' onClick={() => setTags(tags.filter(t => t !== tag))}> &times;</button>
+                            </List.Item>
                         </List.Item>
                     ))}
                 </List>
                 <div className="sumbit button container">
-                    <Button className='submitbutton' type='submit'>Запази</Button>
                     <Button className='cancelbutton' type='button' onClick={onCancel}>Отмени</Button>
+                    <Button className='submitbutton' type='submit'>Запази</Button>
 
                 </div>
 

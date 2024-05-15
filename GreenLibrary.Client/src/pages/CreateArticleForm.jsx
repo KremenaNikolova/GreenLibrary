@@ -138,12 +138,12 @@ export default function CreateArticleForm() {
                         }
                     }}
                 />
-                <List>
+                <List className="tags-container">
                     {tags.map((tag, index) => (
                         <List.Item key={index}>
-                            <div className="tag-container">{tag}
-                                <Button size='tiny' negative onClick={() => setTags(tags.filter(t => t !== tag))}>Премахване</Button>
-                            </div>
+                            <List.Item className="tag-container">{tag}
+                                <button className="remove-tag-button" type='button' onClick={() => setTags(tags.filter(t => t !== tag))}> &times;</button>
+                            </List.Item>
                         </List.Item>
                     ))}
                 </List>

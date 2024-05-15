@@ -70,7 +70,7 @@ export default function UserArticles() {
                                         <Label as={Link} to={`/articles/${article.id}`} basic size='large' className='ellipsis-label'>{article.title}</Label>
                                     </List.Content>
                                     <List.Content floated='right'>
-                                        <Button color='blue' onClick={() => handleEditClick(article.id)}>Редактирай</Button>
+                                        <Button color='blue' className='edit-btn' onClick={() => handleEditClick(article.id)}>Редактирай</Button>
                                         <DeleteArticleModal articleId={article.id} onDeleteSuccess={handleDeleteSuccess} />
                                     </List.Content>
                                 </List.Item>

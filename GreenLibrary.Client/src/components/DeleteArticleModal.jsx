@@ -18,7 +18,7 @@ export default function DeleteArticleModal({ articleId, onDeleteSuccess }) {
     return (
         <Modal
             open={open}
-            trigger={<Button color='red' onClick={() => setOpen(true)}>Изтрий</Button>}
+            trigger={<Button className='deactivate-btn' onClick={() => setOpen(true)}>Изтрий</Button>}
             onClose={() => setOpen(false)}
             size='small'
         >
@@ -27,8 +27,8 @@ export default function DeleteArticleModal({ articleId, onDeleteSuccess }) {
                 <p>Сигурни ли сте, че искате да изтриете тази статия?</p>
             </Modal.Content>
             <Modal.Actions>
-                <Button negative onClick={() => setOpen(false)}>Отмени</Button>
-                <Button positive onClick={handleDelete}>Изтрий</Button>
+                <Button color='black' onClick={() => setOpen(false)}>Отмени</Button>
+                <Button className='deactivate-btn' onClick={handleDelete}>Изтрий</Button>
             </Modal.Actions>
         </Modal>
     );
