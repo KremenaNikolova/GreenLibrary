@@ -101,6 +101,11 @@ namespace GreenLibrary.Server
             
             builder.Services.AddTransient<GlobalExceptionHandlingMiddlewear>();
 
+            builder.Logging.AddEventLog(eventLogSettings =>
+            {
+                eventLogSettings.SourceName = "GreenLibrary";
+            });
+
             var app = builder.Build();
 
             app.UseDefaultFiles();
@@ -113,6 +118,7 @@ namespace GreenLibrary.Server
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+                app.UseDeveloperExceptionPage();
             }
 
             app.UseCors("CorsPolicy");

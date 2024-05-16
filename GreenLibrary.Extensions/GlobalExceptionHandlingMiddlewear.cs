@@ -16,6 +16,8 @@
 
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
+            //_logger.LogInformation("Handling request: " + context.Request.Path);
+
             try
             {
                 await next(context);
