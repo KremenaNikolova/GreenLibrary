@@ -74,7 +74,7 @@
 
                     var securityToken = new JwtSecurityToken(
                         claims: claims,
-                        expires: DateTime.Now.AddMinutes(1),
+                        expires: DateTime.Now.AddMinutes(60),
                         issuer: configuration.GetSection("Jwt:Issuer").Value,
                         audience: configuration.GetSection("Jwt:Audience").Value,
                         signingCredentials: signingCred);
@@ -142,7 +142,7 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> UserProfile()
+        public async Task<IActionResult> UserSettins()
         {
             var isUserLogged = Guid.TryParse(User.GetId(), out Guid userId);
 
@@ -157,7 +157,7 @@
         }
 
         [HttpPut]
-        public async Task<IActionResult> EditUserProfile([FromForm] UserProfileDto userDto)
+        public async Task<IActionResult> EditUserProfile([FromForm] UserSettingsDto userDto)
         {
             var isUserLogged = Guid.TryParse(User.GetId(), out Guid userId);
 
@@ -241,7 +241,7 @@
         }
 
         [HttpGet("articles")]
-        public async Task<IActionResult> GetUserArticles(int page = DefaultPage, int pageSize = MaxPageSizeUserArticles)
+        public async Task<IActionResult> GetLoggedUserArticles(int page = DefaultPage, int pageSize = MaxPageSizeUserArticles)
         {
             var isUserLogged = Guid.TryParse(User.GetId(), out Guid userId);
 
@@ -259,6 +259,33 @@
             }
 
             return Unauthorized();
+        }
+
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> UserProfile(Guid userId)
+        {
+            var user = await userService.GetUserProfile(userId);
+
+            if (user == null)
+            {
+                return NotFound(NotFountUser);
+            }
+            return Ok(user);
+        }
+
+        [HttpGet("{userId}/articles")]
+        public async Task<IActionResult> GetUserArticles(Guid userId, int page = DefaultPage, int pageSize = MaxPageSizeUserArticles)
+        {
+            var user = await userService.GetUserProfile(userId);
+
+            if (user == null)
+            {
+                return NotFound(NotFountUser);
+            }
+
+            var (articles, paginationMetadata) = await articleService.GetUserArticlesAsync(userId, page, pageSize);
+            Response.Headers.Append("Pagination", JsonSerializer.Serialize(paginationMetadata));
+            return Ok(articles);
         }
 
     }

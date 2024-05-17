@@ -46,6 +46,8 @@
             public const string InvalidEmail = "Имейла трябва да бъде във формат example@test.com.";
 
             public const string EmailAlreadyExist = "Вече съществува потребител с този Имейл.";
+
+            public const string NotFountUser = "Не е намерен потребител с това ID";
         }
     }
 }

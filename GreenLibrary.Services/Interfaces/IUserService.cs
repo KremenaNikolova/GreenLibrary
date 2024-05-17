@@ -5,13 +5,15 @@
 
     public interface IUserService
     {
-        Task<UserProfileDto> LoggedUserAsync(Guid userId);
+        Task<UserSettingsDto> LoggedUserAsync(Guid userId);
 
-        Task<User?> EditUserDetailsAsync(UserProfileDto userDto, Guid userId);
+        Task<User?> EditUserDetailsAsync(UserSettingsDto userDto, Guid userId);
 
         Task<User> GetLoggedUserAsync(Guid userId);
 
         Task<IEnumerable<User>> GetAllUsersExceptCurrentOneAsync(Guid uesrId);
+
+        Task<UserProfileDto?> GetUserProfile(Guid userId);
 
         Task SoftDeleteUser(Guid userId);
     }

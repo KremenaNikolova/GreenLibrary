@@ -9,6 +9,7 @@ import RegisterForm from "./pages/RegisterForm";
 import SearchArticles from "./pages/SearchArticles";
 import Articles from "./pages/Articles";
 import UserSettings from "./pages/UserSettings";
+import UserProfilePage from "./pages/UserProfilePage";
 
 
 export default function App() {
@@ -25,7 +26,8 @@ export default function App() {
                 <Route path="/register" element={<RegisterForm />} />
                 <Route path="/search" element={<SearchArticles />} />
                 <Route path="/articles" element={<Articles />} />
-                <Route path="/user/settings" element={<UserSettings /> } />
+                <Route path="/user/settings" element={<UserSettings />} />
+                <Route path="/user/:userId" element={<UserProfilePage />} />
             </Routes>
         </Router>
     );

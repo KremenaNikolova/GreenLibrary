@@ -1,0 +1,40 @@
+.profile-container {
+    padding: 20px;
+}
+
+.back-button {
+    margin-bottom: 20px;
+}
+
+.profile-avatar {
+    margin-top: 1rem;
+    border: 2px solid #BF6000;
+}
+
+.user-info {
+    margin-top: 20px;
+    text-align: center;
+    color: white;
+}
+
+    .user-info .info-item {
+        margin: 1rem 0 1rem 0;
+        padding: 0.5rem;
+        border: 2px solid #BF6000;
+    }
+
+.articles-container {
+    padding: 20px;
+}
+
+    .articles-container .list .item {
+        padding: 10px 0;
+    }
+
+        .articles-container .list .item .button {
+            width: 100%;
+        }
+
+        .articles-container .list .item .label {
+            margin-left: 10px;
+        }

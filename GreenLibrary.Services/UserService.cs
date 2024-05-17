@@ -20,12 +20,12 @@
             this.dbContext = dbContext;
         }
 
-        public async Task<UserProfileDto> LoggedUserAsync(Guid userId)
+        public async Task<UserSettingsDto> LoggedUserAsync(Guid userId)
         {
             var user = await dbContext
                 .Users
                 .Where(u => u.Id == userId && u.IsDeleted == false)
-                .Select(u => new UserProfileDto()
+                .Select(u => new UserSettingsDto()
                 {
                     FirstName = u.FirstName,
                     LastName = u.LastName,
@@ -48,7 +48,7 @@
             return user;
         }
 
-        public async Task<User?> EditUserDetailsAsync(UserProfileDto userDto, Guid userId)
+        public async Task<User?> EditUserDetailsAsync(UserSettingsDto userDto, Guid userId)
         {
             var user = await dbContext
                 .Users
@@ -77,6 +77,27 @@
                 .ToListAsync();
 
             return users;
+        }
+
+        public async Task<UserProfileDto?> GetUserProfile(Guid userId)
+        {
+            var user = await dbContext
+                .Users
+                .Where(u=>u.Id==userId && u.IsDeleted == false)
+                .Select(u=> new UserProfileDto()
+                {
+                    Id = u.Id,
+                    Username = u.UserName,
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    Image = u.Image,
+                    ArticlesCount = u.Articles.Count(),
+                    FollowersCount = u.Followers.Count(),
+
+                })
+                .FirstOrDefaultAsync();
+
+            return user;
         }
 
         public async Task SoftDeleteUser(Guid userId)
