@@ -2,6 +2,7 @@
 {
     using System.Text.Json;
     
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     
     using GreenLibrary.Extensions;
@@ -11,6 +12,7 @@
     using static GreenLibrary.Common.ErrorMessages.ArticleErrorMessages;
     using static GreenLibrary.Common.SuccessfulMessage.ArticleSuccesfulMessage;
 
+    [Authorize]
     [Route("api/articles")]
     [ApiController]
     public class ArticleController : ControllerBase
@@ -27,6 +29,7 @@
 
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetArticles(int page = DefaultPage, int pageSize = MaxPageSize)
         {
@@ -34,9 +37,15 @@
 
             Response.Headers.Append("Pagination", JsonSerializer.Serialize(paginationMetadata));
 
+            if(!User.Identity.IsAuthenticated) 
+            {
+                Response.Headers.Append("X-Auth-Status", "401");
+            }
+
             return Ok(articles);
         }
 
+        [AllowAnonymous]
         [HttpGet("details")]
         public async Task<IActionResult> GetArticle(Guid articleId)
         {
@@ -98,6 +107,7 @@
             return CreatedAtAction(nameof(GetArticle), new { id = newArticle.Id }, newArticle);
         }
 
+        [AllowAnonymous]
         [HttpGet("search")]
         public async Task<IActionResult> SearchArticles(string query, int page = DefaultPage, int pageSize = MaxPageSize)
         {

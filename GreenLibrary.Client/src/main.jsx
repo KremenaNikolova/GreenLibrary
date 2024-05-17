@@ -3,10 +3,11 @@ import ReactDOM from 'react-dom/client'
 import App from './App'
 import 'semantic-ui-css/semantic.min.css'
 import './styles.css'
-import { AuthProvider } from './hooks/AuthContext';
+import { AuthProvider, useAuth } from './hooks/AuthContext';
 import axios from 'axios';
 
 axios.defaults.baseURL = 'https://localhost:7195/api';
+
 axios.interceptors.request.use(config => {
     const token = localStorage.getItem('token');
     config.headers.Authorization = token ? `Bearer ${token}` : '';
@@ -16,9 +17,10 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(
     response => response,
     error => {
-        console.log(error);
         if (error.response && error.response.status === 401) {
-            localStorage.removeItem('token');
+            const { logout } = useAuth();
+            logout();
+            window.location.href = '/login';
         }
         return Promise.reject(error);
     }

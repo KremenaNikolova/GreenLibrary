@@ -5,6 +5,7 @@
     using System.Text;
     using System.Text.Json;
 
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.IdentityModel.Tokens;
@@ -19,6 +20,7 @@
     using static GreenLibrary.Common.ErrorMessages.UserErrorMessages;
     using static GreenLibrary.Common.SuccessfulMessage.UserSuccessfulMessages;
 
+    [Authorize]
     [Route("api/user")]
     [ApiController]
     public class UserController : ControllerBase
@@ -41,6 +43,7 @@
 
         }
 
+        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
@@ -71,7 +74,7 @@
 
                     var securityToken = new JwtSecurityToken(
                         claims: claims,
-                        expires: DateTime.Now.AddMinutes(60),
+                        expires: DateTime.Now.AddMinutes(1),
                         issuer: configuration.GetSection("Jwt:Issuer").Value,
                         audience: configuration.GetSection("Jwt:Audience").Value,
                         signingCredentials: signingCred);
@@ -89,6 +92,7 @@
             return Unauthorized(InvalidUsernameOrPassword);
         }
 
+        [AllowAnonymous]
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
         {

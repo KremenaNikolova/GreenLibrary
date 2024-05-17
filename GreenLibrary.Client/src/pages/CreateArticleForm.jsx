@@ -18,9 +18,8 @@ export default function CreateArticleForm() {
     const [errors400, setErrors400] = useState({});
 
     useEffect(() => {
-
-        if (!user || user.roles!=='Admin') { //this is just example and test for roles check
-            navigate('/login'); // Redirect to login if not logged in
+        if (!user) {
+            navigate('/login'); 
         }
 
         const fetchCategories = async () => {

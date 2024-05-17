@@ -13,6 +13,7 @@ export default function UserArticles() {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [editingArticleId, setEditingArticleId] = useState(null);
+    const [error404, setError404] = useState(false);
 
     useEffect(() => {
         if (!user) {
@@ -33,6 +34,10 @@ export default function UserArticles() {
                     }
                 } catch (error) {
                     console.log("Error fetching articles:", error);
+
+                    if (error.response && error.response.status === 404) {
+                        setError404(true);
+                    }
                 }
             };
             fetchArticles();
@@ -55,6 +60,10 @@ export default function UserArticles() {
     const handleDeleteSuccess = (articleId) => {
         setArticles(prevArticles => prevArticles.filter(article => article.id !== articleId));
     };
+
+    if (error404 === true) {
+        return <div>Все още нямате написани статии.</div>
+    }
 
     return (
         <>
@@ -89,7 +98,7 @@ export default function UserArticles() {
                         </Grid>
                     </Container>
                 </GridColumn>
-            )}
+            )})
         </>
     );
 }
