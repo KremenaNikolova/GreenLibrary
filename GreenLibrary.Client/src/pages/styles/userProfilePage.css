@@ -38,3 +38,28 @@
         .articles-container .list .item .label {
             margin-left: 10px;
         }
+
+
+.article-title {
+    color: white;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: block;
+    max-width: 100%;
+}
+
+    .article-title:hover {
+        color: black;
+    }
+
+    .star-label {
+        color: white !important;
+        font-size: 1rem !important;
+        background-color: transparent !important;
+    }
+
+.user-profile-star-icon{
+    margin-left: 0.5rem !important;
+    color: yellow;
+}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { Grid, Image, Button, List, Pagination, Container, Icon, Label } from 'semantic-ui-react';
 import { useAuth } from '../hooks/AuthContext';
@@ -62,33 +62,39 @@ export default function UserProfilePage() {
                     <Button color="orange" className="back-button" onClick={() => window.history.back()}>НАЗАД</Button>
                     <Image className="profile-avatar" src={imageUrl + userProfile.image || 'default-profile.png'} size='medium' />
                     <div className="user-info">
-                        <List.Item className='info-item' fluid content={`Потребител:${'\u00A0'} ${userProfile.username}`} />
-                        <List.Item className='info-item' fluid content={`Брой статии:${'\u00A0'} ${userProfile.articlesCount}`} />
-                        <List.Item className='info-item' fluid content={`Брой последователи:${'\u00A0'} ${userProfile.followersCount}`} />
+                        <List.Item className='info-item' content={`Потребител:${'\u00A0'} ${userProfile.username}`} />
+                        <List.Item className='info-item' content={`Брой статии:${'\u00A0'} ${userProfile.articlesCount}`} />
+                        <List.Item className='info-item' content={`Брой последователи:${'\u00A0'} ${userProfile.followersCount}`} />
                     </div>
                 </Grid.Column>
-                <Grid.Column width={13}>
+                <Grid.Column width={9}>
                     <Container className="articles-container">
-                        <List divided>
+                        <List divided verticalAlign='middle'>
                             {articles.map(article => (
                                 <List.Item key={article.id}>
-                                    <List.Content floated='left'>
-                                        <Button as='div' labelPosition='right'>
-                                            <Button basic fluid color='orange' content={article.title} />
-                                            <Label as='a' basic color='orange' pointing='left'>
-                                                <Icon name='star' /> {article.likesCount}
-                                            </Label>
-                                        </Button>
+                                    <List.Content as={Link} to={`/articles/${article.id}`} floated='left' className="article-title">
+                                        {article.title}
+                                    </List.Content>
+                                    <List.Content floated='right'>
+                                        <Label className="star-label" pointing='left'>
+                                            <Icon name='star' size="large" className="user-profile-star-icon" /> {article.likes}
+                                        </Label>
                                     </List.Content>
                                 </List.Item>
                             ))}
                         </List>
                     </Container>
-                    <Pagination
-                        activePage={currentPage}
-                        onPageChange={handlePaginationChange}
-                        totalPages={totalPages}
-                    />
+                    <Grid>
+                        <Grid.Row>
+                            <Grid.Column textAlign="center">
+                                <Pagination
+                                    activePage={currentPage}
+                                    onPageChange={handlePaginationChange}
+                                    totalPages={totalPages}
+                                />
+                            </Grid.Column>
+                        </Grid.Row>
+                    </Grid>
                 </Grid.Column>
             </Grid.Row>
         </Grid>
