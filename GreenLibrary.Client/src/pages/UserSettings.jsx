@@ -4,6 +4,7 @@ import { Menu, GridColumn, Grid, Button } from 'semantic-ui-react';
 import { useAuth } from '../hooks/AuthContext'
 import UserProfileSettings from '../components/UserProfileSettings';
 import UserArticles from '../components/UserArticles';
+import UserFollowing from '../components/UserFollowing';
 import './styles/userSettings.css';
 
 export default function UserSettings() {
@@ -35,6 +36,8 @@ export default function UserSettings() {
                 return <UserProfileSettings />;
             case 'articles':
                 return <UserArticles />;
+            case 'following':
+                return <UserFollowing />;
             default:
                 return <UserProfileSettings />;
         }
@@ -47,7 +50,7 @@ export default function UserSettings() {
                     <Menu.Item name='profile' content='Моят профил' onClick={() => handleItemClick('profile')} active={activeItem === 'profile'} />
                     <Menu.Item name='articles' content='Моите статии' onClick={() => handleItemClick('articles')}
                         active={activeItem === 'articles'} />
-                    <Menu.Item name='following' content='Потребители, които следвате' onClick={() => handleItemClick('following')} active={activeItem === 'following'} />
+                    <Menu.Item name='following' content='Потребители, които следвам' onClick={() => handleItemClick('following')} active={activeItem === 'following'} />
                     <Menu.Item name='followers' content='Последователи' onClick={() => handleItemClick('followers')} active={activeItem === 'followers'} />
                 </Menu>
             </GridColumn>
