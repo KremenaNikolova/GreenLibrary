@@ -37,6 +37,7 @@
                     CreatedOn = a.CreatedOn.ToString("d"),
                     Category = a.Category.Name,
                     User = a.User.FirstName + ' ' + a.User.LastName,
+                    UserId = a.UserId,
                     Image = a.Image,
                     Likes = a.ArticleLikes.Count()
                 })
@@ -60,6 +61,7 @@
                     Category = a.Category.Name,
                     Image = a.Image,
                     User = a.User.FirstName + ' ' + a.User.LastName,
+                    UserId = a.UserId,
                     Likes = a.ArticleLikes.Count()
                 })
                 .FirstOrDefaultAsync();
@@ -122,6 +124,7 @@
                     Category = a.Category.Name,
                     Image = a.Image,
                     User = a.User.FirstName + ' ' + a.User.LastName,
+                    UserId = a.UserId,
                     Likes = a.ArticleLikes.Count()
                 })
                 .AsQueryable();
@@ -176,6 +179,7 @@
                     Category = a.Category.Name,
                     Image = a.Image,
                     User = a.User.FirstName + ' ' + a.User.LastName,
+                    UserId = a.UserId,
                     Likes = a.ArticleLikes.Count()
                 })
                 .AsQueryable();

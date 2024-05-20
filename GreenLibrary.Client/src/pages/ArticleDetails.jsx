@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Segment, Image, Icon, Button } from 'semantic-ui-react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../hooks/AuthContext'
 import './styles/articleDetails.css'
 
@@ -49,8 +49,15 @@ export default function ArticleDetails() {
     return (
         <>
             <Segment textAlign='right' className="likes-btn-container">
+                <Button color="orange" className="back-button" onClick={() => window.history.back()}>НАЗАД</Button>
                 <div className="h1-container">
                     {article && <h1>{article.title}</h1>}
+                </div>
+                <div className="details-author-container">
+                    {article && <Link to={`/user/${article.userId}`} className="details-author">
+                        Автор:{'\u00A0'} {article.user}
+                    </Link>
+                    }
                 </div>
                 <div>
                     {article && <Button onClick={handleLike} className="likes-btn" size='large'>
@@ -58,7 +65,6 @@ export default function ArticleDetails() {
                         {likesCount}</Button>}
                 </div>
             </Segment>
-
 
             <Segment>
                 {article && <Image src={imageUrl + article.image} size='medium' floated='left' />}

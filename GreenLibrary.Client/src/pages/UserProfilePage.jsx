@@ -19,7 +19,6 @@ export default function UserProfilePage() {
             try {
                 const response = await axios.get(`https://localhost:7195/api/user/${userId}`);
                 setUserProfile(response.data);
-                console.log("Profile data: ", response.data);
             } catch (error) {
                 console.log('Error fetching user profile:', error);
             }
@@ -37,7 +36,6 @@ export default function UserProfilePage() {
                     const paginationData = JSON.parse(paginationHeader);
                     setTotalPages(paginationData.TotalPageCount || 1);
                 }
-                console.log("Response data ", response.data);
             } catch (error) {
                 console.log('Error fetching articles:', error);
             }

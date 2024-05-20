@@ -13,10 +13,14 @@
     justify-content: center;
     color: white;
     padding-top: 3%;
+    margin-left: 6rem;
+    margin-right: 6rem;
     flex-grow: 1;
     display: flex;
     justify-content: center; 
     align-items: center;
+    width: 60%;
+    
 }
 
 .h1-container h1{
@@ -48,3 +52,17 @@
         background-color: #BF6000 !important;
         border: 1px solid #BF6000 !important;
     }
+
+.details-author {
+    color: white;
+    font-size: 1rem;
+}
+
+    .details-author:hover {
+        color: black;
+    }
+
+
+.details-author-container {
+    margin-right: 1rem;
+}

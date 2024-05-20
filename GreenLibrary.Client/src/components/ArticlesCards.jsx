@@ -14,11 +14,15 @@ export default function ArticlesCards({ articles }) {
                                 <Link to={`/articles/${article.id}`}>
                                     <Image src={imageUrl + article.image} className='card-image' />
                                     <CardHeader className="card-title">{article.title}</CardHeader>
-                                    <CardDescription>{article.user}</CardDescription>
-                                    <CardMeta>
-                                        <span className='date'>{article.createdOn}</span>
-                                    </CardMeta>
                                 </Link>
+                                <Link to={`/user/${article.userId}`}>
+                                    <CardDescription>
+                                        {article.user}
+                                    </CardDescription>
+                                </Link>
+                                <CardDescription className='date'>
+                                    Създадена на: {article.createdOn}
+                                </CardDescription>
                             </Card>
                         </CardGroup>
 
@@ -36,11 +40,15 @@ export default function ArticlesCards({ articles }) {
                                 <Link to={`/articles/${article.id}`}>
                                     <Image src={imageUrl + article.image} className='card-image' />
                                     <CardHeader className="card-title">{article.title}</CardHeader>
-                                    <CardDescription>{article.user}</CardDescription>
-                                    <CardMeta>
-                                        <span className='date'>{article.createdOn}</span>
-                                    </CardMeta>
                                 </Link>
+                                <Link to={`/user/${article.userId}`}>
+                                    <CardDescription>
+                                        {article.user}
+                                    </CardDescription>
+                                </Link>
+                                <CardDescription className='date'>
+                                    Създадена на: {article.createdOn}
+                                </CardDescription>
                             </Card>
                         </CardGroup>
                     </GridColumn>

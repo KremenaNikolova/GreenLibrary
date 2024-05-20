@@ -57,7 +57,7 @@ export default function CreateArticleForm() {
                 data: formData,
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
-            console.log('Article created:', response.data);
+            console.log('Article created', response.data);
 
             setTitle('');
             setCategoryId('');

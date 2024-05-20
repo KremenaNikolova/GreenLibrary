@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Menu, GridColumn, Grid } from 'semantic-ui-react';
+import { Menu, GridColumn, Grid, Button } from 'semantic-ui-react';
 import { useAuth } from '../hooks/AuthContext'
 import UserProfileSettings from '../components/UserProfileSettings';
 import UserArticles from '../components/UserArticles';

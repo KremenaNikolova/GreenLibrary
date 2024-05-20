@@ -22,6 +22,8 @@
 
         public string User { get; set; } = null!;
 
+        public Guid UserId { get; set; }
+
         public int Likes { get; set; }
 
         public ICollection<string> Tags { get; set; }
