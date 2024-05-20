@@ -25,6 +25,8 @@
 
 .articles-container {
     padding: 20px;
+    margin-top: 2rem;
+    padding-top: 2rem;
 }
 
     .articles-container .list .item {

@@ -9,6 +9,8 @@
 
     public class UserSettingsDto
     {
+        public Guid Id { get; set; }
+
         [Required(ErrorMessage = RequiredField)]
         [StringLength(FirstNameMaxLength, MinimumLength = FirstNameMinLength, ErrorMessage = InvalidFirstName)]
         [Display(Name = "Име")]

@@ -48,6 +48,10 @@
             public const string EmailAlreadyExist = "Вече съществува потребител с този Имейл.";
 
             public const string NotFountUser = "Не е намерен потребител с това ID";
+
+            public const string NotFoundFollowings = "Все още не сте последвали никого.";
+
+            public const string InvalidFollowUserOperation = "Нещо се случи по време на операцията. Потребителят не е добавен към колекцията.";
         }
     }
 }

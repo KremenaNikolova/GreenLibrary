@@ -15,6 +15,12 @@
 
         Task<UserProfileDto?> GetUserProfile(Guid userId);
 
+        Task FollowerUser(Guid currUserId, Guid followUserId);
+
+        Task UnFollowerUser(Guid currUserId, Guid followUserId);
+
+        Task<IEnumerable<UserFollowerDto>> GetUserFollowingAsync(Guid userId);
+
         Task SoftDeleteUser(Guid userId);
     }
 }

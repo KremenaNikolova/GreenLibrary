@@ -3,6 +3,11 @@
 
     public class UserProfileDto
     {
+        public UserProfileDto()
+        {
+            Followers = new List<UserFollowerDto>();
+        }
+
         public Guid Id { get; set; }
 
         public string FirstName { get; set; } = null!;
@@ -16,5 +21,7 @@
         public int ArticlesCount { get; set; }
 
         public int FollowersCount { get; set; }
+
+        public IEnumerable<UserFollowerDto> Followers { get; set; }
     }
 }

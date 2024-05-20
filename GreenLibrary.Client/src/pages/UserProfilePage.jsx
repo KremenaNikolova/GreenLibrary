@@ -13,12 +13,27 @@ export default function UserProfilePage() {
     const [articles, setArticles] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [isFollowed, setIsFollowed] = useState(false);
+    const [isSameUser, setIsSameUsser] = useState(false);
 
     useEffect(() => {
         const fetchUserProfile = async () => {
             try {
+                const currUser = await axios.get(`https://localhost:7195/api/user`);
                 const response = await axios.get(`https://localhost:7195/api/user/${userId}`);
                 setUserProfile(response.data);
+                const followers = response.data.followers;
+                if (followers.length > 0) {
+                    const isFollowedUser = followers.some(follower => follower.id === currUser.data.id);
+                    if (isFollowedUser) {
+                        setIsFollowed(true);
+                    }
+                }
+
+                setIsSameUsser(false);
+                if (currUser.data.id === userId) {
+                    setIsSameUsser(true);
+                }
             } catch (error) {
                 console.log('Error fetching user profile:', error);
             }
@@ -49,6 +64,28 @@ export default function UserProfilePage() {
         setCurrentPage(activePage);
     };
 
+    const handleFollow = async () => {
+        try {
+            await axios.post(`https://localhost:7195/api/user/follow`, null, {
+                params: { followUserId: userId }
+            });
+            setIsFollowed(true);
+        } catch (error) {
+            console.log('Error following user:', error);
+        }
+    };
+
+    const handleUnfollow = async () => {
+        try {
+            await axios.post(`https://localhost:7195/api/user/unfollow`, null, {
+                params: { followUserId: userId }
+            });
+            setIsFollowed(false);
+        } catch (error) {
+            console.log('Error unfollowing user:', error);
+        }
+    };
+
     if (!userProfile) {
         return <div>Loading...</div>;
     }
@@ -66,6 +103,12 @@ export default function UserProfilePage() {
                     </div>
                 </Grid.Column>
                 <Grid.Column width={9}>
+                    {!isSameUser && (isFollowed === true ?
+                        <Button color="orange" floated='right' className="follow-button" onClick={handleUnfollow}>Спри да следваш</Button>
+                        :
+                        <Button color="orange" floated='right' className="follow-button" onClick={handleFollow}>Последвай</Button>)
+                    }
+                    
                     <Container className="articles-container">
                         <List divided verticalAlign='middle'>
                             {articles.map(article => (

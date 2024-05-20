@@ -275,7 +275,7 @@
 
         [HttpGet("{userId}/articles")]
         public async Task<IActionResult> GetUserArticles(Guid userId, int page = DefaultPage, int pageSize = MaxPageSizeUserArticles)
-        {
+            {
             var user = await userService.GetUserProfile(userId);
 
             if (user == null)
@@ -286,6 +286,57 @@
             var (articles, paginationMetadata) = await articleService.GetUserArticlesAsync(userId, page, pageSize);
             Response.Headers.Append("Pagination", JsonSerializer.Serialize(paginationMetadata));
             return Ok(articles);
+        }
+
+        [HttpGet("following")]
+        public async Task<IActionResult> GetFollowing()
+        {
+            var isUserLogged = Guid.TryParse(User.GetId(), out Guid userId);
+
+            if (isUserLogged)
+            {
+                var following = await userService.GetUserFollowingAsync(userId);
+
+                if (!following.Any())
+                {
+                    return NotFound(NotFoundFollowings);
+                }
+
+               // Response.Headers.Append("Pagination", JsonSerializer.Serialize(paginationMetadata));
+                return Ok(following);
+            }
+
+            return Unauthorized();
+        }
+
+        [HttpPost("follow")]
+        public async Task<IActionResult> FollowUser(Guid followUserId)
+        {
+            var isUserLogged = Guid.TryParse(User.GetId(), out Guid userId);
+
+            if (isUserLogged)
+            {
+                await userService.FollowerUser(userId, followUserId);
+
+                return Ok(SuccessfullFollowUser);
+            }
+
+            return BadRequest(InvalidFollowUserOperation);
+        }
+
+        [HttpPost("unfollow")]
+        public async Task<IActionResult> UnFollowUser(Guid followUserId)
+        {
+            var isUserLogged = Guid.TryParse(User.GetId(), out Guid userId);
+
+            if (isUserLogged)
+            {
+                await userService.UnFollowerUser(userId, followUserId);
+
+                return Ok(SuccessfullUnFollowUser);
+            }
+
+            return BadRequest(InvalidFollowUserOperation);
         }
 
     }

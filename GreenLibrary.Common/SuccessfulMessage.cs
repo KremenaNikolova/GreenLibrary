@@ -7,6 +7,10 @@
         public static class UserSuccessfulMessages
         {
             public const string SuccessfullDeleteUser = "Потребителят беше успешно изтрит.";
+
+            public const string SuccessfullFollowUser = "Потребителят беше успешно добавен.";
+
+            public const string SuccessfullUnFollowUser = "Потребителят беше успешно премахнат.";
         }
 
         public static class ArticleSuccesfulMessage
