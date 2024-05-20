@@ -169,7 +169,7 @@
             var following = currUser.Following
                 .Select(u => new UserFollowerDto()
                 {
-                    Id = userId,
+                    Id = u.Id,
                     FirstName = u.FirstName,
                     LastName = u.LastName,
                     Username = u.UserName,
