@@ -2,7 +2,7 @@
 namespace GreenLibrary.Server
 {
     using System.Text;
-    
+
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
@@ -22,7 +22,7 @@ namespace GreenLibrary.Server
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            
+
             builder.Services.AddControllers()
                 .AddNewtonsoftJson(opt =>
                 {
@@ -66,7 +66,7 @@ namespace GreenLibrary.Server
                         ValidIssuer = builder.Configuration.GetSection("Jwt:Issuer").Value,
                         ValidAudience = builder.Configuration.GetSection("Jwt:Audience").Value,
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("Jwt:Key").Value))
-                };
+                    };
                 });
 
             builder.Services.AddScoped<IArticleService, ArticleService>();
@@ -88,7 +88,7 @@ namespace GreenLibrary.Server
                     .WithOrigins("https://localhost:5173") //this is the port where the client start
                     .WithExposedHeaders("pagination")
                     .AllowCredentials();
-            });
+                });
             });
 
             builder.Services.AddDistributedMemoryCache();
@@ -98,7 +98,7 @@ namespace GreenLibrary.Server
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
-            
+
             builder.Services.AddTransient<GlobalExceptionHandlingMiddlewear>();
 
             builder.Logging.AddEventLog(eventLogSettings =>

@@ -1,0 +1,29 @@
+.admin-dropdown-container {
+    border: 2px solid #BF6000;
+    margin: 0.5rem !important;
+}
+
+    .admin-dropdown-container:hover {
+        border: 2px solid #BF6000;
+        margin: 0.5rem !important;
+        background-color: #BF6000 !important;
+    }
+
+    .admin-dropdown-container:focus {
+        background-color: #BF6000 !important;
+    }
+
+div.ui.inverted.top.fixed.menu > div.right.menu > div.ui.item.dropdown.admin-dropdown-container > div.menu.transition.dropdown-link-container {
+    background-color: #00331A !important;
+}
+
+#root > div.ui.inverted.top.fixed.menu > div.right.menu > div.ui.active.visible.item.dropdown.admin-dropdown-container > div.menu.transition.visible.dropdown-link-container > div:hover {
+    background-color: #BF6000 !important;
+}
+
+.admin-divider {
+    padding: 0;
+    margin: 0 !important;
+}
+
+

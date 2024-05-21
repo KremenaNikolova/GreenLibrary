@@ -11,7 +11,8 @@ export const AuthProvider = ({ children }) => {
         if (token) {
             const decodedToken = jwtDecode(token);
             if (new Date().getTime() < decodedToken.exp * 1000) {
-                return { token, ...decodedToken };
+                const roles = decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+                return { token, roles, ...decodedToken };
             }
         }
         return null;
@@ -35,8 +36,9 @@ export const AuthProvider = ({ children }) => {
 
     const login = (token) => {
         const decodedToken = jwtDecode(token);
+        const roles = decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
         localStorage.setItem('token', token);
-        setUser({ token, ...decodedToken });
+        setUser({ token, roles, ...decodedToken });
     };
 
     const logout = () => {

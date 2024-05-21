@@ -5,6 +5,7 @@ import DropDownCategories from './DropDownCategories';
 import DropDownProfile from './DropDownProfile';
 import { useAuth } from '../hooks/AuthContext'
 import './styles/navBar.css'
+import DropDownAdminMenu from './DropDownAdminMenu';
 
 
 export default function NavBar() {
@@ -56,6 +57,9 @@ export default function NavBar() {
                 )}
             </Container>
             <Menu.Menu position='right'>
+                {user && (user.roles === 'Admin' || user.roles === 'Moderator') && (
+                    <DropDownAdminMenu user={user} />
+                )}
                 <Menu.Item>
                     <Input
                         icon={<Icon name='search' link onClick={handleSearch} />}
