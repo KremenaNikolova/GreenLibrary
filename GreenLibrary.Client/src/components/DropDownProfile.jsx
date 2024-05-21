@@ -21,7 +21,7 @@ export default function DropDownProfile({ logout }) {
                 <DropdownItem onClick={handleNavigation("/user/settings", { activeItem: 'following' })}>
                     Потребители, които следвам
                 </DropdownItem>
-                <DropdownItem as={Link} to="#">
+                <DropdownItem onClick={handleNavigation("/user/settings", { activeItem: 'followers' })}>
                     Последователи
                 </DropdownItem>
                 <DropdownItem onClick={logout} as={Link} to="/">

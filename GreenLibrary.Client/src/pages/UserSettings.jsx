@@ -5,6 +5,7 @@ import { useAuth } from '../hooks/AuthContext'
 import UserProfileSettings from '../components/UserProfileSettings';
 import UserArticles from '../components/UserArticles';
 import UserFollowing from '../components/UserFollowing';
+import UserFollowers from '../components/UserFollowers';
 import './styles/userSettings.css';
 
 export default function UserSettings() {
@@ -38,6 +39,8 @@ export default function UserSettings() {
                 return <UserArticles />;
             case 'following':
                 return <UserFollowing />;
+            case 'followers':
+                return <UserFollowers />
             default:
                 return <UserProfileSettings />;
         }
