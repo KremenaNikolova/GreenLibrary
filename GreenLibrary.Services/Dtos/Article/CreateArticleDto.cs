@@ -10,6 +10,7 @@
     {
         public CreateArticleDto()
         {
+            IsApproved = false;
             Tags = new List<string>();
         }
 
@@ -32,6 +33,8 @@
         public int CategoryId { get; set; }
 
         public ICollection<string> Tags { get; set; }
+
+        public bool IsApproved { get; set; }
 
     }
 }

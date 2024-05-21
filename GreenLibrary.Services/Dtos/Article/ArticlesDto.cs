@@ -27,5 +27,7 @@
         public int Likes { get; set; }
 
         public ICollection<string> Tags { get; set; }
+
+        public bool IsApproved { get; set; }
     }
 }

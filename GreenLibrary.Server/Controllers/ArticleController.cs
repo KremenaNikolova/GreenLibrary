@@ -33,7 +33,7 @@
         [HttpGet]
         public async Task<IActionResult> GetArticles(int page = DefaultPage, int pageSize = MaxPageSize)
         {
-            var (articles, paginationMetadata) = await articleService.GetAllArticlesAsync(page, pageSize);
+            var (articles, paginationMetadata) = await articleService.GetAllApprovedArticlesAsync(page, pageSize);
 
             Response.Headers.Append("Pagination", JsonSerializer.Serialize(paginationMetadata));
 
@@ -49,7 +49,7 @@
         [HttpGet("details")]
         public async Task<IActionResult> GetArticle(Guid articleId)
         {
-            var article = await articleService.GetArticleByIdAsync(articleId);
+            var article = await articleService.GetApprovedArticleByIdAsync(articleId);
             return Ok(article);
         }
 

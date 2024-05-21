@@ -46,3 +46,15 @@ a.item {
     color: white !important;
     font-weight: 400 !important;
 }
+
+.date.description {
+    color: #999999 !important;
+}
+
+div.ui.divided.relaxed.list > div > div {
+    color: #999999 !important;
+}
+
+div.ui.divided.relaxed.list > div > a > div:hover {
+    color: black !important;
+}

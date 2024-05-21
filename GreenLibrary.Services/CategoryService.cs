@@ -40,7 +40,7 @@
         {
             var articles = dbContext
                 .Articles
-                .Where(a => a.Category.Name == categoryName)
+                .Where(a => a.Category.Name == categoryName && a.IsApproved == true)
                 .OrderByDescending(a => a.CreatedOn)
                 .Select(a => new ArticlesDto
                 {

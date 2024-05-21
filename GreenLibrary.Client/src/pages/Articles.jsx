@@ -41,11 +41,20 @@ export default function CategoryArticlesList() {
             <List divided relaxed>
                 {articles.map(article => (
                     <List.Item key={article.id}>
-                        <Image src={imageUrlBase + article.image} size='tiny' floated='left' />
-                        <List.Header as={Link} to={`/articles/${article.id}`} id="article-list-title">{article.title}</List.Header>
-                        <List.Description >
-                            {article.user} - {article.createdOn}
-                        </List.Description>
+                        {article.isApproved == true && (
+                            <>
+                                <Image src={imageUrlBase + article.image} size='tiny' floated='left' />
+                                <List.Header as={Link} to={`/articles/${article.id}`} id="article-list-title">{article.title}</List.Header>
+                                <Link to={`/user/${article.userId}`}>
+                                    <List.Description className='article-author-link'>
+                                        Автор: {article.user}
+                                    </List.Description>
+                                </Link>
+                                <List.Description className='date'>
+                                    Създадена на: {article.createdOn}
+                                </List.Description>
+                            </>
+                        )}
                     </List.Item>
                 ))}
             </List>

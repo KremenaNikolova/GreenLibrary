@@ -21,7 +21,7 @@
             this.dbContext = dbContext;
         }
 
-        public async Task<(IEnumerable<ArticlesDto>, PaginationMetadata)> GetAllArticlesAsync(int currentPage, int pageSize)
+        public async Task<(IEnumerable<ArticlesDto>, PaginationMetadata)> GetAllApprovedArticlesAsync(int currentPage, int pageSize)
         {
 
             var allArticles = dbContext
@@ -29,6 +29,7 @@
                 .Include(a => a.Category)
                 .Include(a => a.User)
                 .OrderByDescending(a => a.CreatedOn)
+                .Where(a=>a.IsApproved == true)
                 .Select(a => new ArticlesDto()
                 {
                     Id = a.Id.ToString(),
@@ -39,7 +40,8 @@
                     User = a.User.FirstName + ' ' + a.User.LastName,
                     UserId = a.UserId,
                     Image = a.Image,
-                    Likes = a.ArticleLikes.Count()
+                    Likes = a.ArticleLikes.Count(),
+                    IsApproved = a.IsApproved,
                 })
                 .AsQueryable();
 
@@ -47,11 +49,12 @@
             return result;
         }
 
-        public async Task<ArticlesDto?> GetArticleByIdAsync(Guid id)
+        public async Task<ArticlesDto?> GetApprovedArticleByIdAsync(Guid id)
         {
             var article = await dbContext
                 .Articles
-                .Where(a => a.Id == id && a.User.IsDeleted == false)
+                .Where(a => a.Id == id && a.User.IsDeleted == false
+                && a.IsApproved == true)
                 .Select(a => new ArticlesDto()
                 {
                     Id = a.Id.ToString(),
@@ -62,7 +65,8 @@
                     Image = a.Image,
                     User = a.User.FirstName + ' ' + a.User.LastName,
                     UserId = a.UserId,
-                    Likes = a.ArticleLikes.Count()
+                    Likes = a.ArticleLikes.Count(),
+                    IsApproved= a.IsApproved,
                 })
                 .FirstOrDefaultAsync();
 
@@ -107,6 +111,7 @@
             var articles = dbContext
                 .Articles
                 .Where(a => a.User.IsDeleted == false
+                && a.IsApproved== true 
                 && (a.Title.Contains(query)
                 || a.Description.Contains(query)
                 || a.User.FirstName.Contains(query)
@@ -125,7 +130,8 @@
                     Image = a.Image,
                     User = a.User.FirstName + ' ' + a.User.LastName,
                     UserId = a.UserId,
-                    Likes = a.ArticleLikes.Count()
+                    Likes = a.ArticleLikes.Count(),
+                    IsApproved = a.IsApproved,
                 })
                 .AsQueryable();
 
@@ -168,7 +174,7 @@
         {
             var articles = dbContext
                 .Articles
-                .Where(a => a.UserId == userId)
+                .Where(a => a.UserId == userId && a.IsApproved == true)
                 .OrderByDescending(a => a.CreatedOn)
                 .Select(a => new ArticlesDto()
                 {
@@ -180,7 +186,8 @@
                     Image = a.Image,
                     User = a.User.FirstName + ' ' + a.User.LastName,
                     UserId = a.UserId,
-                    Likes = a.ArticleLikes.Count()
+                    Likes = a.ArticleLikes.Count(),
+                    IsApproved = a.IsApproved
                 })
                 .AsQueryable();
 
@@ -204,6 +211,7 @@
             article.Description = articleDto.Description;
             article.CategoryId = articleDto.CategoryId;
             article.Image = articleDto.ImageName != null ? articleDto.ImageName : article.Image;
+            article.IsApproved = false;
 
             foreach (var tagName in articleDto.Tags)
             {

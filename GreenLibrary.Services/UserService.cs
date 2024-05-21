@@ -84,30 +84,30 @@
         public async Task<UserProfileDto?> GetUserProfile(Guid userId)
         {
             var user = await dbContext
-        .Users
-        .Where(u => u.Id == userId && u.IsDeleted == false)
-        .Include(u => u.Followers)
-        .Include(u => u.Articles)
-        .Select(u => new UserProfileDto()
-        {
-            Id = u.Id,
-            Username = u.UserName,
-            FirstName = u.FirstName,
-            LastName = u.LastName,
-            Image = u.Image,
-            ArticlesCount = u.Articles.Count(),
-            FollowersCount = u.Followers.Count(),
-            Followers = u.Followers.Select(f => new UserFollowerDto
-            {
-                Id = f.Id,
-                FirstName = f.FirstName,
-                LastName = f.LastName,
-                Username = f.UserName,
-                IsFollowing = true
-            }).ToList()
+                .Users
+                .Where(u => u.Id == userId && u.IsDeleted == false)
+                .Include(u => u.Followers)
+                .Include(u => u.Articles)
+                .Select(u => new UserProfileDto()
+                {
+                    Id = u.Id,
+                    Username = u.UserName,
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    Image = u.Image,
+                    ArticlesCount = u.Articles.Count(),
+                    FollowersCount = u.Followers.Count(),
+                    Followers = u.Followers.Select(f => new UserFollowerDto
+                    {
+                        Id = f.Id,
+                        FirstName = f.FirstName,
+                        LastName = f.LastName,
+                        Username = f.UserName,
+                        IsFollowing = true
+                    }).ToList()
 
-        })
-        .FirstOrDefaultAsync();
+                })
+                .FirstOrDefaultAsync();
 
             return user;
         }
@@ -190,7 +190,7 @@
                     LastName = u.LastName,
                     Username = u.UserName,
                     IsFollowing = true
-                 })
+                })
                 .AsQueryable();
 
             var result = await PaginationHelper.CreatePaginatedResponseAsync(followersQuery, currentPage, pageSize);
