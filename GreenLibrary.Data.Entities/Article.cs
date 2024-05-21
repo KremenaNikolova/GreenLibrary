@@ -10,6 +10,7 @@
             Id = Guid.NewGuid();
 
             CreatedOn = DateTime.UtcNow;
+            IsApproved = false;
 
             ArticleLikes = new List<ArticleLike>();
             Tags = new List<Tag>();
@@ -40,5 +41,7 @@
         public IEnumerable<ArticleLike> ArticleLikes { get; set; }
 
         public IEnumerable<Tag> Tags { get; set; }
+
+        public bool IsApproved { get; set; }
     }
 }

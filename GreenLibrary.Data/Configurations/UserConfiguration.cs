@@ -6,6 +6,7 @@
 
     using GreenLibrary.Data.Entities;
     using static GreenLibrary.Common.ApplicationConstants;
+    using static System.Runtime.InteropServices.JavaScript.JSType;
 
     public class UserConfiguration : IEntityTypeConfiguration<User>
     {
@@ -32,7 +33,8 @@
                 LastName = AdminLastName,
                 UserName = AdminUsername,
                 NormalizedUserName = AdminUsername.ToUpper(),
-                SecurityStamp = Guid.NewGuid().ToString()
+                SecurityStamp = Guid.NewGuid().ToString(),
+                Image = "profile.jpg"
             };
             ph = new PasswordHasher<User>();
             user.PasswordHash = ph.HashPassword(user, AdminPassword);
@@ -48,7 +50,8 @@
                 LastName = ModeratorLastName,
                 UserName = ModeratorUsername,
                 NormalizedUserName = ModeratorUsername.ToUpper(),
-                SecurityStamp = Guid.NewGuid().ToString()
+                SecurityStamp = Guid.NewGuid().ToString(),
+                Image = "profile.jpg"
             };
             ph = new PasswordHasher<User>();
             user.PasswordHash = ph.HashPassword(user, ModeratorPassword);
@@ -65,6 +68,7 @@
                 UserName = UserUsername,
                 NormalizedUserName = UserUsername.ToUpper(),
                 SecurityStamp = Guid.NewGuid().ToString(),
+                Image = "profile.jpg"
             };
             ph = new PasswordHasher<User>();
             user.PasswordHash = ph.HashPassword(user, UserPassword);
