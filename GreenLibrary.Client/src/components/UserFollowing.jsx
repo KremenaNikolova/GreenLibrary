@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { List, Button, Label, Grid, Container, GridColumn } from 'semantic-ui-react';
+import { List, Pagination, Label, Grid, Container, GridColumn } from 'semantic-ui-react';
 import { useAuth } from '../hooks/AuthContext';
 import './styles/userFollowing.css';
 
@@ -47,6 +47,10 @@ export default function UserFollowing() {
         }
     };
 
+    const handlePaginationChange = (e, { activePage }) => {
+        setCurrentPage(activePage);
+    };
+
     return (
         <GridColumn stretched width={13}>
             <Container className='profile-articles-container' >
@@ -64,6 +68,17 @@ export default function UserFollowing() {
                         </List.Item>
                     ))}
                 </List>
+                <Grid>
+                    <Grid.Row>
+                        <Grid.Column textAlign="center">
+                            <Pagination
+                                activePage={currentPage}
+                                onPageChange={handlePaginationChange}
+                                totalPages={totalPages}
+                            />
+                        </Grid.Column>
+                    </Grid.Row>
+                </Grid>
             </Container>
         </GridColumn>
     );

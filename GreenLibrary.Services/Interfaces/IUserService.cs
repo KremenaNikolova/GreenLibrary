@@ -2,6 +2,7 @@
 {
     using GreenLibrary.Data.Entities;
     using GreenLibrary.Services.Dtos.User;
+    using GreenLibrary.Services.Helpers;
 
     public interface IUserService
     {
@@ -19,7 +20,9 @@
 
         Task UnFollowerUser(Guid currUserId, Guid followUserId);
 
-        Task<IEnumerable<UserFollowerDto>> GetUserFollowingAsync(Guid userId);
+        Task<(IEnumerable<UserFollowerDto>, PaginationMetadata)> GetUserFollowingAsync(Guid userId, int currentPage, int pageSize);
+
+        Task<(IEnumerable<UserFollowerDto>, PaginationMetadata)> GetUserFollersAsync(Guid userId, int currentPage, int pageSize);
 
         Task SoftDeleteUser(Guid userId);
     }

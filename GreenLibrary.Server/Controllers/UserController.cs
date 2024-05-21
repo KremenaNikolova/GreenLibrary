@@ -275,7 +275,7 @@
 
         [HttpGet("{userId}/articles")]
         public async Task<IActionResult> GetUserArticles(Guid userId, int page = DefaultPage, int pageSize = MaxPageSizeUserArticles)
-            {
+        {
             var user = await userService.GetUserProfile(userId);
 
             if (user == null)
@@ -289,20 +289,41 @@
         }
 
         [HttpGet("following")]
-        public async Task<IActionResult> GetFollowing()
+        public async Task<IActionResult> GetFollowing(int page = DefaultPage, int pageSize = MaxPageSize)
         {
             var isUserLogged = Guid.TryParse(User.GetId(), out Guid userId);
 
             if (isUserLogged)
             {
-                var following = await userService.GetUserFollowingAsync(userId);
+                var (following, paginationMetadata) = await userService.GetUserFollowingAsync(userId, page, pageSize);
 
                 if (!following.Any())
                 {
                     return NotFound(NotFoundFollowings);
                 }
 
-               // Response.Headers.Append("Pagination", JsonSerializer.Serialize(paginationMetadata));
+                Response.Headers.Append("Pagination", JsonSerializer.Serialize(paginationMetadata));
+                return Ok(following);
+            }
+
+            return Unauthorized();
+        }
+
+        [HttpGet("follower")]
+        public async Task<IActionResult> GetFollowers(int page = DefaultPage, int pageSize = MaxPageSize)
+        {
+            var isUserLogged = Guid.TryParse(User.GetId(), out Guid userId);
+
+            if (isUserLogged)
+            {
+                var (following, paginationMetadata) = await userService.GetUserFollersAsync(userId, page, pageSize);
+
+                if (!following.Any())
+                {
+                    return NotFound(NotFoundFollowings);
+                }
+
+                Response.Headers.Append("Pagination", JsonSerializer.Serialize(paginationMetadata));
                 return Ok(following);
             }
 

@@ -9,6 +9,7 @@
     using GreenLibrary.Data.Entities;
     using GreenLibrary.Services.Dtos.User;
     using GreenLibrary.Services.Interfaces;
+    using GreenLibrary.Services.Helpers;
 
     [Authorize]
     public class UserService : IUserService
@@ -85,8 +86,8 @@
             var user = await dbContext
         .Users
         .Where(u => u.Id == userId && u.IsDeleted == false)
-        .Include(u=>u.Followers)
-        .Include(u=>u.Articles)
+        .Include(u => u.Followers)
+        .Include(u => u.Articles)
         .Select(u => new UserProfileDto()
         {
             Id = u.Id,
@@ -137,7 +138,7 @@
         {
             var currUser = await dbContext
                 .Users
-                .Include(u=>u.Following)
+                .Include(u => u.Following)
                 .Where(u => u.IsDeleted == false
                 && u.Id == currUserId)
                 .FirstOrDefaultAsync();
@@ -150,7 +151,8 @@
 
             if (currUser != null && followingUser != null)
             {
-                if(currUser.Following.Any(u=>u.Id == followUserId)){
+                if (currUser.Following.Any(u => u.Id == followUserId))
+                {
                     ((List<User>)currUser.Following).Remove(followingUser);
                     await dbContext.SaveChangesAsync();
                 }
@@ -158,16 +160,11 @@
 
         }
 
-        public async Task<IEnumerable<UserFollowerDto>> GetUserFollowingAsync(Guid userId)
+        public async Task<(IEnumerable<UserFollowerDto>, PaginationMetadata)> GetUserFollowingAsync(Guid userId, int currentPage, int pageSize)
         {
-            var currUser = await dbContext
-                .Users
-                .Where(u => u.Id == userId && u.IsDeleted == false)
-                .Include(u => u.Following)
-                .FirstAsync();
-
-            var following = currUser.Following
-                .Select(u => new UserFollowerDto()
+            var followingsQuery = dbContext.Users
+                .Where(u => u.Followers.Any(f => f.Id == userId))
+                .Select(u => new UserFollowerDto
                 {
                     Id = u.Id,
                     FirstName = u.FirstName,
@@ -175,9 +172,29 @@
                     Username = u.UserName,
                     IsFollowing = true
                 })
-                .ToList();
+                .AsQueryable();
 
-            return following;
+            var result = await PaginationHelper.CreatePaginatedResponseAsync(followingsQuery, currentPage, pageSize);
+            return result;
+
+        }
+
+        public async Task<(IEnumerable<UserFollowerDto>, PaginationMetadata)> GetUserFollersAsync(Guid userId, int currentPage, int pageSize)
+        {
+            var followersQuery = dbContext.Users
+                .Where(u => u.Following.Any(f => f.Id == userId))
+                .Select(u => new UserFollowerDto
+                {
+                    Id = u.Id,
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    Username = u.UserName,
+                    IsFollowing = true
+                 })
+                .AsQueryable();
+
+            var result = await PaginationHelper.CreatePaginatedResponseAsync(followersQuery, currentPage, pageSize);
+            return result;
 
         }
 
