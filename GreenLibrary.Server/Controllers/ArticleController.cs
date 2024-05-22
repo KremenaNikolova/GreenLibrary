@@ -37,11 +37,6 @@
 
             Response.Headers.Append("Pagination", JsonSerializer.Serialize(paginationMetadata));
 
-            if(!User.Identity.IsAuthenticated) 
-            {
-                Response.Headers.Append("X-Auth-Status", "401");
-            }
-
             return Ok(articles);
         }
 

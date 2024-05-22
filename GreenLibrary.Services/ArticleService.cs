@@ -29,7 +29,7 @@
                 .Include(a => a.Category)
                 .Include(a => a.User)
                 .OrderByDescending(a => a.CreatedOn)
-                .Where(a=>a.IsApproved == true)
+                .Where(a => a.IsApproved == true)
                 .Select(a => new ArticlesDto()
                 {
                     Id = a.Id.ToString(),
@@ -66,7 +66,7 @@
                     User = a.User.FirstName + ' ' + a.User.LastName,
                     UserId = a.UserId,
                     Likes = a.ArticleLikes.Count(),
-                    IsApproved= a.IsApproved,
+                    IsApproved = a.IsApproved,
                 })
                 .FirstOrDefaultAsync();
 
@@ -111,7 +111,7 @@
             var articles = dbContext
                 .Articles
                 .Where(a => a.User.IsDeleted == false
-                && a.IsApproved== true 
+                && a.IsApproved == true
                 && (a.Title.Contains(query)
                 || a.Description.Contains(query)
                 || a.User.FirstName.Contains(query)
@@ -241,7 +241,7 @@
 
             if (article != null)
             {
-                if(tags.Count > 0)
+                if (tags.Count > 0)
                 {
                     dbContext.Tags.RemoveRange(tags);
                 }
@@ -255,6 +255,47 @@
         public async Task SaveAsync()
         {
             await dbContext.SaveChangesAsync();
+        }
+
+        public async Task<(IEnumerable<ArticlesDto>, PaginationMetadata)> GetAllArticlesAsync(int currentPage, int pageSize)
+        {
+
+            var allArticles = dbContext
+                .Articles
+                .Include(a => a.Category)
+                .Include(a => a.User)
+                .OrderByDescending(a => a.CreatedOn)
+                .Select(a => new ArticlesDto()
+                {
+                    Id = a.Id.ToString(),
+                    Title = a.Title,
+                    Description = a.Description,
+                    CreatedOn = a.CreatedOn.ToString("d"),
+                    Category = a.Category.Name,
+                    User = a.User.FirstName + ' ' + a.User.LastName,
+                    UserId = a.UserId,
+                    Image = a.Image,
+                    Likes = a.ArticleLikes.Count(),
+                    IsApproved = a.IsApproved,
+                })
+                .AsQueryable();
+
+            var result = await PaginationHelper.CreatePaginatedResponseAsync(allArticles, currentPage, pageSize);
+            return result;
+        }
+
+        public async Task ApproveArticle(Guid articleId)
+        {
+            var article = await dbContext
+                .Articles
+                .Where(a => a.Id == articleId)
+                .FirstOrDefaultAsync();
+
+            if (article != null)
+            {
+                article.IsApproved = true;
+                await dbContext.SaveChangesAsync();
+            }
         }
     }
 }

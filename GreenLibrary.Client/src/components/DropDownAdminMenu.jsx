@@ -12,7 +12,7 @@ export default function DropDownAdminMenu({ user }) {
     return (
         <Dropdown item text='Админ панел' className="admin-dropdown-container">
             <DropdownMenu className="dropdown-link-container">
-                <DropdownItem className="dropdown-link" onClick={handleNavigation("/user/settings")}>
+                <DropdownItem className="dropdown-link" onClick={handleNavigation("/admin/articles")}>
                     Одобряване на статии
                 </DropdownItem>
                 {user && user.roles === 'Admin' && (

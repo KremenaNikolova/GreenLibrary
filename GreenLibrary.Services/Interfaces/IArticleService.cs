@@ -25,5 +25,9 @@
 
         Task SaveAsync();
 
+        Task<(IEnumerable<ArticlesDto>, PaginationMetadata)> GetAllArticlesAsync(int currentPage, int pageSize);
+
+        Task ApproveArticle(Guid articleId);
+
     }
 }

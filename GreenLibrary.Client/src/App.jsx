@@ -9,17 +9,18 @@ import RegisterForm from "./pages/RegisterForm";
 import SearchArticles from "./pages/SearchArticles";
 import Articles from "./pages/Articles";
 import UserSettings from "./pages/UserSettings";
+import ApprovalArticlesAdmin from "./pages/ApprovalArticlesAdmin";
 import UserProfilePage from "./pages/UserProfilePage";
 
 
 export default function App() {
-    
+
     return (
         <Router>
             <NavBar />
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/articles/:id" element={<ArticleDetails />}/>
+                <Route path="/articles/:id" element={<ArticleDetails />} />
                 <Route path="/create" element={<CreateArticle />} />
                 <Route path="/categories/:category" element={<CategoryArticlesList />} />
                 <Route path="/login" element={<LoginForm />} />
@@ -28,6 +29,7 @@ export default function App() {
                 <Route path="/articles" element={<Articles />} />
                 <Route path="/user/settings" element={<UserSettings />} />
                 <Route path="/user/:userId" element={<UserProfilePage />} />
+                <Route path="/admin/articles" element={<ApprovalArticlesAdmin />} />
             </Routes>
         </Router>
     );

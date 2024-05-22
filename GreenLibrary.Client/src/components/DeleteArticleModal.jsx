@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Modal } from 'semantic-ui-react';
+import './styles/deleteArticleModal.css';
 import axios from 'axios';
 
 export default function DeleteArticleModal({ articleId, onDeleteSuccess }) {
@@ -18,7 +19,7 @@ export default function DeleteArticleModal({ articleId, onDeleteSuccess }) {
     return (
         <Modal
             open={open}
-            trigger={<Button className='deactivate-btn' onClick={() => setOpen(true)}>Изтрий</Button>}
+            trigger={<Button className='delete' onClick={() => setOpen(true)}>Изтрий</Button>}
             onClose={() => setOpen(false)}
             size='small'
         >
@@ -28,7 +29,7 @@ export default function DeleteArticleModal({ articleId, onDeleteSuccess }) {
             </Modal.Content>
             <Modal.Actions>
                 <Button color='black' onClick={() => setOpen(false)}>Отмени</Button>
-                <Button className='deactivate-btn' onClick={handleDelete}>Изтрий</Button>
+                <Button className='delete' onClick={handleDelete}>Изтрий</Button>
             </Modal.Actions>
         </Modal>
     );

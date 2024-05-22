@@ -1,0 +1,60 @@
+.admin-panel-container {
+    margin: 20px;
+}
+
+    .admin-panel-container .ui.table {
+        background-color: #006633;
+    }
+
+        .admin-panel-container .ui.table th {
+            background-color: #00331a;
+        }
+
+        .admin-panel-container .ui.table th,
+        .admin-panel-container .ui.table td {
+            color: white;
+        }
+
+div.ui.container.admin-panel-container > table > tbody > tr > td > a {
+    color: white;
+}
+
+    div.ui.container.admin-panel-container > table > tbody > tr > td > a:hover {
+        color: black;
+    }
+
+.admin-panel-container .ui.table .approved.button {
+    background-color: #66ff66 !important;
+    color: black;
+    border: 1px solid black;
+}
+
+    .admin-panel-container .ui.table .approved.button:hover {
+        background-color: white !important;
+        color: #00331a;
+        border: 1px solid #00331a;
+    }
+
+.admin-panel-container .ui.table .edit.button {
+    background-color: #cc6600 !important;
+    color: black;
+    border: 1px solid black;
+}
+
+    .admin-panel-container .ui.table .edit.button:hover {
+        background-color: white !important;
+        color: #cc6600;
+        border: 1px solid #cc6600;
+    }
+
+.admin-panel-container .ui.table .delete.button {
+    background-color: #990000 !important;
+    color: black;
+    border: 1px solid black;
+}
+
+    .admin-panel-container .ui.table .delete.button:hover {
+        background-color: white !important;
+        color: #990000 !important;
+        border: 1px solid #990000;
+    }
