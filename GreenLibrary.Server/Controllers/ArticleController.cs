@@ -44,7 +44,7 @@
         [HttpGet("details")]
         public async Task<IActionResult> GetArticle(Guid articleId)
         {
-            var article = await articleService.GetApprovedArticleByIdAsync(articleId);
+            var article = await articleService.GetArticleByIdAsync(articleId);
             return Ok(article);
         }
 

@@ -49,12 +49,11 @@
             return result;
         }
 
-        public async Task<ArticlesDto?> GetApprovedArticleByIdAsync(Guid id)
+        public async Task<ArticlesDto?> GetArticleByIdAsync(Guid id)
         {
             var article = await dbContext
                 .Articles
-                .Where(a => a.Id == id && a.User.IsDeleted == false
-                && a.IsApproved == true)
+                .Where(a => a.Id == id && a.User.IsDeleted == false)
                 .Select(a => new ArticlesDto()
                 {
                     Id = a.Id.ToString(),

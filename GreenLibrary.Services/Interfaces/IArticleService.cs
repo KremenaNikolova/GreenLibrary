@@ -9,7 +9,7 @@
     {
         Task<(IEnumerable<ArticlesDto>, PaginationMetadata)> GetAllApprovedArticlesAsync(int currentPage, int pageSize);
 
-        Task<ArticlesDto?> GetApprovedArticleByIdAsync(Guid id);
+        Task<ArticlesDto?> GetArticleByIdAsync(Guid id);
 
         Task<Article> CreateArticleFromDto(CreateArticleDto article, Guid userId);
 
