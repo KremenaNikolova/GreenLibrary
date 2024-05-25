@@ -70,7 +70,7 @@ export default function LoginForm() {
                 </div>
                 <div className="links-container">
                     <Link className="register-link" to="/register">Регистрация</Link>
-                    <Link className="forgotten-password" to="#">Забравена парола</Link>
+                    <Link className="forgotten-password" to="/email/reset-password">Забравена парола</Link>
                 </div>
             </Form>
         </>

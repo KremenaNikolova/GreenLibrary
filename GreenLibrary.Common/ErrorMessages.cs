@@ -56,7 +56,7 @@
 
         public static class EmailErrorMessages
         {
-            public const string WrongEmailAddress = "Въвели сте грешем имейл адрес.";
+            public const string WrongEmailAddress = "Въвели сте грешен имейл адрес.";
 
             public const string BadRequestDefaultMessage = "Възникна грешка при опит да се нулира вашата парола. Моля опитайте отново!";
         }
