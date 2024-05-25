@@ -8,7 +8,6 @@ label {
 }
 
 .registerForm {
-    margin-top: 10%;
     margin-left: 40%;
     margin-right: 40%;
     max-width: 20%;
@@ -17,7 +16,7 @@ label {
 .register-btn {
     background-color: #cc6600 !important;
     color: white !important;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem !important;
 }
 
 .register-btn:hover {
@@ -29,4 +28,9 @@ label {
     margin-top: 2rem;
     display: flex;
     justify-content: center;
+}
+
+.ui.grid.back-btn-container {
+    margin-left: 20%;
+    max-width: 90%;
 }

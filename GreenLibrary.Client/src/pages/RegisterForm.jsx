@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Button, Form, Input, Message } from 'semantic-ui-react';
+import { Button, Form, Input, Message, Grid } from 'semantic-ui-react';
 import { useAuth } from '../hooks/AuthContext'
 import './styles/registerForm.css';
 
@@ -50,6 +50,13 @@ export default function RegisterForm() {
 
     return (
         <>
+            <Grid className="back-btn-container">
+                <Grid.Row>
+                    <Grid.Column width={3}>
+                        <Button className='cancelbutton' onClick={() => window.history.back()}>НАЗАД</Button>
+                    </Grid.Column>
+                </Grid.Row>
+            </Grid>
             <Form onSubmit={handleSubmit} className='registerForm'
                 error={!!errorString}>
 
@@ -115,7 +122,7 @@ export default function RegisterForm() {
 
                 {errorString && <Message error content={errorString} />}
                 <div className='register-btn-container'>
-                    <Button className='register-btn' type="submit">Регистрация</Button>
+                    <Button className='register-btn' type="submit">Регистрация</Button>\
                 </div>
             </Form>
         </>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Form, Input, Message } from 'semantic-ui-react';
+import { Button, Form, Input, Message, Grid } from 'semantic-ui-react';
 import axios from 'axios';
 
 export default function ForgotPasswordForm() {
@@ -22,6 +22,13 @@ export default function ForgotPasswordForm() {
 
     return (
         <>
+            <Grid className="profile-container">
+                <Grid.Row>
+                    <Grid.Column width={3}>
+                        <Button className='cancelbutton' onClick={() => window.history.back()}>НАЗАД</Button>
+                    </Grid.Column>
+                </Grid.Row>
+            </Grid>
             <Form onSubmit={handleSubmit} className='registerForm'
                 error={!!message}>
 
