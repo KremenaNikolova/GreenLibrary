@@ -1,0 +1,37 @@
+.admin-panel-container {
+    margin-top: 4rem;
+}
+
+.admin-panel-container .ui.table .promote-moderator-btn.button {
+    background-color: #ff8000 !important;
+    color: black;
+    border: 1px solid black;
+}
+
+.admin-panel-container .ui.table .demote-moderator-btn.button {
+    background-color: #cc6600 !important;
+    color: black;
+    border: 1px solid black;
+}
+
+.table .username-cell {
+    width: 30%;
+}
+
+.table .equal-width-cell {
+    width: 15%;
+}
+
+div.ui.container.admin-panel-container > table > tbody > tr > td > a {
+    font-size: 16px;
+}
+
+.users-title-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 3rem;
+}
+
+.users-title-container > h1 {
+    color: white;
+}

@@ -210,5 +210,26 @@
             await dbContext.SaveChangesAsync();
         }
 
+        public async Task<(IEnumerable<UserDto>, PaginationMetadata)> GetAllUsers (int currentPage, int pageSize)
+        {
+            var users = dbContext
+                .Users
+                .Select(u => new UserDto()
+                {
+                    Id = u.Id,
+                    Username = u.UserName,
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    Email = u.Email,
+                    IsDeleted = u.IsDeleted,
+                    IsModerator = u.IsModerator
+
+                })
+                .AsQueryable();
+
+            var result = await PaginationHelper.CreatePaginatedResponseAsync(users, currentPage, pageSize);
+            return result;
+        }
+
     }
 }

@@ -18,12 +18,8 @@ export default function DropDownAdminMenu({ user }) {
                 {user && user.roles === 'Admin' && (
                     <>
                         <Divider className="admin-divider" />
-                        <DropdownItem className="dropdown-link admin" onClick={handleNavigation("/user/settings")}>
+                        <DropdownItem className="dropdown-link admin" onClick={handleNavigation("/admin/users")}>
                             Потребители
-                        </DropdownItem>
-                        <Divider className="admin-divider" />
-                        <DropdownItem className="dropdown-link" onClick={handleNavigation("/user/settings")}>
-                            Екип
                         </DropdownItem>
                     </>
                 )}

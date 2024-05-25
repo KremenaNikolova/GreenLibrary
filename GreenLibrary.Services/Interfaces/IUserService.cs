@@ -25,5 +25,7 @@
         Task<(IEnumerable<UserFollowerDto>, PaginationMetadata)> GetUserFollersAsync(Guid userId, int currentPage, int pageSize);
 
         Task SoftDeleteUser(Guid userId);
+
+        Task<(IEnumerable<UserDto>, PaginationMetadata)> GetAllUsers(int currentPage, int pageSize);
     }
 }

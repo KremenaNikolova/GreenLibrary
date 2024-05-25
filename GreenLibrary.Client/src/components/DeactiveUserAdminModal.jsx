@@ -1,13 +1,9 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../hooks/AuthContext'
 import { Button, Modal } from 'semantic-ui-react';
 import axios from 'axios';
 
-export default function DeactivateUserModal({ userDetails }) {
+export default function DeactivateUserAdminModal({ userDetails, onDeactivate }) {
     const [open, setOpen] = useState(false);
-    const { logout } = useAuth();
-    const navigate = useNavigate();
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -18,13 +14,12 @@ export default function DeactivateUserModal({ userDetails }) {
         try {
             const response = await axios({
                 method: 'put',
-                url: 'https://localhost:7195/api/user/delete',
+                url: 'https://localhost:7195/api/admin/delete',
+                params: { chooseUserId: userDetails.id },
                 data: userDetails.isDeleted
             });
-
-            logout();
-            navigate('/login');
             console.log('User deleted:', response.data);
+            onDeactivate(userDetails.id);
         } catch (error) {
             console.log(error.response);
         }
