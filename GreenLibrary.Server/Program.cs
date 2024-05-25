@@ -73,6 +73,7 @@ namespace GreenLibrary.Server
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<IImageService, ImageService>();
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IEmailService, EmailService>();
 
 
             builder.Services.AddEndpointsApiExplorer();

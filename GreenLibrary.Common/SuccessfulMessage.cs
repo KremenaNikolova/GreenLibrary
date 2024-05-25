@@ -19,5 +19,10 @@
 
             public const string SuccessfullApprovedArticle = "Статията беше успешно одобрена";
         }
+
+        public static class EmailSuccesfulMessage
+        {
+            public const string SuccessfullSendedNewPassword = "Паролата беше нулирана и изпратена успешно на вашият имейл";
+        }
     }
 }

@@ -53,5 +53,12 @@
 
             public const string InvalidFollowUserOperation = "Нещо се случи по време на операцията. Потребителят не е добавен към колекцията.";
         }
+
+        public static class EmailErrorMessages
+        {
+            public const string WrongEmailAddress = "Въвели сте грешем имейл адрес.";
+
+            public const string BadRequestDefaultMessage = "Възникна грешка при опит да се нулира вашата парола. Моля опитайте отново!";
+        }
     }
 }
