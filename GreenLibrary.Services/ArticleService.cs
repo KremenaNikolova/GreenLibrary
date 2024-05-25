@@ -194,6 +194,31 @@
             return result;
         }
 
+        public async Task<(IEnumerable<ArticlesDto>, PaginationMetadata)> GetMyArticlesAsync(Guid userId, int currentPage, int pageSize)
+        {
+            var articles = dbContext
+                .Articles
+                .Where(a => a.UserId == userId)
+                .OrderByDescending(a => a.CreatedOn)
+                .Select(a => new ArticlesDto()
+                {
+                    Id = a.Id.ToString(),
+                    Title = a.Title,
+                    Description = a.Description,
+                    CreatedOn = a.CreatedOn.ToString("d"),
+                    Category = a.Category.Name,
+                    Image = a.Image,
+                    User = a.User.FirstName + ' ' + a.User.LastName,
+                    UserId = a.UserId,
+                    Likes = a.ArticleLikes.Count(),
+                    IsApproved = a.IsApproved
+                })
+                .AsQueryable();
+
+            var result = await PaginationHelper.CreatePaginatedResponseAsync(articles, currentPage, pageSize);
+            return result;
+        }
+
         public async Task<ArticlesDto> GetUserArticleByArticleIdAsync(Guid articleId)
         {
             var article = await dbContext

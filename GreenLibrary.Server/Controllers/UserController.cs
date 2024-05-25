@@ -247,7 +247,7 @@
 
             if (isUserLogged)
             {
-                var (articles, paginationMetadata) = await articleService.GetUserArticlesAsync(userId, page, pageSize);
+                var (articles, paginationMetadata) = await articleService.GetMyArticlesAsync(userId, page, pageSize);
 
                 if (!articles.Any())
                 {

@@ -90,6 +90,7 @@ export default function EditArticle({ articleId, onCancel }) {
                 data: formData,
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
+            window.location.reload();
             console.log('Article edited:', response.data);
             onCancel();
         } catch (error) {
