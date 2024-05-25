@@ -1,10 +1,10 @@
 ﻿namespace GreenLibrary.Server.Controllers
 {
     using System.Text.Json;
-    
+
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    
+
     using GreenLibrary.Extensions;
     using GreenLibrary.Server.Dtos.Article;
     using GreenLibrary.Services.Interfaces;
@@ -56,8 +56,8 @@
 
             var articleLike = await articleService.AddLikeAsync(articleId, userId);
             await articleService.SaveAsync();
-            
-            if(articleLike == null)
+
+            if (articleLike == null)
             {
                 return Ok(false);
             }
@@ -128,8 +128,8 @@
                 return Unauthorized();
             }
 
-            if (!ModelState.IsValid) 
-            { 
+            if (!ModelState.IsValid)
+            {
                 return BadRequest(ModelState);
             }
 
@@ -139,8 +139,13 @@
                 articleDto.ImageName = filePath;
             }
 
-            await articleService.EditArticleAsync(userId, articleId, articleDto);
-            await articleService.SaveAsync();
+            var article = await articleService.GetUserArticleByArticleIdAsync(articleId);
+
+            if (User.IsInRole("Admin") || User.IsInRole("Moderator") || article.UserId == userId)
+            {
+                await articleService.EditArticleAsync(articleId, articleDto);
+                await articleService.SaveAsync();
+            }
 
             return Ok(SuccessfullEditedArticle);
         }

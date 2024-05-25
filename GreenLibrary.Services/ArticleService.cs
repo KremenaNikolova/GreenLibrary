@@ -194,11 +194,34 @@
             return result;
         }
 
-        public async Task EditArticleAsync(Guid userId, Guid articleId, CreateArticleDto articleDto)
+        public async Task<ArticlesDto> GetUserArticleByArticleIdAsync(Guid articleId)
+        {
+            var article = await dbContext
+              .Articles
+              .Where(a => a.Id == articleId)
+              .Select(a => new ArticlesDto()
+              {
+                  Id = a.Id.ToString(),
+                  Title = a.Title,
+                  Description = a.Description,
+                  CreatedOn = a.CreatedOn.ToString("d"),
+                  Category = a.Category.Name,
+                  Image = a.Image,
+                  User = a.User.FirstName + ' ' + a.User.LastName,
+                  UserId = a.UserId,
+                  Likes = a.ArticleLikes.Count(),
+                  IsApproved = a.IsApproved
+              })
+              .FirstAsync();
+
+            return article;
+        }
+
+        public async Task EditArticleAsync(Guid articleId, CreateArticleDto articleDto)
         {
             var article = await dbContext
                 .Articles
-                .Where(a => a.UserId == userId && a.Id == articleId)
+                .Where(a => a.Id == articleId)
                 .FirstAsync();
 
             article.Tags = await dbContext

@@ -19,7 +19,9 @@
 
         Task<(IEnumerable<ArticlesDto>, PaginationMetadata)> GetUserArticlesAsync(Guid userId, int currentPage, int pageSize);
 
-        Task EditArticleAsync(Guid userId, Guid articleId, CreateArticleDto articleDto);
+        Task<ArticlesDto> GetUserArticleByArticleIdAsync(Guid articleId);
+
+        Task EditArticleAsync(Guid articleId, CreateArticleDto articleDto);
 
         Task DeleteArticle(Guid articleId, Guid userId);
 
