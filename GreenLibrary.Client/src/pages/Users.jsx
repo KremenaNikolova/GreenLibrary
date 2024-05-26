@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Table, Button, Container, Grid, Pagination } from 'semantic-ui-react';
 import ActivateUserAdminModal from '../components/ActivateUserAdminModal';
 import DeactiveUserAdminModal from '../components/DeactiveUserAdminModal';
+import SendNewPasswordModal from '../components/SendNewPasswordModal';
 import axios from 'axios';
 import "./styles/users.css";
 
@@ -50,6 +51,7 @@ export default function Users() {
         ));
     }
 
+
     return (
         <>
             <Container className="admin-panel-container">
@@ -61,14 +63,15 @@ export default function Users() {
                         {users.map(user => (
                             <Table.Row key={user.id}>
                                 <Table.Cell className="username-cell"><Link to={`/user/${user.id}`}>{user.firstName} {user.lastName}</Link></Table.Cell>
-                                <Table.Cell className="equal-width-cell"><Button className="approved">Изпращане на нова парола</Button></Table.Cell>
+                                <Table.Cell className="equal-width-cell">
+                                    <SendNewPasswordModal userDetails={user} />
+                                </Table.Cell>
                                 {user.isDeleted === false
                                     ? <Table.Cell className="equal-width-cell">
                                         <Button className="approved" disabled>Възстановяване на потребител</Button>
                                     </Table.Cell>
                                     :
                                     <Table.Cell className="equal-width-cell">
-                                        {/*<Button className="approved">Възстановяване на потребител</Button>*/}
                                         <ActivateUserAdminModal userDetails={user} onActivate={handleUserActivation} />
                                     </Table.Cell>}
                                 {user.isModerator === true
