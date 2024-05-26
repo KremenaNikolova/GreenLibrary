@@ -210,7 +210,19 @@
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task<(IEnumerable<UserDto>, PaginationMetadata)> GetAllUsers (int currentPage, int pageSize)
+        public async Task RestoreUser(Guid userId)
+        {
+            var user = await dbContext
+                .Users
+                .Where(u => u.Id == userId)
+                .FirstAsync();
+
+            user.IsDeleted = false;
+
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task<(IEnumerable<UserDto>, PaginationMetadata)> GetAllUsersAsync (int currentPage, int pageSize)
         {
             var users = dbContext
                 .Users

@@ -46,7 +46,7 @@
         [HttpGet("allusers")]
         public async Task<IActionResult> GetAllUsers(int page = DefaultPage, int pageSize = MaxPageSize)
         {
-            var (users, paginationMetadata) = await userService.GetAllUsers(page, pageSize);
+            var (users, paginationMetadata) = await userService.GetAllUsersAsync(page, pageSize);
 
             Response.Headers.Append("Pagination", JsonSerializer.Serialize(paginationMetadata));
 
@@ -54,15 +54,30 @@
         }
 
         [HttpPut("delete")]
-        public async Task<IActionResult> SoftDeleteUser(Guid chooseUserId)
+        public async Task<IActionResult> SoftDeleteUser(Guid choosenUserId)
         {
             var isUserLogged = Guid.TryParse(User.GetId(), out Guid userId);
 
             if (isUserLogged)
             {
-                await userService.SoftDeleteUser(chooseUserId);
+                await userService.SoftDeleteUser(choosenUserId);
 
                 return Ok(SuccessfullDeleteUser);
+            }
+
+            return Unauthorized();
+        }
+
+        [HttpPut("restore")]
+        public async Task<IActionResult> RestoreUser(Guid choosenUserId)
+        {
+            var isUserLogged = Guid.TryParse(User.GetId(), out Guid userId);
+
+            if (isUserLogged)
+            {
+                await userService.RestoreUser(choosenUserId);
+
+                return Ok(SuccessfullRestoreUser);
             }
 
             return Unauthorized();

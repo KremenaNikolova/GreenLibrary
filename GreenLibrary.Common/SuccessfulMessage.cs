@@ -18,11 +18,14 @@
             public const string SuccessfullDeletedArticle = "Статията беше успешно изтрита";
 
             public const string SuccessfullApprovedArticle = "Статията беше успешно одобрена";
+
+            public const string SuccessfullRestoreUser = "Потребителят беше успешно възстановен.";
         }
 
         public static class EmailSuccesfulMessage
         {
             public const string SuccessfullSendedNewPassword = "Паролата беше нулирана и изпратена успешно на вашият имейл";
+
         }
     }
 }

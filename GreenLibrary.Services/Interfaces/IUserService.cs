@@ -26,6 +26,8 @@
 
         Task SoftDeleteUser(Guid userId);
 
-        Task<(IEnumerable<UserDto>, PaginationMetadata)> GetAllUsers(int currentPage, int pageSize);
+        Task RestoreUser(Guid userId);
+
+        Task<(IEnumerable<UserDto>, PaginationMetadata)> GetAllUsersAsync(int currentPage, int pageSize);
     }
 }

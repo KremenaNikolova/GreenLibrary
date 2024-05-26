@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Button, Modal } from 'semantic-ui-react';
-import axios from 'axios';
+import axios from 'axios'
 
-export default function DeactivateUserAdminModal({ userDetails, onDeactivate }) {
+export default function ActivateUserAdminModal({ userDetails, onActivate }) {
     const [open, setOpen] = useState(false);
 
     const handleOpen = () => setOpen(true);
@@ -14,30 +14,30 @@ export default function DeactivateUserAdminModal({ userDetails, onDeactivate }) 
         try {
             const response = await axios({
                 method: 'put',
-                url: 'https://localhost:7195/api/admin/delete',
+                url: 'https://localhost:7195/api/admin/restore',
                 params: { choosenUserId: userDetails.id },
                 data: userDetails.isDeleted
             });
-            console.log('User deleted:', response.data);
-            onDeactivate(userDetails.id);
+            console.log('User resotred:', response.data);
+            onActivate(userDetails.id);
         } catch (error) {
             console.log(error.response);
         }
 
-        handleClose(); 
+        handleClose();
     };
 
     return (
         <Modal
-            trigger={<Button onClick={handleOpen} className='delete'>Деактивиране на профила</Button>}
+            trigger={<Button onClick={handleOpen} className='approved'>Възстановяване на профила</Button>}
             open={open}
             onClose={handleClose}
             size='small'
             header='Потвърждение'
-            content='Сигурни ли сте, че искате да деактивирате този профил?'
+            content='Сигурни ли сте, че искате да активирате този профил?'
             actions={[
                 { key: 'cancel', content: 'Отказ', onClick: handleClose, color: "black" },
-                { key: 'confirm', content: 'Деактивиране', onClick: handleDeactivate}
+                { key: 'confirm', content: 'Активиране', onClick: handleDeactivate, color:"green"}
             ]}
         />
     );

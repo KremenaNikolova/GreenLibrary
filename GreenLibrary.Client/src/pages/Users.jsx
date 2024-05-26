@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Table, Button, Container, Grid, Pagination } from 'semantic-ui-react';
+import ActivateUserAdminModal from '../components/ActivateUserAdminModal';
 import DeactiveUserAdminModal from '../components/DeactiveUserAdminModal';
 import axios from 'axios';
 import "./styles/users.css";
@@ -43,6 +44,12 @@ export default function Users() {
         ));
     };
 
+    const handleUserActivation = (userId) => {
+        setUsers(prevUsers => prevUsers.map(user =>
+            user.id === userId ? { ...user, isDeleted: false } : user
+        ));
+    }
+
     return (
         <>
             <Container className="admin-panel-container">
@@ -61,7 +68,8 @@ export default function Users() {
                                     </Table.Cell>
                                     :
                                     <Table.Cell className="equal-width-cell">
-                                        <Button className="approved">Възстановяване на потребител</Button>
+                                        {/*<Button className="approved">Възстановяване на потребител</Button>*/}
+                                        <ActivateUserAdminModal userDetails={user} onActivate={handleUserActivation} />
                                     </Table.Cell>}
                                 {user.isModerator === true
                                     ?
