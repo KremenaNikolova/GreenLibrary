@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Button, Form, Input, Select, TextArea, List, Message } from 'semantic-ui-react';
+import { Button, Form, Input, Select, TextArea, List, Message, Grid } from 'semantic-ui-react';
 import { useAuth } from '../hooks/AuthContext';
 import './styles/createArticleForm.css';
 
@@ -19,7 +19,7 @@ export default function CreateArticleForm() {
 
     useEffect(() => {
         if (!user) {
-            navigate('/login'); 
+            navigate('/login');
         }
 
         const fetchCategories = async () => {
@@ -86,6 +86,10 @@ export default function CreateArticleForm() {
         }
     };
 
+    const handleBackClick = () => {
+        navigate(-1);
+    };
+
     return (
         <>
             <Form onSubmit={handleSubmit} className='createform' error={errors400.Username !== undefined}>
@@ -147,9 +151,9 @@ export default function CreateArticleForm() {
                     ))}
                 </List>
                 <div className="sumbit button container">
+                    <Button className='cancelbutton' type='button' onClick={handleBackClick}>НАЗАД</Button>
                     <Button className='submitbutton' type='submit'>Създай</Button>
                 </div>
-
             </Form>
         </>
     );

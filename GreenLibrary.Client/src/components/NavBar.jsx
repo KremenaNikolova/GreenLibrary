@@ -37,10 +37,8 @@ export default function NavBar() {
                 <Menu.Item >
                     <img src="/plant.png" alt="logo" className='logo' />
                 </Menu.Item>
-                <Menu.Item>
-                    <Link to='/' onClick={handleHomeClick}>
-                        <p>{title}</p>
-                    </Link>
+                <Menu.Item onClick={handleHomeClick}>
+                    <p>{title}</p>
                 </Menu.Item>
                 <DropDownCategories />
                 <Menu.Item>
@@ -50,9 +48,7 @@ export default function NavBar() {
                 </Menu.Item>
                 {user && (
                     <Menu.Item>
-                        <Link to="/create">
-                            <Button positive content={create} onClick={handleCreateClick} />
-                        </Link>
+                        <Button positive content={create} onClick={handleCreateClick} />
                     </Menu.Item>
                 )}
             </Container>
