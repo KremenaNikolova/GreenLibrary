@@ -5,6 +5,7 @@ import ActivateUserAdminModal from '../components/ActivateUserAdminModal';
 import DeactiveUserAdminModal from '../components/DeactiveUserAdminModal';
 import SendNewPasswordModal from '../components/SendNewPasswordModal';
 import ToggleModeratorModal from '../components/ToggleModeratorModal';
+import { useAuth } from '../hooks/AuthContext'
 import axios from 'axios';
 import "./styles/users.css";
 
@@ -13,6 +14,8 @@ export default function Users() {
 
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+
+    const { user: authUser } = useAuth();
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -81,27 +84,33 @@ export default function Users() {
                                     <Table.Cell className="equal-width-cell">
                                         <ActivateUserAdminModal userDetails={user} onActivate={handleUserActivation} />
                                     </Table.Cell>}
-                                {user.isModerator === true
+                                {authUser.roles === 'Admin' && authUser.id === user.id
                                     ?
                                     <Table.Cell className="equal-width-cell">
-                                        <ToggleModeratorModal userDetails={user} buttonMesasge="Премахни Модератор" className="demote-moderator-btn" onToggle={handleToggleModerator} />
-                                        {/*<Button className="demote-moderator-btn">Премахни Модератор</Button>*/}
+                                        <Button className="demote-moderator-btn" disabled>Премахни Модератор</Button>
                                     </Table.Cell>
-                                    :
-                                    <Table.Cell className="equal-width-cell">
-                                        <ToggleModeratorModal userDetails={user} buttonMesasge="Бъди Модератор" className="promote-moderator-btn" onToggle={handleToggleModerator} />
-                                        {/*<Button className="promote-moderator-btn">Бъди Модератор</Button>*/}
-                                    </Table.Cell>
+                                    : user.isModerator === true
+                                        ?
+                                        <Table.Cell className="equal-width-cell">
+                                            <ToggleModeratorModal userDetails={user} buttonMesasge="Премахни Модератор" className="demote-moderator-btn" onToggle={handleToggleModerator} />
+                                        </Table.Cell>
+                                        :
+                                        <Table.Cell className="equal-width-cell">
+                                            <ToggleModeratorModal userDetails={user} buttonMesasge="Бъди Модератор" className="promote-moderator-btn" onToggle={handleToggleModerator} />
+                                        </Table.Cell>
                                 }
-                                {user.isDeleted === false
-                                    ?
-                                    < Table.Cell className="equal-width-cell">
-                                        <DeactiveUserAdminModal userDetails={user} onDeactivate={handleUserDeactivation} />
-                                    </Table.Cell>
-                                    :
-                                    < Table.Cell className="equal-width-cell">
+                                {authUser.roles === 'Admin' && authUser.id === user.id
+                                    ? <Table.Cell className="equal-width-cell">
                                         <Button className="delete" disabled>Деактивиране на профила</Button>
-                                    </Table.Cell>}
+                                    </Table.Cell>
+                                    : user.isDeleted === false
+                                        ? <Table.Cell className="equal-width-cell">
+                                            <DeactiveUserAdminModal userDetails={user} onDeactivate={handleUserDeactivation} />
+                                        </Table.Cell>
+                                        : <Table.Cell className="equal-width-cell">
+                                            <Button className="delete" disabled>Деактивиране на профила</Button>
+                                        </Table.Cell>}
+
                             </Table.Row>
                         ))}
                     </Table.Body>

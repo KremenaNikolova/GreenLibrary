@@ -183,7 +183,11 @@ export default function UserProfileSettings() {
 
                         {errorString && <Message error content={errorString} />}
                         <div className="sumbit button container">
-                            <DeactivateUserModal userDetails={userDetails} />
+                            {user.roles !== 'Admin'
+                                ?
+                                <DeactivateUserModal userDetails={userDetails} />
+                                :
+                                <Button disabled className='delete'>Деактивиране на профила</Button>}
                             <Button type='submit' name='deactivate' className='save-btn'>Запазване</Button>
                         </div>
                     </Form>

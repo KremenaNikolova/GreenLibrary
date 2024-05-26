@@ -7,6 +7,7 @@ export default function DropDownAdminMenu({ user }) {
 
     const handleNavigation = (path, state) => () => {
         navigate(path, { state });
+        location.reload(true);
     };
 
     return (

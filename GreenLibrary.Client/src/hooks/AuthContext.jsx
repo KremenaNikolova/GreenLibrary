@@ -11,8 +11,9 @@ export const AuthProvider = ({ children }) => {
         if (token) {
             const decodedToken = jwtDecode(token);
             if (new Date().getTime() < decodedToken.exp * 1000) {
+                const id = decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
                 const roles = decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
-                return { token, roles, ...decodedToken };
+                return { token, roles, id, ...decodedToken };
             }
         }
         return null;
