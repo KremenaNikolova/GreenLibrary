@@ -27,7 +27,7 @@ export default function SendNewPasswordModal({ userDetails }) {
             onClose={handleClose}
             size='small'
             header='Потвърждение'
-            conten='Сигурни ли сте, че искате да изпратите нова парола на потребителя?'
+            content='Сигурни ли сте, че искате да изпратите нова парола на потребителя?'
             actions={[
                 { key: 'cancel', content: 'Отказ', onClick: handleClose, color: "black" },
                 { key: 'confirm', content: 'Изпращане', onClick: handleSendPassword, color: "green" }

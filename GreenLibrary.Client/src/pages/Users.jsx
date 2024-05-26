@@ -4,6 +4,7 @@ import { Table, Button, Container, Grid, Pagination } from 'semantic-ui-react';
 import ActivateUserAdminModal from '../components/ActivateUserAdminModal';
 import DeactiveUserAdminModal from '../components/DeactiveUserAdminModal';
 import SendNewPasswordModal from '../components/SendNewPasswordModal';
+import ToggleModeratorModal from '../components/ToggleModeratorModal';
 import axios from 'axios';
 import "./styles/users.css";
 
@@ -51,6 +52,12 @@ export default function Users() {
         ));
     }
 
+    const handleToggleModerator = (userId) => {
+        setUsers(prevUsers => prevUsers.map(user =>
+            user.id === userId ? { ...user, isModerator: !user.isModerator } : user
+        ));
+    };
+
 
     return (
         <>
@@ -77,11 +84,13 @@ export default function Users() {
                                 {user.isModerator === true
                                     ?
                                     <Table.Cell className="equal-width-cell">
-                                        <Button className="demote-moderator-btn">Премахни Модератор</Button>
+                                        <ToggleModeratorModal userDetails={user} buttonMesasge="Премахни Модератор" className="demote-moderator-btn" onToggle={handleToggleModerator} />
+                                        {/*<Button className="demote-moderator-btn">Премахни Модератор</Button>*/}
                                     </Table.Cell>
                                     :
                                     <Table.Cell className="equal-width-cell">
-                                        <Button className="promote-moderator-btn">Бъди Модератор</Button>
+                                        <ToggleModeratorModal userDetails={user} buttonMesasge="Бъди Модератор" className="promote-moderator-btn" onToggle={handleToggleModerator} />
+                                        {/*<Button className="promote-moderator-btn">Бъди Модератор</Button>*/}
                                     </Table.Cell>
                                 }
                                 {user.isDeleted === false

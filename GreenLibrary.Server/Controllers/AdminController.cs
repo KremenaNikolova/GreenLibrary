@@ -82,5 +82,20 @@
 
             return Unauthorized();
         }
+
+        [HttpPut("toggle-moderator")]
+        public async Task<IActionResult> ToggleModerator(Guid choosenUserId)
+        {
+            var isUserLogged = Guid.TryParse(User.GetId(), out Guid userId);
+
+            if (isUserLogged)
+            {
+                await userService.ToggleModerator(choosenUserId);
+
+                return Ok(SuccessfullToggleModerator);
+            }
+
+            return Unauthorized();
+        }
     }
 }

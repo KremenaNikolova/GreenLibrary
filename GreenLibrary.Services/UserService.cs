@@ -243,5 +243,17 @@
             return result;
         }
 
+        public async Task ToggleModerator(Guid userId)
+        {
+            var user = await dbContext
+                .Users
+                .Where (u => u.Id == userId)
+                .FirstAsync();
+
+            user.IsModerator = !user.IsModerator;
+
+            await dbContext.SaveChangesAsync();
+        }
+
     }
 }

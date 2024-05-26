@@ -9,6 +9,8 @@
             public const string SuccessfullFollowUser = "Потребителят беше успешно добавен.";
 
             public const string SuccessfullUnFollowUser = "Потребителят беше успешно премахнат.";
+
+            public const string SuccessfullToggleModerator = "Успешно беше променен статуса на потребителя.";
         }
 
         public static class ArticleSuccesfulMessage
