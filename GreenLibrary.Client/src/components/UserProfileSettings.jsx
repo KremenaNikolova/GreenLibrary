@@ -40,7 +40,7 @@ export default function UserProfileSettings() {
             formData.append('imageFile', userDetails.imageFile);
         }
 
-        if (userDetails.oldPassword) {
+        if (userDetails.oldPassword && userDetails.newPassword) {
             formData.append('oldPassword', userDetails.oldPassword);
             formData.append('newPassword', userDetails.newPassword);
             formData.append('repeatNewPassword', userDetails.repeatNewPassword);
@@ -59,6 +59,8 @@ export default function UserProfileSettings() {
             });
             console.log('User edited:', response.data);
 
+            window.location.reload();
+
         } catch (error) {
             if (error.response && error.response.status === 400 && typeof (error.response.data) !== "string") {
                 if (error.response.data.errors !== undefined) {
@@ -75,7 +77,6 @@ export default function UserProfileSettings() {
         }
 
     };
-
 
     return (
         <>
@@ -191,7 +192,7 @@ export default function UserProfileSettings() {
                                 <DeactivateUserModal userDetails={userDetails} />
                                 :
                                 <Button disabled className='delete'>Деактивиране на профила</Button>}
-                            <Button type='submit' name='deactivate' className='save-btn'>Запазване</Button>
+                            <Button type='submit' name='deactivate' className='save-btn' >Запазване</Button>
                         </div>
                     </Form>
                 </GridColumn>
