@@ -16,6 +16,9 @@ export default function CreateArticleForm() {
     const [tagInput, setTagInput] = useState('');
     const [imageFile, setImageFile] = useState(null);
     const [errors400, setErrors400] = useState({});
+    const [error, setError] = useState();
+
+    const MAX_TAGS = 20;
 
     useEffect(() => {
         if (!user) {
@@ -35,6 +38,7 @@ export default function CreateArticleForm() {
                 console.log('Error fetching categories:', error);
             }
         };
+
 
         fetchCategories();
     }, [navigate, user]);
@@ -79,10 +83,12 @@ export default function CreateArticleForm() {
     };
 
     const handleAddTag = () => {
-        if (tagInput) {
+        if (tagInput && tags.length < MAX_TAGS) {
             const newTags = [...tags, tagInput];
             setTags(newTags);
             setTagInput('');
+        } else {
+            setError(`Не можете да добавите повече от  ${MAX_TAGS} тага.`);
         }
     };
 
@@ -100,6 +106,7 @@ export default function CreateArticleForm() {
                     onChange={(e) => setTitle(e.target.value)}
                 />
                 {errors400.Title && <Message negative>{errors400.Title.join(' ')}</Message>}
+
                 <Form.Field
                     control={Select}
                     label='Категория*'
@@ -108,6 +115,7 @@ export default function CreateArticleForm() {
                     value={categoryId}
                     onChange={(e, { value }) => setCategoryId(value)}
                 />
+
                 <Form.Field
                     control={TextArea}
                     label='Съдържание*'
@@ -115,6 +123,7 @@ export default function CreateArticleForm() {
                     onChange={(e) => setDescription(e.target.value)}
                 />
                 {errors400.Description && <Message negative>{errors400.Description.join(' ')}</Message>}
+
                 <Form.Field>
                     <label>Снимка</label>
                     <Input
@@ -123,7 +132,8 @@ export default function CreateArticleForm() {
                         onChange={(e) => setImageFile(e.target.files[0])}
                     />
                 </Form.Field>
-                <Form.Field
+
+                <Form.Field error={error !== undefined}
                     control={Input}
                     action={{
                         content: 'Добави таг',
@@ -141,6 +151,8 @@ export default function CreateArticleForm() {
                         }
                     }}
                 />
+                {error && <Message negative>{error}</Message>}
+
                 <List className="tags-container">
                     {tags.map((tag, index) => (
                         <List.Item key={index}>
