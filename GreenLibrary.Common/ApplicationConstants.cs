@@ -32,6 +32,8 @@
         public const string UserLastName = "Петров";
         public const string UserPassword = "User12345.";
 
+        public const string DefaultImageName = "profile.jpg";
+
         public const int MaxPageSize = 5;
         public const int MaxPageSizeUserArticles = 10;
         public const int DefaultPage = 1;

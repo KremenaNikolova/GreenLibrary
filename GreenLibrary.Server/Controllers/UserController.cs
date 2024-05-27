@@ -60,31 +60,13 @@
 
                 if (result.Succeeded)
                 {
-                    var roles = await userManager.GetRolesAsync(user!);
+                    var (tokenString, role) = await userService.TokenAndClaimsConfig(user);
 
-                    var claims = new List<Claim>
-                    {
-                        new Claim(ClaimTypes.Email, user.Email!),
-                        new Claim(ClaimTypes.Role, roles[0]),
-                        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
-                    };
-
-                    var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetSection("Jwt:Key").Value));
-                    SigningCredentials signingCred = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha512Signature);
-
-                    var securityToken = new JwtSecurityToken(
-                        claims: claims,
-                        expires: DateTime.Now.AddMinutes(60),
-                        issuer: configuration.GetSection("Jwt:Issuer").Value,
-                        audience: configuration.GetSection("Jwt:Audience").Value,
-                        signingCredentials: signingCred);
-
-                    var tokenString = new JwtSecurityTokenHandler().WriteToken(securityToken);
                     return Ok(new
                     {
                         token = tokenString,
                         username = user.UserName,
-                        roles = roles[0]
+                        roles = role
                     });
                 }
             }
@@ -121,7 +103,8 @@
             user = new User()
             {
                 FirstName = registerDto.FirstName,
-                LastName = registerDto.LastName
+                LastName = registerDto.LastName,
+                Image = DefaultImageName
             };
 
             await userManager.SetEmailAsync(user, registerDto.Email);
@@ -133,12 +116,17 @@
             {
                 return BadRequest(result.Errors);
             }
-
-
             await userManager.AddToRoleAsync(user, "User");
             await signInManager.SignInAsync(user, false);
 
-            return Ok();
+            var (tokenString, role) = await userService.TokenAndClaimsConfig(user);
+
+            return Ok(new
+            {
+                token = tokenString,
+                username = user.UserName,
+                roles = role
+            });
         }
 
         [HttpGet]

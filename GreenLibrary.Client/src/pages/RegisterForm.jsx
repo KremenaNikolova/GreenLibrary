@@ -28,10 +28,8 @@ export default function RegisterForm() {
             console.log('Register in successfully');
 
             if (response.status === 200) {
-                login({
-                    username: response.data.username,
-                    roles: response.data.roles
-                });
+                const { token } = response.data;
+                login(token);
 
                 navigate('/');
             } else {

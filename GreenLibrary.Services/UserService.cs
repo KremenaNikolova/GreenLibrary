@@ -10,15 +10,26 @@
     using GreenLibrary.Services.Dtos.User;
     using GreenLibrary.Services.Interfaces;
     using GreenLibrary.Services.Helpers;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.IdentityModel.Tokens;
+    using System.IdentityModel.Tokens.Jwt;
+    using System.Security.Claims;
+    using System.Text;
 
     [Authorize]
     public class UserService : IUserService
     {
         private readonly GreenLibraryDbContext dbContext;
+        private readonly UserManager<User> userManager;
+        private readonly IConfiguration configuration;
 
-        public UserService(GreenLibraryDbContext dbContext)
+        public UserService(GreenLibraryDbContext dbContext, UserManager<User> userManager, IConfiguration configuration)
         {
             this.dbContext = dbContext;
+            this.userManager = userManager;
+            this.configuration = configuration;
+
         }
 
         public async Task<UserSettingsDto> LoggedUserAsync(Guid userId)
@@ -248,11 +259,36 @@
             var user = await dbContext
                 .Users
                 .Where (u => u.Id == userId)
-                .FirstAsync();
+            .FirstAsync();
 
             user.IsModerator = !user.IsModerator;
 
             await dbContext.SaveChangesAsync();
+        }
+
+        public async Task<(string, string)> TokenAndClaimsConfig(User user)
+        {
+            var roles = await userManager.GetRolesAsync(user!);
+
+            var claims = new List<Claim>
+                    {
+                new Claim(ClaimTypes.Email, user.Email!),
+                new Claim(ClaimTypes.Role, roles[0]),
+                        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+                    };
+
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetSection("Jwt:Key").Value));
+            SigningCredentials signingCred = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha512Signature);
+            var securityToken = new JwtSecurityToken(
+                claims: claims,
+                expires: DateTime.Now.AddMinutes(60),
+                issuer: configuration.GetSection("Jwt:Issuer").Value,
+                audience: configuration.GetSection("Jwt:Audience").Value,
+                signingCredentials: signingCred);
+
+            var tokenString = new JwtSecurityTokenHandler().WriteToken(securityToken);
+
+            return (tokenString, roles[0]);
         }
 
     }
