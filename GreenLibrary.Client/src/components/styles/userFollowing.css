@@ -10,3 +10,14 @@
     .following-container .ui.list .item .content .button {
         margin-left: 10px;
     }
+
+.noFolloewrsLabelContainer{
+    display: flex;
+    justify-content: center;
+}
+
+.noFollowersMessage {
+    font-size: 20px !important;
+    background-color: transparent !important;
+    color: white !important;
+}

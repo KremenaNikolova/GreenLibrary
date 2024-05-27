@@ -11,7 +11,7 @@ export default function UserFollowers() {
     const [following, setFollowing] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const [isFollowed, setIsFollowed] = useState(false);
+    const [noFollowersMessage, setNoFollowersMessage] = useState('Все още нямате последователи.');
 
     useEffect(() => {
         if (!user) {
@@ -80,37 +80,44 @@ export default function UserFollowers() {
     return (
         <GridColumn stretched width={13}>
             <Container className='profile-articles-container' >
-                <List divided>
-                    {followers.map(user => (
-                        <List.Item key={user.id}>
-                            <List.Content floated='left'>
-                                <Label as={Link} to={`/user/${user.id}`} basic size='large' className='ellipsis-label'>{user.firstName}  {user.lastName}</Label>
-                            </List.Content>
-                            <List.Content floated='right'>
-                                {isFollowing(user.id) ? (
-                                    <Label as='a' onClick={() => handleFollowUnfollow(user.id)} className="star-label" pointing='left' color='orange'>
-                                        Спри да следваш
-                                    </Label>
-                                ) : (
+                {following.length > 0 ?
+                    <List divided>
+                        {followers.map(user => (
+                            <List.Item key={user.id}>
+                                <List.Content floated='left'>
+                                    <Label as={Link} to={`/user/${user.id}`} basic size='large' className='ellipsis-label'>{user.firstName}  {user.lastName}</Label>
+                                </List.Content>
+                                <List.Content floated='right'>
+                                    {isFollowing(user.id) ? (
+                                        <Label as='a' onClick={() => handleFollowUnfollow(user.id)} className="star-label" pointing='left' color='orange'>
+                                            Спри да следваш
+                                        </Label>
+                                    ) : (
                                         <Label as='a' onClick={() => handleFollowUnfollow(user.id)} className="star-label" pointing='left' color='green'>
-                                        Последвай
-                                    </Label>
-                                )}
-                            </List.Content>
-                        </List.Item>
-                    ))}
-                </List>
-                <Grid>
-                    <Grid.Row>
-                        <Grid.Column textAlign="center">
-                            <Pagination
-                                activePage={currentPage}
-                                onPageChange={handlePaginationChange}
-                                totalPages={totalPages}
-                            />
-                        </Grid.Column>
-                    </Grid.Row>
-                </Grid>
+                                            Последвай
+                                        </Label>
+                                    )}
+                                </List.Content>
+                            </List.Item>
+                        ))}
+                    </List>
+                    :
+                    <div className = 'noFolloewrsLabelContainer'>
+                        <Label className='noFollowersMessage'>{noFollowersMessage}</Label>
+                    </div>}
+                {totalPages > 1 &&
+                    <Grid>
+                        <Grid.Row>
+                            <Grid.Column textAlign="center">
+
+                                <Pagination
+                                    activePage={currentPage}
+                                    onPageChange={handlePaginationChange}
+                                    totalPages={totalPages}
+                                />
+                            </Grid.Column>
+                        </Grid.Row>
+                    </Grid>}
             </Container>
         </GridColumn>
     );

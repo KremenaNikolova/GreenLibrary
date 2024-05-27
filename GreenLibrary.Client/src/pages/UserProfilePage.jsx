@@ -5,7 +5,7 @@ import { Grid, Image, Button, List, Pagination, Container, Icon, Label } from 's
 import { useAuth } from '../hooks/AuthContext';
 import './styles/userProfilePage.css';
 
-const imageUrl = 'https://localhost:7195/Images/'
+const imageUrl = 'https://localhost:7195/Images/';
 export default function UserProfilePage() {
     const { userId } = useParams();
     const { user, logout } = useAuth();
@@ -95,7 +95,7 @@ export default function UserProfilePage() {
             <Grid.Row>
                 <Grid.Column width={3}>
                     <Button color="orange" className="back-button" onClick={() => window.history.back()}>НАЗАД</Button>
-                    <Image className="profile-avatar" src={imageUrl + userProfile.image || 'default-profile.png'} size='medium' />
+                    <Image className="profile-avatar" src={imageUrl + userProfile.image} size='medium' />
                     <div className="user-info">
                         <List.Item className='info-item' content={`Потребител:${'\u00A0'} ${userProfile.username}`} />
                         <List.Item className='info-item' content={`Брой статии:${'\u00A0'} ${userProfile.articlesCount}`} />

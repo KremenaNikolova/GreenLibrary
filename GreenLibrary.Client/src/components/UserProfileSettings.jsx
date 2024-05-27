@@ -4,6 +4,9 @@ import { Form, Input, Button, Image, GridColumn, Message } from 'semantic-ui-rea
 import { useAuth } from '../hooks/AuthContext'
 import DeactivateUserModal from './DeactivateUserModal';
 import axios from 'axios';
+
+const imageUrl = 'https://localhost:7195/Images/';
+
 export default function UserProfileSettings() {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
@@ -127,7 +130,7 @@ export default function UserProfileSettings() {
 
                         <Form.Group>
                             <Form.Field className='image-field'>
-                                <Image src='../../public/plant.png' size='small' widths={2} className='profile-image' />
+                                <Image src={imageUrl + userDetails.image} size='small' widths={2} className='profile-image' />
                             </Form.Field>
                             <Form.Field widths={2}>
                                 <label>Промени снимката на профила</label>
