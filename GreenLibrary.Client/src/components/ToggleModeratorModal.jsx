@@ -31,7 +31,7 @@ export default function ToggleModeratorModal({ userDetails, buttonMesasge, class
             content='Сигурни ли сте, че искате да промените статуса на потребителя?'
             actions={[
                 { key: 'cancel', content: 'Отказ', onClick: handleClose, color: "black" },
-                { key: 'confirm', content: 'Изпращане', onClick: handleToggleModerator, color: "green" }
+                { key: 'confirm', content: 'Потвърждавам', onClick: handleToggleModerator, color: "green" }
             ]}
         />
     );

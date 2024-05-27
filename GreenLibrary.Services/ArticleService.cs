@@ -11,6 +11,7 @@
     using GreenLibrary.Server.Dtos.Article;
     using GreenLibrary.Services.Dtos.Article;
     using GreenLibrary.Services.Helpers;
+    using System.Globalization;
 
     public class ArticleService : IArticleService
     {
@@ -21,7 +22,7 @@
             this.dbContext = dbContext;
         }
 
-        public async Task<(IEnumerable<ArticlesDto>, PaginationMetadata)> GetAllApprovedArticlesAsync(int currentPage, int pageSize)
+        public async Task<(IEnumerable<ArticlesDto>, PaginationMetadata)> GetAllApprovedArticlesAsync(int currentPage, int pageSize, string sortBy)
         {
 
             var allArticles = dbContext
@@ -30,22 +31,11 @@
                 .Include(a => a.User)
                 .OrderByDescending(a => a.CreatedOn)
                 .Where(a => a.IsApproved == true)
-                .Select(a => new ArticlesDto()
-                {
-                    Id = a.Id.ToString(),
-                    Title = a.Title,
-                    Description = a.Description,
-                    CreatedOn = a.CreatedOn.ToString("d"),
-                    Category = a.Category.Name,
-                    User = a.User.FirstName + ' ' + a.User.LastName,
-                    UserId = a.UserId,
-                    Image = a.Image,
-                    Likes = a.ArticleLikes.Count(),
-                    IsApproved = a.IsApproved,
-                })
                 .AsQueryable();
 
-            var result = await PaginationHelper.CreatePaginatedResponseAsync(allArticles, currentPage, pageSize);
+            var sortedArticles = SortArticles(allArticles, sortBy);
+
+            var result = await PaginationHelper.CreatePaginatedResponseAsync(sortedArticles, currentPage, pageSize);
             return result;
         }
 
@@ -304,7 +294,7 @@
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task<(IEnumerable<ArticlesDto>, PaginationMetadata)> GetAllArticlesAsync(int currentPage, int pageSize)
+        public async Task<(IEnumerable<ArticlesDto>, PaginationMetadata)> GetAllArticlesAsync(int currentPage, int pageSize, string sortBy)
         {
 
             var allArticles = dbContext
@@ -312,22 +302,11 @@
                 .Include(a => a.Category)
                 .Include(a => a.User)
                 .OrderByDescending(a => a.CreatedOn)
-                .Select(a => new ArticlesDto()
-                {
-                    Id = a.Id.ToString(),
-                    Title = a.Title,
-                    Description = a.Description,
-                    CreatedOn = a.CreatedOn.ToString("d"),
-                    Category = a.Category.Name,
-                    User = a.User.FirstName + ' ' + a.User.LastName,
-                    UserId = a.UserId,
-                    Image = a.Image,
-                    Likes = a.ArticleLikes.Count(),
-                    IsApproved = a.IsApproved,
-                })
                 .AsQueryable();
 
-            var result = await PaginationHelper.CreatePaginatedResponseAsync(allArticles, currentPage, pageSize);
+            var sortedArticles = SortArticles(allArticles, sortBy);
+
+            var result = await PaginationHelper.CreatePaginatedResponseAsync(sortedArticles, currentPage, pageSize);
             return result;
         }
 
@@ -343,6 +322,49 @@
                 article.IsApproved = true;
                 await dbContext.SaveChangesAsync();
             }
+        }
+
+        private IQueryable<ArticlesDto> SortArticles(IQueryable<Article> articlesDto, string sortBy)
+        {
+            switch (sortBy.ToLower())
+            {
+                case "title-asc":
+                    articlesDto = articlesDto.OrderBy(p => p.Title);
+                    break;
+                case "title-desc":
+                    articlesDto = articlesDto.OrderByDescending(p => p.Title);
+                    break;
+                case "createon-newest":
+                    articlesDto = articlesDto.OrderByDescending(p => p.CreatedOn);
+                    break;
+                case "createon-oldest":
+                    articlesDto = articlesDto.OrderBy(p => p.CreatedOn);
+                    break;
+                case "approved":
+                    articlesDto = articlesDto.OrderBy(p => p.IsApproved);
+                    break;
+                default:
+                    articlesDto = articlesDto.OrderByDescending(p => p.CreatedOn);
+                    break;
+            }
+
+            var result = articlesDto
+                .Select(a => new ArticlesDto()
+                {
+                    Id = a.Id.ToString(),
+                    Title = a.Title,
+                    Description = a.Description,
+                    CreatedOn = a.CreatedOn.ToString("d"),
+                    Category = a.Category.Name,
+                    User = a.User.FirstName + ' ' + a.User.LastName,
+                    UserId = a.UserId,
+                    Image = a.Image,
+                    Likes = a.ArticleLikes.Count(),
+                    IsApproved = a.IsApproved,
+                })
+                .AsQueryable();
+
+            return result;
         }
     }
 }

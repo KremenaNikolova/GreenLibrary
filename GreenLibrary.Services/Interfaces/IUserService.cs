@@ -28,7 +28,7 @@
 
         Task RestoreUser(Guid userId);
 
-        Task<(IEnumerable<UserDto>, PaginationMetadata)> GetAllUsersAsync(int currentPage, int pageSize);
+        Task<(IEnumerable<UserDto>, PaginationMetadata)> GetAllUsersAsync(int currentPage, int pageSize, string sortBy);
 
         Task ToggleModerator(Guid userId);
 

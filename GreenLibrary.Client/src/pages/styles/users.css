@@ -1,5 +1,6 @@
 .admin-panel-container {
-    margin-top: 4rem;
+    margin-top: 2rem;
+    margin-bottom: 4rem;
 }
 
 .admin-panel-container .ui.table .promote-moderator-btn.button {
@@ -15,11 +16,11 @@
 }
 
 .table .username-cell {
-    width: 30%;
+    width: 25%;
 }
 
 .table .equal-width-cell {
-    width: 15%;
+    width: 20%;
 }
 
 div.ui.container.admin-panel-container > table > tbody > tr > td > a {

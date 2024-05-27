@@ -1,0 +1,16 @@
+div.ui.selection.dropdown.sort-by-dropdown {
+    font-size: 1.2rem !important; 
+    margin-bottom: 1.5rem;
+    color: white !important;
+
+    display: flex;
+    justify-content: center;
+    background-color: transparent;
+
+    border: none;
+}
+
+div.ui.divided.relaxed.list > div.ui.selection.dropdown.sort-by-dropdown > div.divider.text {
+    color: white !important;
+    font-weight: 600;
+}

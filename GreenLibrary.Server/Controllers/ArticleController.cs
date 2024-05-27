@@ -31,9 +31,9 @@
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> GetArticles(int page = DefaultPage, int pageSize = MaxPageSize)
+        public async Task<IActionResult> GetArticles(int page = DefaultPage, int pageSize = MaxPageSize, string sortBy = SortByDefault)
         {
-            var (articles, paginationMetadata) = await articleService.GetAllApprovedArticlesAsync(page, pageSize);
+            var (articles, paginationMetadata) = await articleService.GetAllApprovedArticlesAsync(page, pageSize, sortBy);
 
             Response.Headers.Append("Pagination", JsonSerializer.Serialize(paginationMetadata));
 

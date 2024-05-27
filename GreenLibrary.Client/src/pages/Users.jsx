@@ -4,6 +4,7 @@ import { Table, Button, Container, Grid, Pagination } from 'semantic-ui-react';
 import ActivateUserAdminModal from '../components/ActivateUserAdminModal';
 import DeactiveUserAdminModal from '../components/DeactiveUserAdminModal';
 import SendNewPasswordModal from '../components/SendNewPasswordModal';
+import SortUsers from '../components/SortUsers';
 import ToggleModeratorModal from '../components/ToggleModeratorModal';
 import { useAuth } from '../hooks/AuthContext'
 import axios from 'axios';
@@ -15,13 +16,15 @@ export default function Users() {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
 
+    const [sortBy, setSortBy] = useState('createon-newest');
+
     const { user: authUser } = useAuth();
 
     useEffect(() => {
         const fetchUsers = async () => {
             try {
                 const response = await axios.get(`https://localhost:7195/api/admin/allusers`, {
-                    params: { page: currentPage, pageSize: 10 }
+                    params: { page: currentPage, pageSize: 10, sortBy }
                 });
 
                 setUsers(response.data);
@@ -37,7 +40,7 @@ export default function Users() {
         };
 
         fetchUsers();
-    }, [currentPage]);
+    }, [currentPage, sortBy]);
 
     const handlePaginationChange = (e, { activePage }) => {
         setCurrentPage(activePage);
@@ -61,6 +64,11 @@ export default function Users() {
         ));
     };
 
+    const handleSortChange = (sortValue) => {
+        setSortBy(sortValue);
+        setCurrentPage(1);
+    };
+
 
     return (
         <>
@@ -68,20 +76,34 @@ export default function Users() {
                 <div className="users-title-container">
                     <h1>Потребители</h1>
                 </div>
+                <SortUsers onSortChange={handleSortChange} />
                 <Table celled>
+                    <Table.Header>
+                        <Table.Row className="table-header">
+                            <Table.HeaderCell>Име и фамилия</Table.HeaderCell>
+                            <Table.HeaderCell>Потребителско име</Table.HeaderCell>
+                            <Table.HeaderCell>Създадена на</Table.HeaderCell>
+                            <Table.HeaderCell></Table.HeaderCell>
+                            <Table.HeaderCell></Table.HeaderCell>
+                            <Table.HeaderCell></Table.HeaderCell>
+                            <Table.HeaderCell></Table.HeaderCell>
+                        </Table.Row>
+                    </Table.Header>
                     <Table.Body>
                         {users.map(user => (
                             <Table.Row key={user.id}>
                                 <Table.Cell className="username-cell"><Link to={`/user/${user.id}`}>{user.firstName} {user.lastName}</Link></Table.Cell>
+                                <Table.Cell ><Link to={`/user/${user.id}`}>{user.username}</Link></Table.Cell>
+                                <Table.Cell className="equal-width-cell" >{user.createdOn}</Table.Cell>
                                 <Table.Cell className="equal-width-cell">
                                     <SendNewPasswordModal userDetails={user} />
                                 </Table.Cell>
                                 {user.isDeleted === false
-                                    ? <Table.Cell className="equal-width-cell">
+                                    ? <Table.Cell>
                                         <Button className="approved" disabled>Възстановяване на потребител</Button>
                                     </Table.Cell>
                                     :
-                                    <Table.Cell className="equal-width-cell">
+                                    <Table.Cell>
                                         <ActivateUserAdminModal userDetails={user} onActivate={handleUserActivation} />
                                     </Table.Cell>}
                                 {authUser.roles === 'Admin' && authUser.id === user.id
@@ -100,14 +122,14 @@ export default function Users() {
                                         </Table.Cell>
                                 }
                                 {authUser.roles === 'Admin' && authUser.id === user.id
-                                    ? <Table.Cell className="equal-width-cell">
+                                    ? <Table.Cell>
                                         <Button className="delete" disabled>Деактивиране на профила</Button>
                                     </Table.Cell>
                                     : user.isDeleted === false
-                                        ? <Table.Cell className="equal-width-cell">
+                                        ? <Table.Cell>
                                             <DeactiveUserAdminModal userDetails={user} onDeactivate={handleUserDeactivation} />
                                         </Table.Cell>
-                                        : <Table.Cell className="equal-width-cell">
+                                        : <Table.Cell>
                                             <Button className="delete" disabled>Деактивиране на профила</Button>
                                         </Table.Cell>}
 
@@ -116,7 +138,6 @@ export default function Users() {
                     </Table.Body>
                 </Table>
             </Container>
-            {totalPages > 1 &&
                 <Grid>
                     <Grid.Row>
                         <Grid.Column textAlign="center">
@@ -127,7 +148,7 @@ export default function Users() {
                             />
                         </Grid.Column>
                     </Grid.Row>
-                </Grid>}
+                </Grid>
 
         </>
     );

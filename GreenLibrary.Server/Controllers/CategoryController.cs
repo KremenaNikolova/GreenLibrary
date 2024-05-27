@@ -30,9 +30,9 @@
 
 
         [HttpGet("{category}")]
-        public async Task<ActionResult<IEnumerable<ArticlesDto>>> GetArticlesByCategory(string category, int page = DefaultPage, int pageSize = MaxPageSize)
+        public async Task<ActionResult<IEnumerable<ArticlesDto>>> GetArticlesByCategory(string category, int page = DefaultPage, int pageSize = MaxPageSize, string sortBy = SortByDefault)
         {
-            var (articles, paginationMetadata) = await categoryService.GetAllArticlesByCategoryNameAsync(category, page, pageSize);
+            var (articles, paginationMetadata) = await categoryService.GetAllArticlesByCategoryNameAsync(category, page, pageSize, sortBy);
 
             if (articles == null)
             {

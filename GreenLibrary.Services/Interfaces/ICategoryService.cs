@@ -8,6 +8,6 @@
     {
         Task<ICollection<CategoryDto>> GetAllCategoriesAsync();
 
-        Task<(IEnumerable<ArticlesDto>, PaginationMetadata)> GetAllArticlesByCategoryNameAsync(string categoryName, int currentPage, int pageSize);
+        Task<(IEnumerable<ArticlesDto>, PaginationMetadata)> GetAllArticlesByCategoryNameAsync(string categoryName, int currentPage, int pageSize, string sortBy);
     }
 }

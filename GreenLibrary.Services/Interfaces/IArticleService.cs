@@ -7,7 +7,7 @@
 
     public interface IArticleService
     {
-        Task<(IEnumerable<ArticlesDto>, PaginationMetadata)> GetAllApprovedArticlesAsync(int currentPage, int pageSize);
+        Task<(IEnumerable<ArticlesDto>, PaginationMetadata)> GetAllApprovedArticlesAsync(int currentPage, int pageSize, string sortBy);
 
         Task<ArticlesDto?> GetArticleByIdAsync(Guid id);
 
@@ -29,7 +29,7 @@
 
         Task SaveAsync();
 
-        Task<(IEnumerable<ArticlesDto>, PaginationMetadata)> GetAllArticlesAsync(int currentPage, int pageSize);
+        Task<(IEnumerable<ArticlesDto>, PaginationMetadata)> GetAllArticlesAsync(int currentPage, int pageSize, string sortBy);
 
         Task ApproveArticle(Guid articleId);
 

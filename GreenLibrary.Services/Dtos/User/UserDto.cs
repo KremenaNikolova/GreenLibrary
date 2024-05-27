@@ -13,6 +13,8 @@
 
         public string Email { get; set; } = null!;
 
+        public string CreatedOn { get; set; } = null!;
+
         public bool IsDeleted { get; set; }
 
         public bool IsModerator { get; set; }

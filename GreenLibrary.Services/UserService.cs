@@ -2,22 +2,22 @@
 {
     using System.Threading.Tasks;
 
-    using Microsoft.AspNetCore.Authorization;
+    using System.IdentityModel.Tokens.Jwt;
+    using System.Security.Claims;
+    using System.Text;
+    
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.IdentityModel.Tokens;
 
     using GreenLibrary.Data;
     using GreenLibrary.Data.Entities;
     using GreenLibrary.Services.Dtos.User;
     using GreenLibrary.Services.Interfaces;
     using GreenLibrary.Services.Helpers;
-    using Microsoft.AspNetCore.Identity;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.IdentityModel.Tokens;
-    using System.IdentityModel.Tokens.Jwt;
-    using System.Security.Claims;
-    using System.Text;
+    using GreenLibrary.Services.Dtos.Article;
 
-    [Authorize]
     public class UserService : IUserService
     {
         private readonly GreenLibraryDbContext dbContext;
@@ -233,24 +233,15 @@
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task<(IEnumerable<UserDto>, PaginationMetadata)> GetAllUsersAsync (int currentPage, int pageSize)
+        public async Task<(IEnumerable<UserDto>, PaginationMetadata)> GetAllUsersAsync (int currentPage, int pageSize, string sortBy)
         {
             var users = dbContext
                 .Users
-                .Select(u => new UserDto()
-                {
-                    Id = u.Id,
-                    Username = u.UserName,
-                    FirstName = u.FirstName,
-                    LastName = u.LastName,
-                    Email = u.Email,
-                    IsDeleted = u.IsDeleted,
-                    IsModerator = u.IsModerator
-
-                })
                 .AsQueryable();
 
-            var result = await PaginationHelper.CreatePaginatedResponseAsync(users, currentPage, pageSize);
+            var sortedUsers = SortUsers(users, sortBy);
+
+            var result = await PaginationHelper.CreatePaginatedResponseAsync(sortedUsers, currentPage, pageSize);
             return result;
         }
 
@@ -289,6 +280,47 @@
             var tokenString = new JwtSecurityTokenHandler().WriteToken(securityToken);
 
             return (tokenString, roles[0]);
+        }
+
+        private IQueryable<UserDto> SortUsers(IQueryable<User> userDto, string sortBy)
+        {
+            switch (sortBy.ToLower())
+            {
+                case "username-asc":
+                    userDto = userDto.OrderBy(p => p.UserName);
+                    break;
+                case "firstname-asc":
+                    userDto = userDto.OrderBy(p => p.FirstName);
+                    break;
+                case "lastname-asc":
+                    userDto = userDto.OrderBy(p => p.LastName);
+                    break;
+                case "createon-newest":
+                    userDto = userDto.OrderByDescending(p => p.CreatedOn);
+                    break;
+                case "createon-oldest":
+                    userDto = userDto.OrderBy(p => p.CreatedOn);
+                    break;
+                default:
+                    userDto = userDto.OrderByDescending(p => p.CreatedOn);
+                    break;
+            }
+
+            var result = userDto
+                .Select(u => new UserDto()
+                {
+                    Id = u.Id,
+                    Username = u.UserName,
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    Email = u.Email,
+                    CreatedOn = u.CreatedOn.ToString("d"),
+                    IsDeleted = u.IsDeleted,
+                    IsModerator = u.IsModerator
+                })
+                .AsQueryable();
+
+            return result;
         }
 
     }

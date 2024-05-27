@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, Link } from 'react-router-dom';
 import { List, Image, Pagination, Grid } from 'semantic-ui-react';
+import SortArticles from '../components/SortArticles';
 import './styles/categoryArticlesList.css'
 
 export default function CategoryArticlesList() {
@@ -9,6 +10,8 @@ export default function CategoryArticlesList() {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [currentCategory, setCategory] = useState('');
+
+    const [sortBy, setSortBy] = useState('createon-newest');
 
     let { category } = useParams();
 
@@ -18,7 +21,7 @@ export default function CategoryArticlesList() {
         const fetchArticles = async () => {
             try {
                 const response = await axios.get(`https://localhost:7195/api/categories/${category}`, {
-                    params: { page: currentPage }
+                    params: { page: currentPage, sortBy }
                 });
                 setArticles(response.data);
                 if (category != currentCategory) {
@@ -35,15 +38,21 @@ export default function CategoryArticlesList() {
             }
         };
         fetchArticles();
-    }, [category, currentPage, currentCategory]);
+    }, [category, currentPage, currentCategory, sortBy]);
 
     const handlePaginationChange = (e, { activePage }) => {
         setCurrentPage(activePage);
     };
 
+    const handleSortChange = (sortValue) => {
+        setSortBy(sortValue);
+        setCurrentPage(1);
+    };
+
     return (
         <>
             <List divided relaxed>
+                <SortArticles onSortChange={handleSortChange} />
                 {articles.map(article => (
                     <List.Item key={article.id}>
                         <Image src={imageUrlBase + article.image} size='tiny' floated='left' />

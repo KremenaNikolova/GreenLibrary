@@ -38,5 +38,7 @@
         public const int MaxPageSizeUserArticles = 10;
         public const int DefaultPage = 1;
 
+        public const string SortByDefault = "createOn-newest";
+
     }
 }

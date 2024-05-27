@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useParams, Link } from 'react-router-dom';
 import { List, Image, Pagination, Grid } from 'semantic-ui-react';
+import SortArticles from '../components/SortArticles';
+import axios from 'axios';
 import './styles/categoryArticlesList.css'
 
 export default function CategoryArticlesList() {
@@ -9,13 +10,15 @@ export default function CategoryArticlesList() {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
 
+    const [sortBy, setSortBy] = useState('createon-newest');
+
     const imageUrlBase = 'https://localhost:7195/Images/'
 
     useEffect(() => {
         const fetchArticles = async () => {
             try {
                 const response = await axios.get(`https://localhost:7195/api/articles`, {
-                    params: { page: currentPage }
+                    params: { page: currentPage, sortBy }
                 });
 
                 setArticles(response.data);
@@ -30,15 +33,21 @@ export default function CategoryArticlesList() {
             }
         };
         fetchArticles();
-    }, [currentPage]);
+    }, [currentPage, sortBy]);
 
     const handlePaginationChange = (e, { activePage }) => {
         setCurrentPage(activePage);
     };
 
+    const handleSortChange = (sortValue) => {
+        setSortBy(sortValue);
+        setCurrentPage(1);
+    };
+
     return (
         <>
             <List divided relaxed>
+            <SortArticles onSortChange={handleSortChange} /> 
                 {articles.map(article => (
                     <List.Item key={article.id}>
                         {article.isApproved == true && (

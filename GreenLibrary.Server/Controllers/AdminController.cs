@@ -11,7 +11,7 @@
     using static GreenLibrary.Common.SuccessfulMessage.ArticleSuccesfulMessage;
     using static GreenLibrary.Common.SuccessfulMessage.UserSuccessfulMessages;
 
-    [Authorize]
+    [Authorize(Roles = "Admin, Moderator")]
     [Route("api/admin")]
     [ApiController]
     public class AdminController : ControllerBase
@@ -26,9 +26,9 @@
         }
 
         [HttpGet("articles")]
-        public async Task<IActionResult> GetAllArticles(int page = DefaultPage, int pageSize = MaxPageSize)
+        public async Task<IActionResult> GetAllArticles(int page = DefaultPage, int pageSize = MaxPageSize, string sortBy = SortByDefault)
         {
-            var (articles, paginationMetadata) = await articleService.GetAllArticlesAsync(page, pageSize);
+            var (articles, paginationMetadata) = await articleService.GetAllArticlesAsync(page, pageSize, sortBy);
 
             Response.Headers.Append("Pagination", JsonSerializer.Serialize(paginationMetadata));
 
@@ -44,15 +44,16 @@
         }
 
         [HttpGet("allusers")]
-        public async Task<IActionResult> GetAllUsers(int page = DefaultPage, int pageSize = MaxPageSize)
+        public async Task<IActionResult> GetAllUsers(int page = DefaultPage, int pageSize = MaxPageSize, string sortBy = SortByDefault)
         {
-            var (users, paginationMetadata) = await userService.GetAllUsersAsync(page, pageSize);
+            var (users, paginationMetadata) = await userService.GetAllUsersAsync(page, pageSize, sortBy);
 
             Response.Headers.Append("Pagination", JsonSerializer.Serialize(paginationMetadata));
 
             return Ok(users);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("delete")]
         public async Task<IActionResult> SoftDeleteUser(Guid choosenUserId)
         {
@@ -68,6 +69,7 @@
             return Unauthorized();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("restore")]
         public async Task<IActionResult> RestoreUser(Guid choosenUserId)
         {
@@ -83,6 +85,7 @@
             return Unauthorized();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("toggle-moderator")]
         public async Task<IActionResult> ToggleModerator(Guid choosenUserId)
         {
