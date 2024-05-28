@@ -29,8 +29,8 @@
                 .Articles
                 .Include(a => a.Category)
                 .Include(a => a.User)
-                .OrderByDescending(a => a.CreatedOn)
                 .Where(a => a.IsApproved == true)
+                .OrderByDescending(a => a.CreatedOn)
                 .AsQueryable();
 
             var sortedArticles = SortArticles(allArticles, sortBy);

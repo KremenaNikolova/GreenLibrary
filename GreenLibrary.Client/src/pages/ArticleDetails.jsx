@@ -54,7 +54,7 @@ export default function ArticleDetails() {
                     {article && <h1>{article.title}</h1>}
                 </div>
                 <div className="details-author-container">
-                    {article && <Link to={`/user/${article.userId}`} className="details-author">
+                    {article && <Link to={user ? `/user/${article.userId}` : `/login`} className="details-author">
                         Автор:{'\u00A0'} {article.user}
                     </Link>
                     }

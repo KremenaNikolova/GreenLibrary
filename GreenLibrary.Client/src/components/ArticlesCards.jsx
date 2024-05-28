@@ -1,9 +1,12 @@
 import { Card, CardHeader, CardGroup, CardMeta, CardDescription, Image, Grid, GridColumn, GridRow, Divider } from 'semantic-ui-react';
-import './styles/articleCards.css'
 import { Link } from 'react-router-dom';
+import { useAuth } from '../hooks/AuthContext'
+import './styles/articleCards.css'
 
 const imageUrl = 'https://localhost:7195/Images/';
 export default function ArticlesCards({ articles }) {
+    const { user } = useAuth();
+
     return (
         <Grid devided='vertically'>
             <GridRow columns={2}>
@@ -15,7 +18,7 @@ export default function ArticlesCards({ articles }) {
                                     <Image src={imageUrl + article.image} className='card-image' />
                                     <CardHeader className="card-title">{article.title}</CardHeader>
                                 </Link>
-                                <Link to={`/user/${article.userId}`}>
+                                <Link to={user ? `/user/${article.userId}` : `/login`}>
                                     <CardDescription>
                                         {article.user}
                                     </CardDescription>

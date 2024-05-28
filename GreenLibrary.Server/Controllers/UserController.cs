@@ -249,6 +249,7 @@
             return Unauthorized();
         }
 
+        [AllowAnonymous]
         [HttpGet("{userId}")]
         public async Task<IActionResult> UserProfile(Guid userId)
         {

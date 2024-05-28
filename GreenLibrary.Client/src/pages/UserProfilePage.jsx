@@ -2,13 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { Grid, Image, Button, List, Pagination, Container, Icon, Label } from 'semantic-ui-react';
-import { useAuth } from '../hooks/AuthContext';
 import './styles/userProfilePage.css';
 
 const imageUrl = 'https://localhost:7195/Images/';
 export default function UserProfilePage() {
     const { userId } = useParams();
-    const { user, logout } = useAuth();
     const [userProfile, setUserProfile] = useState(null);
     const [articles, setArticles] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
