@@ -5,8 +5,7 @@ textarea {
 .createform {
     margin-top: 5%;
     margin-left: 30%;
-    margin-right: 30%;
-    max-width: 30%;
+    max-width: 80%;
 }
 
 .ui.form .field > label {
@@ -76,4 +75,32 @@ textarea {
 
 .ui.list.tags-container > .item {
     margin: 0 !important;
+}
+
+.preview-container {
+    margin-top: 10px;
+    margin-right: 30% !important;
+    width: 80% !important;
+    padding: 20px;
+    background-color: #DCDCDC;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.preview-header-container {
+    display: flex;
+    justify-content: space-between;
+    width: 80% !important;
+    margin-left: 10%;
+    margin-right: 30% !important;
+}
+
+.title-container {
+    display: flex;
+    justify-content: center;
+}
+
+.preview-header {
+    margin-top: 1.6rem !important;
+    color: white !important;
 }

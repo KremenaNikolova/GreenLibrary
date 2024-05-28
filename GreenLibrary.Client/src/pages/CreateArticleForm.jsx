@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
-import { Button, Form, Input, Select, TextArea, List, Message, Grid } from 'semantic-ui-react';
+import { Button, Form, Input, Select, TextArea, List, Message, Grid, Container, Header, GridRow, GridColumn } from 'semantic-ui-react';
 import { useAuth } from '../hooks/AuthContext';
+import ReactMarkdown from 'react-markdown';
 import './styles/createArticleForm.css';
 
 export default function CreateArticleForm() {
@@ -75,7 +76,6 @@ export default function CreateArticleForm() {
             if (error.response && error.response.status === 400) {
                 setErrors400(error.response.data.errors);
             } else {
-                console.error('Login failed:', error.response.data);
                 console.error('Failed to create article:', error);
             }
         }
@@ -98,75 +98,96 @@ export default function CreateArticleForm() {
 
     return (
         <>
-            <Form onSubmit={handleSubmit} className='createform' error={errors400.Username !== undefined}>
-                <Form.Field
-                    control={Input}
-                    label='Заглавие*'
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                />
-                {errors400.Title && <Message negative>{errors400.Title.join(' ')}</Message>}
+            <Grid>
+                <GridRow>
+                    <GridColumn width={8}>
+                        <Form onSubmit={handleSubmit} className='createform' error={errors400.Username !== undefined}>
+                            <Form.Field
+                                control={Input}
+                                label='Заглавие*'
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                            />
+                            {errors400.Title && <Message negative>{errors400.Title.join(' ')}</Message>}
 
-                <Form.Field
-                    control={Select}
-                    label='Категория*'
-                    options={categories}
-                    placeholder='Изберете категория'
-                    value={categoryId}
-                    onChange={(e, { value }) => setCategoryId(value)}
-                />
+                            <Form.Field
+                                control={Select}
+                                label='Категория*'
+                                options={categories}
+                                placeholder='Изберете категория'
+                                value={categoryId}
+                                onChange={(e, { value }) => setCategoryId(value)}
+                            />
 
-                <Form.Field
-                    control={TextArea}
-                    label='Съдържание*'
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                />
-                {errors400.Description && <Message negative>{errors400.Description.join(' ')}</Message>}
+                            <Form.Field
+                                control={TextArea}
+                                label='Съдържание*'
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                            />
+                            {errors400.Description && <Message negative>{errors400.Description.join(' ')}</Message>}
 
-                <Form.Field>
-                    <label>Снимка</label>
-                    <Input
-                        type="file"
-                        accept="image/*"
-                        onChange={(e) => setImageFile(e.target.files[0])}
-                    />
-                </Form.Field>
+                            <Form.Field>
+                                <label>Снимка</label>
+                                <Input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={(e) => setImageFile(e.target.files[0])}
+                                />
+                            </Form.Field>
 
-                <Form.Field error={error !== undefined}
-                    control={Input}
-                    action={{
-                        content: 'Добави таг',
-                        type: 'button',
-                        onClick: handleAddTag
-                    }}
-                    value={tagInput}
-                    placeholder='Добавете тагове за търсене'
+                            <Form.Field error={error !== undefined}
+                                control={Input}
+                                action={{
+                                    content: 'Добави таг',
+                                    type: 'button',
+                                    onClick: handleAddTag
+                                }}
+                                value={tagInput}
+                                placeholder='Добавете тагове за търсене'
 
-                    onChange={(e) => setTagInput(e.target.value)}
-                    onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
-                            e.preventDefault();
-                            handleAddTag();
-                        }
-                    }}
-                />
-                {error && <Message negative>{error}</Message>}
+                                onChange={(e) => setTagInput(e.target.value)}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                        e.preventDefault();
+                                        handleAddTag();
+                                    }
+                                }}
+                            />
+                            {error && <Message negative>{error}</Message>}
 
-                <List className="tags-container">
-                    {tags.map((tag, index) => (
-                        <List.Item key={index}>
-                            <List.Item className="tag-container">{tag}
-                                <button className="remove-tag-button" type='button' onClick={() => setTags(tags.filter(t => t !== tag))}> &times;</button>
-                            </List.Item>
-                        </List.Item>
-                    ))}
-                </List>
-                <div className="sumbit button container">
-                    <Button className='cancelbutton' type='button' onClick={handleBackClick}>НАЗАД</Button>
-                    <Button className='submitbutton' type='submit'>Създай</Button>
-                </div>
-            </Form>
+                            <List className="tags-container">
+                                {tags.map((tag, index) => (
+                                    <List.Item key={index}>
+                                        <List.Item className="tag-container">{tag}
+                                            <button className="remove-tag-button" type='button' onClick={() => setTags(tags.filter(t => t !== tag))}> &times;</button>
+                                        </List.Item>
+                                    </List.Item>
+                                ))}
+                            </List>
+                            <div className="sumbit button container">
+                                <Button className='cancelbutton' type='button' onClick={handleBackClick}>НАЗАД</Button>
+                                <Button className='submitbutton' type='submit'>Създай</Button>
+                            </div>
+                            <p>*Може да използвате Markdown само в съдържанието на статията!</p>
+                        </Form>
+                    </GridColumn>
+
+                    <GridColumn width={8}>
+                        <div className='preview-header-container'>
+                            <Header as='h2' className='preview-header'>Преглед:</Header>
+                            <Header><Link to={`https://www.markdownguide.org/cheat-sheet/`}>Markdown Helper</Link></Header>
+                        </div>
+                        <Container className='createform preview-container'>
+                            <div className='title-container'>
+                                <Header as='h1'>{title}</Header>
+                            </div>
+                            <ReactMarkdown>{description}</ReactMarkdown>
+                        </Container>
+
+                    </GridColumn>
+                </GridRow>
+            </Grid>
         </>
     );
 }
