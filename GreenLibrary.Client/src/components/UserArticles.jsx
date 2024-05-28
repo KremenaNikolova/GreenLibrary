@@ -85,17 +85,19 @@ export default function UserArticles() {
                                 </List.Item>
                             ))}
                         </List>
-                        <Grid>
-                            <Grid.Row>
-                                <Grid.Column textAlign="center">
-                                    <Pagination
-                                        activePage={currentPage}
-                                        onPageChange={handlePaginationChange}
-                                        totalPages={totalPages}
-                                    />
-                                </Grid.Column>
-                            </Grid.Row>
-                        </Grid>
+                        {totalPages > 1 &&
+                            <Grid>
+                                <Grid.Row>
+                                    <Grid.Column textAlign="center">
+
+                                        <Pagination
+                                            activePage={currentPage}
+                                            onPageChange={handlePaginationChange}
+                                            totalPages={totalPages}
+                                        />
+                                    </Grid.Column>
+                                </Grid.Row>
+                            </Grid>}
                     </Container>
                 </GridColumn>
             )}

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Segment, Image, Icon, Button } from 'semantic-ui-react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../hooks/AuthContext'
+import ReactMarkdown from 'react-markdown';
 import './styles/articleDetails.css'
 
 const imageUrl = 'https://localhost:7195/Images/'
@@ -49,7 +50,7 @@ export default function ArticleDetails() {
     return (
         <>
             <Segment textAlign='right' className="likes-btn-container">
-                <Button color="orange" className="back-button" onClick={() => window.history.back()}>НАЗАД</Button>
+                <Button color="orange" className="back-button" onClick={() => navigate(-1)}>НАЗАД</Button>
                 <div className="h1-container">
                     {article && <h1>{article.title}</h1>}
                 </div>
@@ -66,11 +67,11 @@ export default function ArticleDetails() {
                 </div>
             </Segment>
 
-            <Segment>
-                {article && <Image src={imageUrl + article.image} size='medium' floated='left' />}
-                {article && <p>
+            <Segment id='article-details'>
+                {article && <Image src={imageUrl + article.image} size='large' floated='left' className='image-details' />}
+                {article && <ReactMarkdown>
                     {article.description}
-                </p>}
+                </ReactMarkdown>}
             </Segment>
         </>
     );

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { List, Image, Pagination, Grid } from 'semantic-ui-react';
 import { useAuth } from '../hooks/AuthContext';
 import SortArticles from '../components/SortArticles';
@@ -10,12 +10,22 @@ export default function CategoryArticlesList() {
     const [articles, setArticles] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-
-    const { user, logout } = useAuth();
-
     const [sortBy, setSortBy] = useState('createon-newest');
 
+    const { user, logout } = useAuth();
+    const location = useLocation();
+    const navigate = useNavigate();
+
+
     const imageUrlBase = 'https://localhost:7195/Images/'
+
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        const page = parseInt(params.get('page')) || 1;
+        const sort = params.get('sortBy') || 'createon-newest';
+        setCurrentPage(page);
+        setSortBy(sort);
+    }, [location.search]);
 
     useEffect(() => {
         const fetchArticles = async () => {
@@ -40,11 +50,13 @@ export default function CategoryArticlesList() {
 
     const handlePaginationChange = (e, { activePage }) => {
         setCurrentPage(activePage);
+        navigate(`?page=${activePage}&sortBy=${sortBy}`);
     };
 
     const handleSortChange = (sortValue) => {
         setSortBy(sortValue);
         setCurrentPage(1);
+        navigate(`?page=1&sortBy=${sortValue}`);
     };
 
     return (

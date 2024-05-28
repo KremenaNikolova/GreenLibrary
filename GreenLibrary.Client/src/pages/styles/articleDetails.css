@@ -4,8 +4,17 @@
     max-width: 80%;
     margin: 0% 10% 5% 10% !important;
     color: white !important;
-    font-size: 1.5rem !important;
+    font-size: 1.2rem !important;
     border: 1px solid #BF6000 !important;
+}
+
+#article-details {
+    background-color: #9BC1AE !important;
+    color: black !important;
+}
+
+.image-details {
+    margin-right: 2rem !important;
 }
 
 .h1-container {
@@ -17,10 +26,9 @@
     margin-right: 6rem;
     flex-grow: 1;
     display: flex;
-    justify-content: center; 
+    justify-content: center;
     align-items: center;
     width: 60%;
-    
 }
 
 .h1-container h1{
