@@ -21,21 +21,23 @@ export default function App() {
     return (
         <Router>
             <NavBar />
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/articles/:id" element={<ArticleDetails />} />
-                <Route path="/create" element={<CreateArticle />} />
-                <Route path="/categories/:category" element={<CategoryArticlesList />} />
-                <Route path="/login" element={<LoginForm />} />
-                <Route path="/register" element={<RegisterForm />} />
-                <Route path="/search" element={<SearchArticles />} />
-                <Route path="/articles" element={<Articles />} />
-                <Route path="/user/settings" element={<UserSettings />} />
-                <Route path="/user/:userId" element={<UserProfilePage />} />
-                <Route path="/admin/articles" element={<ApprovalArticlesAdmin />} />
-                <Route path="/admin/users" element={<Users />} />
-                <Route path="/email/reset-password" element={<ForgotPasswordForm />} />
+            <div className="layout-coontainer">
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/articles/:id" element={<ArticleDetails />} />
+                    <Route path="/create" element={<CreateArticle />} />
+                    <Route path="/categories/:category" element={<CategoryArticlesList />} />
+                    <Route path="/login" element={<LoginForm />} />
+                    <Route path="/register" element={<RegisterForm />} />
+                    <Route path="/search" element={<SearchArticles />} />
+                    <Route path="/articles" element={<Articles />} />
+                    <Route path="/user/settings" element={<UserSettings />} />
+                    <Route path="/user/:userId" element={<UserProfilePage />} />
+                    <Route path="/admin/articles" element={<ApprovalArticlesAdmin />} />
+                    <Route path="/admin/users" element={<Users />} />
+                    <Route path="/email/reset-password" element={<ForgotPasswordForm />} />
                 </Routes>
+            </div>
             <Footer />
         </Router>
     );

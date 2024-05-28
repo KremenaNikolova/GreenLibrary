@@ -2,3 +2,6 @@ body {
     background-color: #006633 !important;
 }
 
+.layout-coontainer {
+    min-height: 28rem;
+}
