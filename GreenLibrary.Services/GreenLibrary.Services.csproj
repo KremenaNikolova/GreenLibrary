@@ -7,6 +7,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\GreenLibrary.Common\GreenLibrary.Common.csproj" />
 		<ProjectReference Include="..\GreenLibrary.Data.Entities\GreenLibrary.Data.Entities.csproj" />
 		<ProjectReference Include="..\GreenLibrary.Data\GreenLibrary.Data.csproj" />
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />

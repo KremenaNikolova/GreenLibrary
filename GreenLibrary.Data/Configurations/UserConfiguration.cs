@@ -34,7 +34,7 @@
                 UserName = AdminUsername,
                 NormalizedUserName = AdminUsername.ToUpper(),
                 SecurityStamp = Guid.NewGuid().ToString(),
-                Image = "profile.jpg",
+                Image = DefaultImageName,
                 IsModerator = true
             };
             ph = new PasswordHasher<User>();
@@ -52,7 +52,7 @@
                 UserName = ModeratorUsername,
                 NormalizedUserName = ModeratorUsername.ToUpper(),
                 SecurityStamp = Guid.NewGuid().ToString(),
-                Image = "profile.jpg",
+                Image = DefaultImageName,
                 IsModerator = true
             };
             ph = new PasswordHasher<User>();
@@ -70,7 +70,7 @@
                 UserName = UserUsername,
                 NormalizedUserName = UserUsername.ToUpper(),
                 SecurityStamp = Guid.NewGuid().ToString(),
-                Image = "profile.jpg"
+                Image = DefaultImageName
             };
             ph = new PasswordHasher<User>();
             user.PasswordHash = ph.HashPassword(user, UserPassword);

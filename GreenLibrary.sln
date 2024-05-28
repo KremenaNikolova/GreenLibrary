@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GreenLibrary.Data.Entities"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GreenLibrary.Services", "GreenLibrary.Services\GreenLibrary.Services.csproj", "{292B60F8-58C9-496D-8790-4D1551C81990}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GreenLibrary.Extensions", "GreenLibrary.Extensions\GreenLibrary.Extensions.csproj", "{3815EEED-B7A2-4B3C-9FD6-9AF51662B028}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GreenLibrary.Extensions", "GreenLibrary.Extensions\GreenLibrary.Extensions.csproj", "{3815EEED-B7A2-4B3C-9FD6-9AF51662B028}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GreenLibrary.Services.Tests", "GreenLibrary.Services.Tests\GreenLibrary.Services.Tests.csproj", "{BD15489D-E922-4C6F-8FDB-AF597F908234}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +55,10 @@ Global
 		{3815EEED-B7A2-4B3C-9FD6-9AF51662B028}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3815EEED-B7A2-4B3C-9FD6-9AF51662B028}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3815EEED-B7A2-4B3C-9FD6-9AF51662B028}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD15489D-E922-4C6F-8FDB-AF597F908234}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD15489D-E922-4C6F-8FDB-AF597F908234}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD15489D-E922-4C6F-8FDB-AF597F908234}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD15489D-E922-4C6F-8FDB-AF597F908234}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
