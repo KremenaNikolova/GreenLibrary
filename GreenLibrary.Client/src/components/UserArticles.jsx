@@ -98,7 +98,7 @@ export default function UserArticles() {
                         </Grid>
                     </Container>
                 </GridColumn>
-            )})
+            )}
         </>
     );
 }

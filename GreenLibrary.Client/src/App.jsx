@@ -9,6 +9,7 @@ import RegisterForm from "./pages/RegisterForm";
 import SearchArticles from "./pages/SearchArticles";
 import Articles from "./pages/Articles";
 import ApprovalArticlesAdmin from "./pages/ApprovalArticlesAdmin";
+import Footer from "./components/Footer";
 import ForgotPasswordForm from "./pages/ForgotPasswordForm";
 import UserProfilePage from "./pages/UserProfilePage";
 import Users from "./pages/Users";
@@ -33,8 +34,9 @@ export default function App() {
                 <Route path="/user/:userId" element={<UserProfilePage />} />
                 <Route path="/admin/articles" element={<ApprovalArticlesAdmin />} />
                 <Route path="/admin/users" element={<Users />} />
-                <Route path="/email/reset-password" element={<ForgotPasswordForm /> } />
-            </Routes>
+                <Route path="/email/reset-password" element={<ForgotPasswordForm />} />
+                </Routes>
+            <Footer />
         </Router>
     );
 }

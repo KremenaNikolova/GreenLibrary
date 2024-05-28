@@ -1,0 +1,10 @@
+div.ui.inverted.bottom.fixed.menu {
+    background-color: #004a00 !important;
+    color: white !important;
+    padding: 5em 0em !important;
+    position: relative;
+    margin-top: 4rem;
+    bottom: 0;
+    width: 100%;
+}
+
