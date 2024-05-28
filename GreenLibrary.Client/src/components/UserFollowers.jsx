@@ -44,7 +44,7 @@ export default function UserFollowers() {
             await axios.post(`https://localhost:7195/api/user/unfollow`, null, {
                 params: { followUserId: userId }
             });
-            setFollowing(followers.filter(user => user.id !== userId));
+            setFollowing(following.filter(user => user.id !== userId));
         } catch (error) {
             console.log('Error unfollow user:', error);
         }
