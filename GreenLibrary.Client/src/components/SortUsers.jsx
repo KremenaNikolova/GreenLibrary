@@ -9,6 +9,7 @@ export default function SortUsers({ onSortChange }) {
         { key: 'lastname-asc', value: 'lastname-asc', text: 'Сортирай по: Фамилия' },
         { key: 'createdon-desc', value: 'createon-newest', text: 'Сортирай по: Дата (Първо най-новите)' },
         { key: 'createdon-asc', value: 'createon-oldest', text: 'Сортирай по: Дата (Първо най-старите)' },
+        { key: 'moderators', value: 'moderators', text: 'Сортирай по: Модератори' },
     ];
 
     const handleChange = (e, { value }) => {
