@@ -5,7 +5,7 @@
     using System.IdentityModel.Tokens.Jwt;
     using System.Security.Claims;
     using System.Text;
-    
+
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
@@ -233,7 +233,7 @@
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task<(IEnumerable<UserDto>, PaginationMetadata)> GetAllUsersAsync (int currentPage, int pageSize, string sortBy)
+        public async Task<(IEnumerable<UserDto>, PaginationMetadata)> GetAllUsersAsync(int currentPage, int pageSize, string sortBy)
         {
             var users = dbContext
                 .Users
@@ -249,12 +249,12 @@
         {
             var user = await dbContext
                 .Users
-                .Where (u => u.Id == userId)
+                .Where(u => u.Id == userId)
             .FirstAsync();
 
             user.IsModerator = !user.IsModerator;
 
-            if(user.IsModerator == true)
+            if (user.IsModerator == true)
             {
                 await userManager.RemoveFromRoleAsync(user, UserRoleName);
                 await userManager.AddToRoleAsync(user, ModeratorRoleName);
@@ -298,19 +298,37 @@
             switch (sortBy.ToLower())
             {
                 case "username-asc":
-                    userDto = userDto.OrderBy(p => p.UserName);
+                    userDto = userDto
+                        .OrderBy(p => p.UserName)
+                        .ThenBy(p=>p.FirstName)
+                        .ThenBy(p => p.LastName);
                     break;
                 case "firstname-asc":
-                    userDto = userDto.OrderBy(p => p.FirstName);
+                    userDto = userDto
+                        .OrderBy(p => p.FirstName)
+                        .ThenBy(p => p.LastName)
+                        .ThenBy(p => p.UserName);
                     break;
                 case "lastname-asc":
-                    userDto = userDto.OrderBy(p => p.LastName);
+                    userDto = userDto.OrderBy(p => p.LastName)
+                        .ThenBy(p => p.FirstName)
+                        .ThenBy(p => p.UserName);
                     break;
                 case "createon-newest":
-                    userDto = userDto.OrderByDescending(p => p.CreatedOn);
+                    userDto = userDto.OrderByDescending(p => p.CreatedOn)
+                        .ThenBy(p => p.FirstName)
+                        .ThenBy(p => p.LastName);
                     break;
                 case "createon-oldest":
-                    userDto = userDto.OrderBy(p => p.CreatedOn);
+                    userDto = userDto.OrderBy(p => p.CreatedOn)
+                        .ThenBy(p => p.FirstName)
+                        .ThenBy(p => p.LastName);
+                    break;
+                case "moderators":
+                    userDto = userDto
+                        .OrderByDescending(p => p.IsModerator == true)
+                        .ThenBy(p=>p.FirstName)
+                        .ThenBy(p=>p.LastName);
                     break;
                 default:
                     userDto = userDto.OrderByDescending(p => p.CreatedOn);
