@@ -23,7 +23,6 @@ export default function UserProfileSettings() {
         }
         axios.get("https://localhost:7195/api/user").then((response) => {
             setUserDetails(response.data);
-            console.log(response.data);
         });
     }, [user, navigate, logout]);
 
@@ -46,7 +45,6 @@ export default function UserProfileSettings() {
             formData.append('repeatNewPassword', userDetails.repeatNewPassword);
         }
 
-
         try {
             setErrorString('');
             setErrors400({});
@@ -58,6 +56,8 @@ export default function UserProfileSettings() {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
             console.log('User edited:', response.data);
+
+            window.location.reload();
 
         } catch (error) {
             if (error.response && error.response.status === 400 && typeof (error.response.data) !== "string") {
@@ -80,10 +80,6 @@ export default function UserProfileSettings() {
         logout();
         navigate('/login');
     };
-
-    const handleReloadingPage = () => {
-        window.location.reload();
-    }
 
     return (
         <>
@@ -199,7 +195,7 @@ export default function UserProfileSettings() {
                                 <DeactivateUserModal userDetails={userDetails} onDeactivate={handleUserDeactivation} />
                                 :
                                 <Button disabled className='delete'>Деактивиране на профила</Button>}
-                            <Button type='submit' name='deactivate' className='save-btn' onClick={handleReloadingPage}>Запазване</Button>
+                            <Button type='submit' name='deactivate' className='save-btn'>Запазване</Button>
                         </div>
                     </Form>
                 </GridColumn>
