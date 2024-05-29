@@ -16,7 +16,7 @@
     using GreenLibrary.Services.Dtos.User;
     using GreenLibrary.Services.Interfaces;
     using GreenLibrary.Services.Helpers;
-    using GreenLibrary.Services.Dtos.Article;
+    using static GreenLibrary.Common.ApplicationConstants;
 
     public class UserService : IUserService
     {
@@ -253,6 +253,17 @@
             .FirstAsync();
 
             user.IsModerator = !user.IsModerator;
+
+            if(user.IsModerator == true)
+            {
+                await userManager.RemoveFromRoleAsync(user, UserRoleName);
+                await userManager.AddToRoleAsync(user, ModeratorRoleName);
+            }
+            else
+            {
+                await userManager.RemoveFromRoleAsync(user, ModeratorRoleName);
+                await userManager.AddToRoleAsync(user, UserRoleName);
+            }
 
             await dbContext.SaveChangesAsync();
         }
