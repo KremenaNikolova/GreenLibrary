@@ -264,11 +264,11 @@
             }
         }
 
-        public async Task DeleteArticle(Guid articleId, Guid userId)
+        public async Task DeleteArticle(Guid articleId)
         {
             var article = await dbContext
                 .Articles
-                .Where(a => a.Id == articleId && a.UserId == userId)
+                .Where(a => a.Id == articleId)
                 .FirstOrDefaultAsync();
 
             var tags = await dbContext
@@ -276,11 +276,21 @@
                 .Where(t => t.ArticleId == articleId)
                 .ToListAsync();
 
+            var likes = await dbContext
+                .ArticlesLikes
+                .Where(al => al.ArticleId == articleId)
+                .ToListAsync();
+
             if (article != null)
             {
                 if (tags.Count > 0)
                 {
                     dbContext.Tags.RemoveRange(tags);
+                }
+
+                if(likes.Count > 0)
+                {
+                    dbContext.ArticlesLikes.RemoveRange(likes);
                 }
 
                 dbContext.Articles.Remove(article);

@@ -383,12 +383,11 @@
             //arrange
             var article = await dbContext
                 .Articles
-                .Where(a => a.Id == articleId
-                && a.UserId == userId)
+                .Where(a => a.Id == articleId)
                 .FirstOrDefaultAsync();
 
             //act
-            await articleService.DeleteArticle(articleId, userId);
+            await articleService.DeleteArticle(articleId);
 
             var articleAfterDelete = await dbContext
                 .Articles

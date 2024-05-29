@@ -25,7 +25,7 @@
 
         Task EditArticleAsync(Guid articleId, CreateArticleDto articleDto);
 
-        Task DeleteArticle(Guid articleId, Guid userId);
+        Task DeleteArticle(Guid articleId);
 
         Task SaveAsync();
 

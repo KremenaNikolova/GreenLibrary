@@ -160,7 +160,7 @@
                 return Unauthorized();
             }
 
-            await articleService.DeleteArticle(articleId, userId);
+            await articleService.DeleteArticle(articleId);
 
             return Ok(SuccessfullDeletedArticle);
         }

@@ -8,7 +8,9 @@ export default function DeleteArticleModal({ articleId, onDeleteSuccess }) {
 
     const handleDelete = async () => {
         try {
-            await axios.delete(`https://localhost:7195/api/articles?articleId=${articleId}`);
+            await axios.delete(`https://localhost:7195/api/articles`, {
+                params: { articleId: articleId }
+            });
             onDeleteSuccess(articleId);
             setOpen(false);
         } catch (error) {
