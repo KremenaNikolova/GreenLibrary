@@ -59,8 +59,6 @@ export default function UserProfileSettings() {
             });
             console.log('User edited:', response.data);
 
-            window.location.reload();
-
         } catch (error) {
             if (error.response && error.response.status === 400 && typeof (error.response.data) !== "string") {
                 if (error.response.data.errors !== undefined) {
@@ -77,6 +75,15 @@ export default function UserProfileSettings() {
         }
 
     };
+
+    const handleUserDeactivation = () => {
+        logout();
+        navigate('/login');
+    };
+
+    const handleReloadingPage = () => {
+        window.location.reload();
+    }
 
     return (
         <>
@@ -189,10 +196,10 @@ export default function UserProfileSettings() {
                         <div className="sumbit button container">
                             {user.roles !== 'Admin'
                                 ?
-                                <DeactivateUserModal userDetails={userDetails} />
+                                <DeactivateUserModal userDetails={userDetails} onDeactivate={handleUserDeactivation} />
                                 :
                                 <Button disabled className='delete'>Деактивиране на профила</Button>}
-                            <Button type='submit' name='deactivate' className='save-btn' >Запазване</Button>
+                            <Button type='submit' name='deactivate' className='save-btn' onClick={handleReloadingPage}>Запазване</Button>
                         </div>
                     </Form>
                 </GridColumn>
