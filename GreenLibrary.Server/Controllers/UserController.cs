@@ -71,7 +71,7 @@
                 }
             }
 
-            return Unauthorized(InvalidUsernameOrPassword);
+            return BadRequest(InvalidUsernameOrPassword);
         }
 
         [AllowAnonymous]

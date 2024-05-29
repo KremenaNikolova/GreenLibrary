@@ -29,10 +29,10 @@ export default function LoginForm() {
                 console.error('Login failed:', response.data);
             }
         } catch (error) {
-            if (error.response && error.response.status === 400) {
-                setError401('');
+            if (error.response && error.response.status === 400 && error.response.data.errors) {
+                setError401("");
                 setErrors400(error.response.data.errors);
-            } else if (error.response.status === 401) {
+            } else if (error.response.status === 400 && error.response.data.errors === undefined) {
                 setErrors400({});
                 setError401(error.response.data);
             } else {
